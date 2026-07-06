@@ -1,0 +1,243 @@
+---
+title: "Trades"
+description: "OTC Market Trades capture every executed transaction processed through our platforms. Each trade carries a Deal ID, allowing you to link related legs and components across a single deal."
+mode: "wide"
+---
+
+## Standard Message Fields
+
+Present on every trade message regardless of asset class.
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `EVENT_TIMESTAMP` | datetime | Processing timestamp of the event (UTC) | `2026-06-09T11:36:08.628` |
+| `GUID` | string | Globally unique event identifier | `dbefd8fa-3760-4c59-8881-e418eb71e5e9` |
+
+---
+
+## Standard Trade Fields
+
+Present on every trade message regardless of asset class.
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `DEAL_ID` | string | Unique deal identifier (stable across lifecycle) | `11112958` |
+| `TRADE_ID` | string | Internal TP ICAP trade ID — multiple trades may roll up into a deal | `3521932` |
+| `EXECUTION_CHAIN_ID` | string | Links related events in an execution chain | `23416338` |
+| `DEAL_STATUS` | string | Lifecycle status: `NEW`, `AMEND`, `CANCEL` | `NEW` |
+| `DEAL_EXECUTION_DATETIME` | datetime | Trade execution timestamp | `2026-06-09T10:43:47.640` |
+| `ASSET_CLASS_ISDA` | string | ISDA Taxonomy 2.0 — Asset Class | `Commodity` |
+| `BASE_PRODUCT_ISDA` | string | ISDA Taxonomy 2.0 — Base Product | `Energy` |
+| `SUB_PRODUCT_ISDA` | string | ISDA Taxonomy 2.0 — Sub-Product | `Oil` |
+| `TRANSACTION_TYPE_ISDA` | string | ISDA Taxonomy 2.0 — Transaction Type | `Future` |
+| `BROKING_METHOD` | string | Method of brokerage: `VOICE`, `ELECTRONIC`, `HYBRID` | `Voice` |
+| `VENUE` | string | Trading venue MIC code | `IFEU` |
+
+---
+
+## Product & Taxonomy Fields
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `PRODUCT` | string | Short product name | `Brent`, `NGL`, `Gold`, `AU` |
+| `CLASSIFICATION` | string | Long-form product specification | `Crude`,` Brent` |
+| `TYPE` | string | Short type code | `OILFF`, `GASF`, `METP` |
+| `HIERARCHY` | string | Dotted product hierarchy | `Commodity.Energy.Oil.NGL` |
+| `SUB_PACKAGE` | string | Derived classification bucket | `Crude`, `Fuel Oil` |
+
+---
+
+## Pricing & Quantity Fields
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `DEAL_PRICE` | number | Price per unit | `716` |
+| `NOTIONAL_AMOUNT` | number | Notional value of the trade | `716000` |
+| `QUANTITY` | number | Trade quantity | `1000` |
+| `TOTAL_QUANTITY` | number | Total quantity | `1000` |
+| `PRICE_UNIT` | string | Unit of the deal price | `Barrel(s)`, `MetricTonne(s)`, `GigaJoule(s)` |
+| `QUANTITY_FREQ` | string | Quantity frequency | `PerMonth`, `PerCalendarDay`, `PerCalculationPeriod` |
+| `CURRENCY` | string | ISO 4217 currency code | `USD`, `AUD` |
+
+---
+
+## Contract & Timing Fields
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `CONTRACT_START_DATE` | date | Contract period start | `2026-07-01` |
+| `CONTRACT_END_DATE` | date | Contract period end | `2026-07-31` |
+| `PERIODICITY` | string | Contract delivery frequency | `Monthly`, `Seasonal`, `Other` |
+| `TERM_DESCRIPTION` | string | Human-readable term | `Jul26`, `B15th Cycle`, `Sum27` |
+
+---
+
+## Venue & Settlement Fields
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `SETTLEMENT_METHOD` | string | Settlement method | `Cash`, `Physical` |
+| `EXCHANGE_NAME` | string | Exchange name | `ICE Contract Code` |
+| `EXCHANGE_CODE` | string | Exchange product code | `BRN`, `AFE`, `DBF` |
+| `CROSS_EXCHANGE` | boolean | Whether the trade is cross-exchange | `false` |
+| `STRATEGY` | string | Trading strategy | `Outright`, `Diff` |
+| `ORDER_BOOK` | string | Order book description | `IPE (B) Brent Option IC B24th Cycle` |
+
+---
+
+## Instrument Metadata Fields
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `SIZE` | string | Size descriptor | `Mini`, `Micro` |
+| `ISIN` | string | ISIN code when applicable |  |
+
+---
+
+## Asset-Class-Specific Fields
+
+### Commodities — Oil
+
+| Field | Type | Description | Example |  |
+| --- | --- | --- | --- | --- |
+| `CLASSIFICATION` | string | Product specification | \`Crude | Brent (ICE)\` |
+| `CROSS_EXCHANGE` | boolean | Whether cross-exchange | `true` |  |
+| `SIZE` | string | Size descriptor | `Mini` |  |
+
+### Commodities — Oil Options
+
+Additional fields for oil option trades:
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `OPTION_TYPE` | string | Option type | `Call`, `Put` |
+| `OPTION_STYLE` | string | Exercise style | `American`, `European` |
+| `OPTION_EXPIRY` | date | Option expiry date | `2022-08-31` |
+| `STRIKE_PRICE_PER_UNIT` | number | Strike price per unit | `90` |
+| `PREMIUM_PER_UNIT` | number | Premium per unit | `3.71` |
+
+### Commodities — Natural Gas
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `CLASSIFICATION_1` | string | Regional zone identifier | `VIC`, `WAL` |
+| `CONTINENT` | string | Geographic region | `APAC and Oceania` |
+| `COUNTRY` | string | Country code | `AU` |
+| `ZONE` | string | Delivery zone |  |
+| `CONTRACT_PAYMENT_LEG1` | string | Payment basis for leg 1 | `Fxd` |
+| `CONTRACT_PAYMENT_LEG2` | string | Payment basis for leg 2 | `NYMEX Penultime Day` |
+| `QUANTITY_UNIT` | string | Quantity unit | `GigaJoule(s)`, `MillionBritishThermalUnit(s)` |
+
+### Commodities — Natural Gas Options
+
+Additional fields for gas option trades:
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `OPTION_TYPE` | string | Option type | `Put` |
+| `OPTION_EXPIRY` | date | Option expiry date | `2027-10-31` |
+| `STRIKE_PRICE_PER_UNIT` | number | Strike price per unit | `2` |
+| `PREMIUM_PER_UNIT` | number | Premium per unit | `0.054` |
+
+### Commodities — Metals (Precious)
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `COUNTRY` | string | Country code | `GB` |
+| `DAY_COUNT` | integer | Day count for forward | `34` |
+| `MULTIPLIER` | number | Contract multiplier | `100.0` |
+| `NOTES` | string | Additional notes | `London Gold Forward Swap` |
+| `PRODUCT_CONTENT` | string | Detailed product description | `London Gold Forward Swap 22Sep25-22Oct25` |
+| `QUANTITY_UNIT` | string | Quantity unit | `Ounce(s)` |
+
+### Rates — Linear (Swaps, FRAs)
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `STRATEGY_DESCRIPTION` | string | Strategy long description | `HKD.9M.3M.(+1D) ISDA2021` |
+| `DEAL_VALUE_DATE` | date | Valuation date | `2024-04-26` |
+| `DEAL_END_DATE` | date | End date of the trade | `2025-01-26` |
+| `DEAL_DURATION` | string | Duration of the trade | `9M` |
+| `FWD_START_TENOR` | string | Forward start tenor | `1D` |
+| `RATE` | number | Rate of the deal | `0.046` |
+| `RATE_TYPE` | string | Rate type | `fix (leg1)` |
+| `STRATEGY_PRICE` | number | Strategy price |  |
+| `STRATEGY_NOTIONAL_AMOUNT` | number | Strategy notional amount |  |
+| `FLOATING_RATE_INDEX_LEG1` | string | Reference index for leg 1 |  |
+| `FLOATING_RATE_INDEX_LEG2` | string | Reference index for leg 2 | `HKD-HIBOR` |
+| `INFLATION_LAG_LEG2` | string | Inflation lag for leg 2 |  |
+| `INDEX_TENOR_LEG1` | string | Index tenor for leg 1 |  |
+| `INDEX_TENOR_LEG2` | string | Index tenor for leg 2 | `3M` |
+| `NOTIONAL_AMOUNT_LEG1` | number | Notional amount for leg 1 | `1325000000` |
+| `NOTIONAL_AMOUNT_LEG2` | number | Notional amount for leg 2 | `1325000000` |
+| `NOTIONAL_CURRENCY_LEG1` | string | Currency of leg 1 | `HKD` |
+| `NOTIONAL_CURRENCY_LEG2` | string | Currency of leg 2 | `HKD` |
+| `NONDELIVERABLE_SETTLEMENT_CURRENCY_LEG1` | string | NDF settlement currency leg 1 |  |
+| `NONDELIVERABLE_SETTLEMENT_CURRENCY_LEG2` | string | NDF settlement currency leg 2 |  |
+| `DAYCOUNT_LEG1` | string | Daycount convention for leg 1 | `ACT/365.FIXED` |
+| `DAYCOUNT_LEG2` | string | Daycount convention for leg 2 | `ACT/365.FIXED` |
+| `RESET_FREQUENCY_LEG1` | string | Reset frequency for leg 1 |  |
+| `RESET_FREQUENCY_LEG2` | string | Reset frequency for leg 2 | `3M` |
+| `CALCULATION_PERIOD_FREQUENCY_LEG1` | string | Calculation period frequency leg 1 | `3M` |
+| `CALCULATION_PERIOD_FREQUENCY_LEG2` | string | Calculation period frequency leg 2 | `3M` |
+| `PAYMENT_FREQUENCY_LEG1` | string | Payment frequency for leg 1 | `3M` |
+| `PAYMENT_FREQUENCY_LEG2` | string | Payment frequency for leg 2 | `3M` |
+
+### Rates — Non-Linear (CapFloor)
+
+Includes all linear fields plus:
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `OPTION_TYPE` | string | Option type or strategy | `Cap` |
+| `PREMIUM_VALUE` | number | Premium of the option | `85.73` |
+| `PREMIUM_QUOTE_BASIS` | string | Quote convention of the premium | `PointsPerNotional` |
+| `PREMIUM_AMOUNT` | number | Premium amount | `85.73` |
+
+### Rates — Non-Linear (CMS Spread Option)
+
+Includes all linear fields plus:
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `OPTION_TYPE` | string | Option type or strategy | `Straddle` |
+| `OPTION_EXPIRY` | string | Tenor of option expiry | `1Y` |
+| `PREMIUM_VALUE` | number | Premium of the option | `96` |
+| `PREMIUM_QUOTE_BASIS` | string | Quote convention | `PointsPerNotional` |
+| `PREMIUM_AMOUNT` | number | Premium amount | `96` |
+| `CMS_TEXT` | string | Additional CMS description |  |
+
+### Rates — Non-Linear (Swaption)
+
+Includes all linear fields plus:
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `OPTION_TYPE` | string | Option type or strategy | `STRADDLE` |
+| `OPTION_STYLE` | string | Exercise style | `European`, `Bermudan` |
+| `OPTION_EXPIRY` | string | Tenor of option expiry | `1M` |
+| `SWAP_TENOR` | string | Tenor of the underlying swap | `20Y` |
+| `SETTLEMENT_METHOD` | string | Settlement method | `clearedPhysicalSettlement` |
+| `AGREED_DISCOUNT_RATE` | number | Agreed discount rate |  |
+| `PREMIUM_VALUE` | number | Premium of the option | `205` |
+| `PREMIUM_QUOTE_BASIS` | string | Quote convention | `BasisPoints` |
+| `PREMIUM_AMOUNT` | number | Premium amount | `205` |
+| `BERMUDAN_EXERCISE_PERIOD` | string | Exercise period for Bermudan | `1Y` |
+| `BERMUDAN_EXERCISE_BREAK` | date | First break date for Bermudan | `2034-04-25` |
+
+### Rates — Swaption Enhanced
+
+Additional enrichment fields for swaption trades:
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `DISCOUNT_CURVE` | string | Discounting curve used | `USD-SOFR` |
+| `OPTION_CLEARING_TYPE` | string | Option clearing type | `BIL` |
+| `UNDERLYING_CLEARING_TYPE` | string | Underlying clearing type | `LCH` |
+| `FIXED_RATE` | number | Fixed rate | `1.957` |
+| `EUROPEAN_FORWARD` | number | Forward rate for European option | `3.452` |
+| `RELATIVE_STRIKE` | number | Implied relative strike (forward vs fixed) | `-149.5` |
+| `RELATIVE_STRIKE_BUCKET` | number | Normalised strike level relative to ATM | `-150` |
+| `NORMAL_VOLATILITY` | number | Normal volatility of the option | `86.686` |
+
+---

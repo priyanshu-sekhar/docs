@@ -1,0 +1,130 @@
+---
+title: "Introduction"
+description: "Welcome"
+mode: "custom"
+public: true
+---
+
+<div className="max-w-7xl mx-auto px-6 p-8">
+  <div className="relative flex flex-col md:flex-row items-stretch rounded-2xl overflow-hidden border border-[#E5E7EB] dark:border-[#333333] min-h-[400px] md:min-h-[500px]">
+    <img src="https://www.parametasolutions.com/wp-content/uploads/2026/06/parameta-hero-scaled.webp" alt="" className="absolute inset-0 w-full h-full object-cover" noZoom={true} />
+
+    <div className="relative z-10 w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+      <p className="text-base md:text-lg text-orange-300">
+        Access unique and scarce OTC cash & derivatives data.
+      </p>
+
+      <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
+        Delivery Hub
+      </h1>
+
+      <p className="text-base md:text-lg text-white-300 mb-8">
+        Your comprehensive guide to accessing and utilizing our OTC Market Data.
+      </p>
+
+      <div>
+        <a href="tabs/our-technologies/direct-delivery/introduction" className="inline-block px-6 py-3 bg-[#FD7A23] text-white font-medium rounded-lg hover:bg-[#e56a1a] transition-colors">
+          Get Started
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div className="max-w-7xl mx-auto px-6 py-10">
+  <div className="mb-16">
+    <div className="flex items-center gap-3 mb-8">
+      <div className="h-8 w-1 bg-[#FD7A23] rounded-full" />
+
+      <h2 className="text-2xl font-bold text-[#00183D] dark:text-white m-0">
+        Our Solutions
+      </h2>
+    </div>
+
+    <CardGroup cols={3}>
+      <Card title="Real-time Data" icon="bolt" href="/tabs/our-technologies/direct-delivery/real-time">
+        Access and work with real-time data streams via API or WebSocket.
+      </Card>
+
+      <Card title="Historical Data" icon="chart-line" href="/tabs/our-technologies/cloud-delivery/snowflake-sharing">
+        Comprehensive historical market data across all asset classes delivered via the Cloud.
+      </Card>
+
+      <Card title="Intraday Snapshots" icon="clock" href="/tabs/our-technologies/direct-delivery/snap-files">
+        Snapshots of time series data, delivered at customizable intervals and data formats.
+      </Card>
+    </CardGroup>
+  </div>
+
+  <div className="mb-16">
+    <div className="flex items-center gap-3 mb-8">
+      <div className="h-8 w-1 bg-[#FD7A23] rounded-full" />
+
+      <h2 className="text-2xl font-bold text-[#00183D] dark:text-white m-0">
+        Delivery & Access
+      </h2>
+    </div>
+
+    <CardGroup cols={3}>
+      <Card title="Direct Delivery" icon="rocket" href="/tabs/our-technologies/direct-delivery/introduction">
+        Overview of Parameta Solutions Direct Delivery methods.
+      </Card>
+
+      <Card title="Cloud Delivery" icon="cloud" href="tabs/our-technologies/cloud-delivery/overview">
+        Snowflake, AWS S3, and cloud repository delivery options.
+      </Card>
+
+      <Card title="Channel Partners" icon="handshake" href="tabs/our-technologies/channel-partners/overview">
+        Access data through Bloomberg, LSEG, and other partners.
+      </Card>
+    </CardGroup>
+  </div>
+
+  <div className="mb-16">
+    <div className="flex items-center gap-3 mb-8">
+      <div className="h-8 w-1 bg-[#FD7A23] rounded-full" />
+
+      <h2 className="text-2xl font-bold text-[#00183D] dark:text-white m-0">
+        Quick Access
+      </h2>
+    </div>
+
+    <CardGroup cols={3}>
+      <Card title="Pulling OTC data with Python" icon="python" href="tabs/indicative-data/our-datawarehouse/accessing-our-data">
+        Step-by-step guide to connecting to our data using Python via Snowflake.
+      </Card>
+
+      <Card title="Connect to our docs MCP Server" icon="database" href="tabs/our-technologies/our-mcp-server">
+        Connect you favourite coding agent to our MCP server, to get you up and running in seconds.
+      </Card>
+
+      <Card title="Streaming OTC data with Python" icon="sitemap" href="tabs/indicative-data/realtime-data/connecting-via-json-websocket">
+        Structure and organization of the Snowflake client share schema.
+      </Card>
+    </CardGroup>
+  </div>
+
+  <div className="mb-8">
+    <div className="flex items-center gap-3 mb-8">
+      <div className="h-8 w-1 bg-[#FD7A23] rounded-full" />
+
+      <h2 className="text-2xl font-bold text-[#00183D] dark:text-white m-0">
+        Support & Resources
+      </h2>
+    </div>
+
+    <CardGroup cols={3}>
+      <Card title="Parameta Product Inventory" icon="compass" href="https://inventory.parametasolutions.com/explore">
+        Browse our Product Data catalog using the power of AI.
+      </Card>
+
+      <Card title="About us" icon="circle-question" href="https://www.parametasolutions.com/about-us/">
+        Learn more about Parameta Solutions.
+      </Card>
+
+      <Card title="Contact US" icon="link" href="https://www.parametasolutions.com/contact-us/">
+        Contact us for more information.
+      </Card>
+    </CardGroup>
+  </div>
+</div>

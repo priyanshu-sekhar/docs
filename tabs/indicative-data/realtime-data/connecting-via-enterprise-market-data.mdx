@@ -1,0 +1,13 @@
+---
+title: "Connecting via Enterprise Market Data"
+sidebarTitle: "Enterprise Market Data"
+description: "The Enterprise Market Data Distribution (EMD) platform resides in the AWS cloud. Our services are currently available in EU-WEST-1, US-EAST-1, and AP-SOUTHEAST-1. The EMD platform is built and deployed using CI/CD pipelines. EC2 instances operate in resiliency mode and are part of an auto-scaling group to ensure scalability. A single endpoint address is advertised to streamline the list of target addresses for client connections, enabling seamless failover."
+---
+
+## Connectivity Solutions
+
+We offer various connectivity solutions for EMD. As this service runs in the AWS cloud, our recommended approach is to utilize **AWS PrivateLink** within the same region (e.g., **EU-WEST-1**). Other options are available; cross-region PrivateLink connectivity, clients can use a leased line (B2B) or an internet-based solution.
+
+## Configuration and Protocol Recommendations
+
+For **EMD-to-EMD** configurations, we recommend that clients configure their respective EMD host services as sink-driven and set the protocol to datatype 6 to ensure efficient data delivery. The client’s EMD host will initiate the connection to the Parameta Solutions EMD system, with data flow being pulled by the client.

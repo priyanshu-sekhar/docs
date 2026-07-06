@@ -1,0 +1,288 @@
+{
+  "theme": "mint",
+  "name": "Parameta Solutions",
+  "description": "Parameta Solutions are a world leading provider of OTC Market Data.",
+  "colors": {
+    "primary": "#0066FF",
+    "light": "#0066FF",
+    "dark": "#0066FF"
+  },
+  "logo": {
+    "light": "/images/light.png",
+    "dark": "/images/dark.webp",
+    "href": "https://www.deliveryhub.parametasolutions.com"
+  },
+  "favicon": {
+    "light": "https://www.parametasolutions.com/wp-content/uploads/2025/05/parameta-favicon.svg",
+    "dark": "https://www.parametasolutions.com/wp-content/uploads/2025/05/parameta-favicon.svg"
+  },
+  "appearance": {
+    "default": "dark"
+  },
+  "navbar": {
+    "primary": {
+      "type": "button",
+      "label": "Contact Us",
+      "href": "https://www.parametasolutions.com/contact-us"
+    }
+  },
+  "footer": {
+    "socials": {
+      "linkedin": "https://www.linkedin.com/company/parametasolutions?originalSubdomain=uk"
+    }
+  },
+  "fonts": {
+    "heading": {
+      "family": "Manrope",
+      "weight": 600
+    },
+    "body": {
+      "family": "Manrope",
+      "weight": 400
+    }
+  },
+  "styling": {
+    "eyebrows": "section",
+    "codeblocks": {
+      "theme": {
+        "light": "github-light",
+        "dark": "github-dark"
+      }
+    }
+  },
+  "contextual": {
+    "options": [
+      "assistant",
+      "copy",
+      "download-pdf"
+    ],
+    "display": "header"
+  },
+  "interaction": {
+    "drilldown": false
+  },
+  "metadata": {
+    "timestamp": false
+  },
+  "navigation": {
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Product Inventory",
+          "icon": "book-open-cover",
+          "href": "https://inventory.parametasolutions.com/explore"
+        },
+        {
+          "anchor": "Case Studies",
+          "icon": "newspaper",
+          "href": "https://www.parametasolutions.com/case-studies"
+        }
+      ]
+    },
+    "tabs": [
+      {
+        "tab": "Home",
+        "icon": "house",
+        "pages": [
+          "index"
+        ]
+      },
+      {
+        "tab": "Our Technologies",
+        "icon": "share-alt",
+        "groups": [
+          {
+            "group": "Our Services",
+            "pages": [
+              "tabs/our-technologies/direct-delivery/introduction",
+              "tabs/our-technologies/direct-delivery/real-time",
+              "tabs/our-technologies/direct-delivery/time-series",
+              "tabs/our-technologies/direct-delivery/snap-files"
+            ],
+            "public": true
+          },
+          {
+            "group": "Cloud Delivery",
+            "pages": [
+              "tabs/our-technologies/cloud-delivery/overview",
+              "tabs/our-technologies/cloud-delivery/snowflake-sharing",
+              "tabs/our-technologies/cloud-delivery/aws-s3"
+            ],
+            "public": true
+          },
+          {
+            "group": "Channel Partners",
+            "pages": [
+              "tabs/our-technologies/channel-partners/overview",
+              "tabs/our-technologies/channel-partners/bloomberg",
+              "tabs/our-technologies/channel-partners/lseg"
+            ],
+            "public": true
+          },
+          {
+            "group": "Agents",
+            "pages": [
+              "tabs/our-technologies/our-mcp-server"
+            ],
+            "public": true
+          }
+        ]
+      },
+      {
+        "tab": "Indicative Pricing",
+        "icon": "chart-candlestick",
+        "groups": [
+          {
+            "group": "Our Data",
+            "pages": [
+              "tabs/indicative-data/our-data/record-naming-convention",
+              {
+                "group": "Record Field Groups",
+                "pages": [
+                  "tabs/indicative-data/our-data/field-groups-overview",
+                  "tabs/indicative-data/our-data/field-groups/commodities-energy",
+                  "tabs/indicative-data/our-data/field-groups/equities",
+                  "tabs/indicative-data/our-data/field-groups/fixed-income",
+                  "tabs/indicative-data/our-data/field-groups/foreign-exchange",
+                  "tabs/indicative-data/our-data/field-groups/inflation",
+                  "tabs/indicative-data/our-data/field-groups/interest-rates",
+                  "tabs/indicative-data/our-data/field-groups/money-markets"
+                ]
+              },
+              "tabs/indicative-data/our-data/commercial-packages",
+              "tabs/indicative-data/our-data/data-change-notifications"
+            ]
+          },
+          {
+            "group": "Fact Sheets",
+            "pages": [
+              {
+                "group": "Capital Markets",
+                "pages": [
+                  "tabs/indicative-data/fact-sheets/capital-markets/icap-interest-rate-options-g7-core"
+                ]
+              },
+              {
+                "group": "Energy and Commodities",
+                "pages": [
+                  "tabs/indicative-data/fact-sheets/capital-markets/icap-interest-rate-options-g7-core"
+                ]
+              },
+              {
+                "group": "Benchmarks and Indices",
+                "pages": [
+                  "tabs/indicative-data/fact-sheets/capital-markets/icap-interest-rate-options-g7-core"
+                ]
+              }
+            ],
+            "hidden": true
+          },
+          {
+            "group": "Real-time Data",
+            "pages": [
+              "tabs/indicative-data/realtime-data/connecting-via-json-websocket",
+              "tabs/indicative-data/realtime-data/connecting-via-surfix",
+              "tabs/indicative-data/realtime-data/connecting-via-excel-connect",
+              "tabs/indicative-data/realtime-data/connecting-via-enterprise-market-data"
+            ]
+          },
+          {
+            "group": "Our Data Warehouse",
+            "pages": [
+              "tabs/indicative-data/our-datawarehouse/accessing-our-data",
+              "tabs/indicative-data/our-datawarehouse/using-the-info-schema",
+              "tabs/indicative-data/our-datawarehouse/snap-history",
+              "tabs/indicative-data/our-datawarehouse/tick-history",
+              "tabs/indicative-data/our-datawarehouse/data-modification-history"
+            ]
+          },
+          {
+            "group": "End of Day Prices",
+            "pages": [
+              "tabs/indicative-data/end-of-day-data/overview",
+              "tabs/indicative-data/end-of-day-data/desk-reports"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Trade and Order",
+        "icon": "list-check",
+        "groups": [
+          {
+            "group": "Our Data",
+            "pages": [
+              "tabs/trade-and-order/our-data/trade-and-order-overview",
+              "tabs/trade-and-order/our-data/orders",
+              "tabs/trade-and-order/our-data/trades"
+            ]
+          },
+          {
+            "group": "Real-time Data",
+            "pages": [
+              "tabs/trade-and-order/realtime/trade-websocket"
+            ]
+          },
+          {
+            "group": "Our Data Warehouse",
+            "pages": [
+              "tabs/trade-and-order/our-datawarehouse/accessing-our-data"
+            ]
+          },
+          {
+            "group": "Delayed Data",
+            "pages": [
+              "tabs/trade-and-order/delayed/delayed-trade-recaps"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Announcements",
+        "icon": "bullhorn",
+        "groups": [
+          {
+            "group": "Indicative Pricing Data",
+            "pages": [
+              "tabs/changelogs/indicative/our-datawarehouse"
+            ]
+          },
+          {
+            "group": "Trade and Order Data",
+            "pages": [
+              "tabs/changelogs/trade-and-order/tradestream-websocket",
+              "tabs/changelogs/trade-and-order/end-of-day-recaps"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Support",
+        "icon": "hands-helping",
+        "pages": [
+          "tabs/support/our-support"
+        ],
+        "hidden": true
+      }
+    ]
+  },
+  "background": {
+    "decoration": "gradient",
+    "color": {
+      "dark": "#071120"
+    }
+  },
+  "icons": {
+    "library": "fontawesome"
+  },
+  "api": {
+    "playground": {
+      "display": "interactive"
+    }
+  },
+  "errors": {
+    "404": {
+      "redirect": false
+    }
+  }
+}

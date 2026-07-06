@@ -1,0 +1,136 @@
+---
+title: "Understanding Our Data"
+description: "The info schema is your guide to understanding Parameta's data structure, including records, field groups, naming conventions, and metadata."
+---
+
+The **INFO schema** is essential for getting started with Parameta data. It provides comprehensive metadata that helps you understand and navigate our commercial packages effectively.
+
+<CardGroup cols={2}>
+  <Card title="Records & Packages" icon="table">
+    This contains the universe of all records and commercial packages at Parameta Solutions
+  </Card>
+
+  <Card title="Field Groups" icon="layer-group">
+    Field definitions that explain the meaning of each data column for every Field group
+  </Card>
+</CardGroup>
+
+## Pulling Data
+
+When data is shared with a client, a custom schema, views, and functions (if applicable) are provisioned. Views are used to provide intraday tick data and functions are used to provide snapped data. These allow you to retrieve data based on your license agreement. In your client schema you will also have a records view which contains the records you are permissioned for.
+
+<Frame caption="Client record view in the client schema.">
+  ![](/images/snowflake/img-7.jpg)
+</Frame>
+
+<Tip>
+  **Note:** It's important you understand the [Info Schema](https://parametasolutions.mintlify.app/using-info-schema?_mintlify-live-preview=true#what%E2%80%99s-in-the-info-schema) to understand the data structure and how best to configure your queries.
+
+  You can also search for records within the Parameta's universe in the [Info Schema](https://parametasolutions.mintlify.app/using-info-schema?_mintlify-live-preview=true#searching-for-records).
+</Tip>
+
+### 1. Searching for Records
+
+You can search for records using wildcards on the record description. The records view in your schema shows you only the records you are entitled for.
+
+The `market_group_name` (equivalent to Commercial Package Name) returned in the query indicates the name of the object/commercial package the data is available in.
+
+<CodeGroup>
+
+```java Swaption ATM records
+
+SELECT
+  *
+FROM
+  COMMERCIAL_PACKAGES.SHARE_CLIENT_X.RECORDS
+WHERE
+  description ILIKE '%swaption%'
+  AND description ILIKE '%ATM%';
+```
+
+```java Payer/Receiver ATM +100 records
+SELECT
+  *
+FROM
+  info.records
+WHERE
+  description ILIKE '%swaption%'
+  AND description ILIKE '%+ 100%';
+```
+
+</CodeGroup>
+
+### 2. Searching For Fields on a Record
+
+Each record has a set of fields available on it dependent upon it's stub (the first five characters of the record name). The fields for each record can be retrieved using the field group ID or the stub (field group name).
+
+<Note>
+  **Note:** Here 'Field Group' is represented by the first 5 characters of the record name. For more information, see [Field Groups Overview](/tabs/indicative-data/our-data/field-groups-overview)
+</Note>
+
+```java
+SELECT 
+  * 
+FROM 
+  COMMERCIAL_PACKAGES.INFO.FIELD_GROUP
+WHERE 
+  NAME = 'IVSWR';
+```
+
+<Tip>
+  For next steps see:
+
+  [Pulling Tick History](/tabs/indicative-data/our-datawarehouse/tick-history)  -  when permissioned for snap data
+
+  [Pulling Snapshot History](/tabs/indicative-data/our-datawarehouse/snap-history) -  when permissioned for snap data
+</Tip>
+
+### 3. Using the Market Entity
+
+The market entity concept is used to capture renames of records throughout time (see **market\_entity\_id** in the records table).
+
+This allows us to link related records and provide the complete history.
+
+<Frame caption="Example of linked market entity records.">
+  ![](/images/snowflake/img-12.jpg)
+</Frame>
+
+## What's in the Info Schema?
+
+### Record Metadata Definitions
+
+Views describing the meaning of each acronym in record names.
+
+- LOCATIONS
+- CLEARING\_TYPES
+- PRICE\_TYPES
+- PRICING\_FREQUENCIES
+- COMPANIES
+
+For more information, see [Record Naming Convention](/tabs/indicative-data/our-data/record-naming-convention)
+
+### Field Groups
+
+The first 5 characters of the record name indicates the field group it abides to. This can also be joined via the **FIELD\_GROUP\_ID** column.
+
+For more information, see [Field Groups Overview](/tabs/indicative-data/our-data/field-groups-overview)
+
+<Frame caption="Example field group explaining the meaning of each of the record fields.">
+  ![](/images/snowflake/img-9.jpg)
+</Frame>
+
+### Parameta's Record Inventory
+
+Complete list of records available in each commercial package.
+
+<Frame caption="Example view of records table showing records with id, market_group, description and additional metadata">
+  ![](/images/snowflake/img-10.jpg)
+</Frame>
+
+### Parameta's Package Inventory
+
+Complete list of packages available.
+
+<Frame caption="Example view of the market groups.">
+  ![](/images/snowflake/img-11.jpg)
+</Frame>

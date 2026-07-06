@@ -1,0 +1,187 @@
+---
+title: "Record Naming Convention"
+description: "This page provides the technical specifications for Parameta Solution's multi-brand naming conventions. Each one of our multi-brand records follow the naming convention below."
+---
+
+```json
+<RECORD_NAME>:<LOCATIONS>.<CLEARING_TYPES>.<PRICE_TYPES>.<PRICING_FREQUENCIES>!<COMPANIES>
+```
+
+<Note>
+  Example `[[RF][OIS]][EUR][01Y][AOAEST]:{LDN}.{LCH}.{QTE}.{RTM}!{TP}`
+</Note>
+
+| # | Component | Description |
+| --- | --- | --- |
+| 1 | **STUB** | First 5 characters — Asset Class and Instrument/Product (e.g., `RF` = Risk Free Rates, `OIS` = Overnight Index Swap) |
+| 2 | **CCY** | Next 3 or 6 characters — Currency(s). Two CCYs are possible (e.g., Cross Currency Swap or Cross Currency Basis Swap) |
+| 3 | **Tenor** | Trade tenor. May include one, two or three tenors after the CCY (e.g., `01Y01Y` for a Fwd Starting market, `02Y05Y07Y` for a Butterfly) |
+| 4 | **Daycount/Basis** | Only available in certain markets. `AOA` = Act/360 Ann, `EST` = ESTR discounting |
+| 5 | **Location** | Region the prices are coming from. `GBL` = 'Follow the Sun' record contributed from more than one region |
+| 6 | **Clearing** | Clearing House used for trading (e.g., `LCH` = London Clearing House) |
+| 7 | **Price Type** | Type of prices on the instrument (e.g., `QTE` = Quote) |
+| 8 | **Frequency** | How often the record updates (e.g., `RTM` = Realtime) |
+| 9 | **Company** | Brand the prices are coming from (e.g., `TP` = Tullett Prebon, `IC` = ICAP) |
+
+---
+
+## Reference Data
+
+Reference tables define the meaning of the acronyms used in the record naming.
+
+### Stub
+
+#### Example Asset Classes
+
+| Market Group | Description |
+| :-- | :-- |
+| FI | Fixed Income |
+| BI | Benchmarks and Indices |
+| CD | Credit CDS |
+| CE | Commodities & Energy |
+| CR | Credit |
+| EQ | Equities |
+| FV | FX Option Volatility |
+| FX | Spot & Forward FX |
+| IN | Inflation |
+| IR | Interest Rates |
+| IV | Interest Rate Option Volatility (inc. CMS) |
+| MM | Money Market |
+| RF | Risk Free Rates |
+| RP | Repo |
+| SX | SwapPX |
+| BR | Broker Data |
+
+### Body
+
+#### Example Tenors
+
+<Warning>
+  Please note this is not a exhaustive list due to a number of unique market conventions and is only meant for illustrative purposes.
+</Warning>
+
+| Character | Description | Example |
+| :-- | :-- | :-- |
+| `D` | Day | `01D` |
+| `W` | Week | `01W` |
+| `M` | Month | `01M` |
+| `Y` | Year | `01Y` |
+| `h` | Half Year e.g `04h` meaning 4.5 Year | `04h` |
+| `L` | Month Fixing | `01L` |
+| `C` | Year Cheapest to Deliver | `01C` |
+| `R` | Month Risk Reversal | `01R` |
+| `ON` | Overnight | `0ON` |
+| `CL` | Calendar | `CL1` |
+| `SE` | Season | `SE1` |
+| `Q` | Quarter | `Q1` |
+| `WE` | Weekend | `WE1` |
+
+### Suffix
+
+#### Locations
+
+| Code | Description |
+| --- | --- |
+| GBL | Global ('Follow the Sun' records: in cases where multiple regions contribute to a record) |
+| BGK | Contribution out of Bangkok |
+| COP | Contribution out of Copenhagen |
+| DUB | Contribution out of Dubai |
+| HKG | Contribution out of Hong Kong |
+| HOU | Contribution out of Houston |
+| IST | Contribution out of Istanbul |
+| JHB | Contribution out of Johannesburg |
+| JKT | Contribution out of Jakarta |
+| KLU | Contribution out of Kuala Lumpur |
+| LDN | Contribution out of London |
+| MAN | Contribution out of Manila |
+| MNA | Contribution out of Bahrain |
+| MUM | Contribution out of Mumbai |
+| NYK | Contribution out of New York |
+| SEO | Contribution out of Seoul |
+| SHG | Contribution out of Shanghai |
+| SNG | Contribution out of Singapore |
+| SYD | Contribution out of Sydney |
+| TOK | Contribution out of Tokyo |
+| TOR | Contribution out of Toronto |
+| WEL | Contribution out of Wellington |
+| ZUR | Contribution out of Zurich |
+
+#### Clearing Types
+
+| Code | Description |
+| --- | --- |
+| ASX | ASX Clear |
+| BIL | Bilateral — the default for the current indicative quotes output |
+| BOJ | Bank of Japan |
+| CCI | Clearing Corporation of India |
+| CDC | China Government Securities Depository Trust & Clearing Co. |
+| CDP | Central Depository (Singapore) |
+| CME | Chicago Mercantile Exchange |
+| CMU | Central Money Markets Unit |
+| COM | COMO – CIBC Mellon Trust |
+| DTC | Depository Trust Committee |
+| ECR | Euroclear |
+| EUX | Eurex Exchange |
+| FIC | Fixed Income Clearing Corporation |
+| HKE | Hong Kong Exchange |
+| JSC | Japan Securities Clearing Corporation |
+| KSD | Korea Securities Depository |
+| KSE | Karachi Stock Exchange |
+| LCH | London Clearing House |
+| LSE | London Stock Exchange |
+| MSC | Bursa Malaysia Securities Clearing |
+| MUL | Multiple — can be cleared through various clearing houses |
+| NOA | Not applicable (used for benchmark and indices products) |
+| OMX | Offset Market Exchange |
+| PDS | Philippine Dealing & Exchange Corporation |
+| SSE | Shanghai Stock Exchange |
+| SZE | Shenzhen Stock Exchange |
+| TCH | Thailand Clearing House |
+| TDC | Taiwan Depository & Clearing Corporation |
+
+#### Price Types (Type of Quotation)
+
+| Code | Description |
+| --- | --- |
+| AII | Actionable indication of interest |
+| AOT | Auction order trade |
+| AUC | Auction |
+| BAI | Benchmarks and indices |
+| EVP | Evaluated pricing |
+| IOI | Indication of interest |
+| ORD | Live order (off SEF) |
+| ORS | Live order (on SEF) |
+| QTE | Indicative quote |
+| RFQ | Request for quote |
+| TRD | Traded price |
+
+#### Pricing Frequency
+
+| Code | Description |
+| --- | --- |
+| DLY | Delayed (delayed period in a field in a record) |
+| EOD | End of day pricing (EOD time in a field in a record) |
+| RTM | Real time |
+| SLC | Slice |
+| SNP | Specific snapshots throughout the day (snap times in a field in the record) |
+
+#### Company
+
+| Code | Description |
+| --- | --- |
+| AF | AFFIN (TP) |
+| CF | Crestfinserv Mumbai (TP) |
+| CZ | Cosmorex Switzerland (TP) |
+| ET | E-Speed |
+| IC | ICAP |
+| MW | Marshalls Bahrain (TP) |
+| PR | Prebon |
+| PS | Parameta Solutions |
+| PV | PVM |
+| TG | GMIV |
+| TI | TP ICAP |
+| TO | Totan |
+| TP | Tullett Prebon |
+| TS | Sitico |
+| PI | Parameta Solutions derived data based on ICAP prices |
+| PT | Parameta Solutions derived data based on Tullett Prebon prices |

@@ -1,0 +1,233 @@
+---
+title: "Inflation"
+description: "Inflation market data covering zero-coupon inflation swaps, year-on-year inflation swaps, inflation caps and floors (zero-coupon and year-on-year), inflation asset swaps, swap spreads, cross-currency inflation swap spreads, invoice spreads, zero-coupon butterflies, gap spreads, fixings, and inflation forecasts — with bid/ask, mid prices, tenors, currency pairs, and reference indices across major inflation-linked markets."
+---
+
+### INAOT — Inflation Zero Coupon AUBOT Chain
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 3 | DSPLY\_NAME | Instrument Description |
+| 6 | TRDPRC\_1 | Trade Price. Expressed in Yield, Decimal or Spread |
+| 16 | TRADE\_DATE | Trade Date (EDT). In DD MON YYYY Format. Time Zone is EDT |
+| 18 | TRDTIM\_1 | Trade Time (EDT). In hh:mm format. Time Zone is EDT |
+| 22 | BID | Latest Bid Price (either Trade or Best Bid Quote) |
+| 25 | ASK | Latest Ask Price (either Trade or Best Ask Quote) |
+| 60 | CLOSE\_BID | Latest Bid Observation. Last known Bid Price |
+| 61 | CLOSE\_ASK | Latest Ask Observation. Last known Ask Price |
+| 78 | OFFCL\_CODE | Instrument 1. Typically ISIN for Bonds |
+| 178 | TRDVOL\_1 | Trade Volume. Expressed in millions of USD |
+| 208 | HSTCLBDDAT | Latest Bid Observation Date. Date of last known Bid.Time Zone is GMT |
+| 258 | SEG\_TEXT | Category Name. Instrument Type |
+| 275 | SEC\_ACT\_1 | Latest Ask Price (either Trade or Best Ask Quote) |
+| 344 | TRADE\_TONE | Trade Type. Possible values: H= Hit (Bid was hit). T=Taken (Ask was taken) |
+| 362 | BID\_YIELD | Latest Bid Yield (either Trade or Best Bid Quote) |
+| 363 | ASK\_YIELD | Latest Ask Yield (either Trade or Best Ask Quote) |
+| 791 | DEALT\_VL1 | Latest Bid Volume (either Trade or Order). Expressed in USD millions. |
+| 875 | VALUE\_DT1 | Server Date of Update (GMT). In DD MON YYYY format. |
+| 985 | SEC\_VOL1 | Latest Ask Volume (either Trade or Order). Expressed in USD millions. |
+| 1010 | VALUE\_TS1 | Server Time of Update (GMT). In hh:mm:ss format. |
+| 1029 | GEN\_VAL5 | Category Code. Numeric assignment for Instrument Type |
+| 1030 | GEN\_VAL6 | Price Type Code. Numeric assignment for Price Type. |
+| 1051 | GV2\_DATE | Trade Date (GMT). In DD MON YYYY format. Converted into GMT taking into account any daylight savings adjustments. |
+| 1056 | OFFC\_CODE2 | Instrument 2. Typically the ISIN for bonds. Used for switches. |
+| 1061 | GV1\_TIME | Publication Time of Update (GMT). In hh:mm:ss format. Source time converted into GMT taking into account any daylight savings adjustments. |
+| 1062 | GV2\_TIME | Trade Time (GMT). In hh:mm:ss format. It is the Trade Time converted into GMT taking into account any daylight savings adjustments. |
+| 1275 | GN\_TXT32\_1 | GTN Code. Iconnect 8-digit unique identifier. |
+| 2167 | HSTCLAKDAT | Latest Ask Observation Date. Date of last known Ask.Time Zone is GMT. |
+| 3296 | ASK\_SPREAD | Latest Ask Spread(either Trade or Best Ask Quote) |
+| 3303 | BID\_SPREAD | Latest Bid Spread(either Trade or Best Bid Quote) |
+
+### INASS — Inflation Swap Spread
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 68 | MATUR\_DATE | Maturity Date |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor |
+| 517 | CCY1 | CCY |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 996 | GEN\_VAL1 | MID (Absolute) |
+
+### INASW — Inflation	 Asset Swap
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date |
+| 517 | CCY1 | CCY |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1052 | GN\_TXT16\_2 | Linker Coupon |
+| 1053 | GN\_TXT16\_3 | Nominal Coupon |
+| 1054 | GN\_TXT16\_4 | Linker Long Name |
+| 1269 | GN\_TXT16\_5 | Nominal Long Name |
+| 1270 | GN\_TXT16\_6 | Linker ISIN |
+| 1941 | STLVAL1\_1 | PAR/PAR Mid |
+| 1942 | STLVAL1\_2 | Mid Proceeds |
+| 1943 | STLVAL1\_3 | BID |
+| 1944 | STLVAL1\_4 | ASK |
+| 1945 | STLVAL1\_5 | MID |
+| 1946 | STLVAL1\_6 | Change on Day |
+| 1947 | STLVAL1\_7 | Swap Spread |
+| 1948 | STLVAL1\_8 | Bid Proceeds |
+| 1949 | STLVAL1\_9 | Ask Proceeds |
+| 1951 | STLVAL1\_11 | PAR/PAR Bid |
+| 1952 | STLVAL1\_12 | PAR/PAR Ask |
+
+### INIFS — Inflation Fixing Swap
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 68 | MATUR\_DATE | Maturity Date |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Tenor |
+| 516 | PERIOD2 | Fixing Month |
+| 517 | CCY1 | Currency |
+
+### ININF — Inflation	 Forecast
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 41 | CONTR\_MNTH | Contract Month |
+| 515 | PERIOD1 | Period 1 |
+| 516 | PERIOD2 | Period 2 |
+| 517 | CCY1 | CCY |
+| 996 | GEN\_VAL1 | Start Index Price |
+| 997 | GEN\_VAL2 | End Index Price |
+| 998 | GEN\_VAL3 | Swap |
+| 1275 | GN\_TXT32\_1 | Swap Start |
+| 1276 | GN\_TXT32\_2 | Swap End |
+| 1277 | GN\_TXT32\_3 | Initial Fix Date |
+| 1278 | GN\_TXT32\_4 | Forecast Fix Date |
+
+### ININR — Invoice Spread
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Tenor |
+| 517 | CCY1 | Currency |
+| 1052 | GN\_TXT16\_2 | IRS Description |
+| 1666 | GN\_TX20\_2 | IRS Settlement Index |
+
+### INISS — Inflation Swap Cross Currency Spread
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Period 1 |
+| 517 | CCY1 | Currency # 1 |
+| 518 | CCY2 | Currency # 2 |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1275 | GN\_TXT32\_1 | Description Currency # 1 |
+| 1276 | GN\_TXT32\_2 | Description Currency # 2 |
+
+### INYYO — Inflation Cap/Floor Year on Year
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 66 | STRIKE\_PRC | Strike |
+| 515 | PERIOD1 | Tenor |
+| 517 | CCY1 | CCY |
+| 874 | PREMIUM | Premium |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 996 | GEN\_VAL1 | Implied Volaility |
+| 1522 | FOR\_PREM | Premium Annuity |
+
+### INYYS — Inflation Swap Year on Year
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 11 | NETCHNG\_1 | Change on Day |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Tenor |
+| 517 | CCY1 | Currency |
+
+### INZBF — Inflation Zero Coupon Butterflies
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor 1 |
+| 516 | PERIOD2 | Tenor 2 |
+| 517 | CCY1 | CCY |
+| 1000 | GV1\_TEXT | Tenor 3 |
+
+### INZCO — Inflation Cap/Floor Zero Coupon
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of UPdate |
+| 66 | STRIKE\_PRC | Srike |
+| 515 | PERIOD1 | Tenor |
+| 517 | CCY1 | Currency |
+| 874 | PREMIUM | Premium |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 996 | GEN\_VAL1 | Implied Volatility |
+| 1522 | FOR\_PREM | Premium Annuity |
+
+### INZCS — Inflation Swap Zero Coupon
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 11 | NETCHNG\_1 | Change on Day |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Tenor |
+| 517 | CCY1 | Currency |
+| 1275 | GN\_TXT32\_1 | Description |
+
+### INZCW — Inflation Swap Zero Coupon Wide
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of update |
+| 22 | BID | BID |
+| 25 | ASK | ASK |
+| 515 | PERIOD1 | Tenor |
+| 517 | CCY1 | CCY |
+
+### INZGS — Inflation Zero Coupon Gap Spread
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 134 | MID\_PRICE | MID |
+| 515 | PERIOD1 | Tenor 1 |
+| 516 | PERIOD2 | Tenor 2 |
+| 517 | CCY1 | CCY |

@@ -1,0 +1,202 @@
+---
+title: "Accessing Our Data Warehouse"
+description: "Built natively on Snowflake, our data warehouse supports zero-copy data sharing via Snowflake's secure data exchange. Access our datasets directly from your Snowflake account with no ETL, no replication delays, and no storage overhead."
+---
+
+When speaking to our commercial team they will guide you on the best solution for you. We offer the two following solutions:
+
+- [Reader Accounts](#getting-started-with-reader-accounts) - connect to Snowflake data without having a snowflake account
+- [Direct Shares](#getting-started-with-direct-shares) - for existing Snowflake customers, access the data directly in your data warehouse
+
+## Getting Started with Reader Accounts
+
+1. **Receive Credentials** — Your Parameta sales representative will provide you with a URL and login credentials (username and password)
+2. **Sign In** — Navigate to the provided URL and enter your credentials
+3. **Access Data** — Once signed in, you can immediately start querying data
+
+## Getting started with Direct Shares
+
+At Parameta Solutions we are leveraging Snowflake's autofufillment capabilities to enable us to share across regions and cloud providers. To get started:
+
+1. **Provide Account Your Details** — Share your [Snowflake account identifier](https://docs.snowflake.com/en/user-guide/admin-account-identifier#label-account-name-data-sharing) with your Parameta representative
+2. **Accept the Share** — Once shared, accept the share in SnowSight under **Data \> Private Sharing \> Shared With You**
+3. **Create Database** — Click **Get Data** to create a database from the share
+4. **Start Querying** — Query the data using your preferred tools and workflows
+
+#### Accepting a share
+
+Once logged in using the new SnowSight UI, you will need to go to **Data \> Private Sharing**
+
+<Frame caption="A screenshot showing how to access data shared directly with the client.">
+  ![](/images/snowflake/img-3.jpg)
+</Frame>
+
+Then in **Shared With You** you should be able to see our share.
+
+Hit **Get Data** to create a database based on the share in your Snowflake instance
+
+<Frame caption="Showing how to access the data and create a database from it in a clients account">
+  ![](/images/snowflake/img-4.jpg)
+</Frame>
+
+<Note>
+  For more information on using our data see [Using Our Data Schema](/snowflake)
+</Note>
+
+## Navigating in Snowsight
+
+Snowsight is Snowflake’s modern, intuitive web interface that makes it easy to explore data, run queries, monitor workloads, and manage your Snowflake environment—all in one place. Designed for both analysts and administrators, Snowsight provides powerful visualizations, streamlined navigation, and contextual insights that help you work faster and make better data‑driven decisions
+
+<Note>
+  To see Snowflakes full documentation see [here](https://docs.snowflake.com/en/user-guide/ui-snowsight)
+</Note>
+
+### Catalog
+
+Using the Catalog from the left-pane, you can browse your data objects and preview the data.
+
+<Info>
+  To see data here you need to ensure you have the correct role and warehouse set from the bottom left e.g. **READER**
+</Info>
+
+<Frame caption="View of Snowflake’s data catalog that can be used to explore shared data.">
+  ![](/images/snowflake/img-5.jpg)
+</Frame>
+
+### Worksheets
+
+#### Querying Data
+
+Once you sign in, you can access the data by following **\+ New Project \> SQL Worksheet**. You will then see on the left-hand side the data you have available to you.
+
+<Info>
+  When in the worksheet ensure you have a warehouse selected and the correct role selected e.g. **READER**
+</Info>
+
+You can set the query context by selecting a database and schema using drop down at the top of the query.
+
+<Frame caption="Query context setting in Snowflake worksheet.">
+  ![](/images/snowflake/img-46.jpeg)
+</Frame>
+
+For more information see [Using Our Data Schema](/snowflake)
+
+<Frame caption="Example of running a query in Snowflake's SQL worksheet.">
+  ![](/images/snowflake/img-2.jpg)
+</Frame>
+
+#### Charting
+
+You can visualize your worksheet results using query charts and dashboards in SnowSight.
+
+<Note>
+  **Note:** charting results are limited to 1M so to get around this aggregate your results before bringing through to charting.
+</Note>
+
+<Frame caption="Example of charting results from Snowflake Query">
+  ![](/images/snowflake/img-25.jpg)
+</Frame>
+
+<Frame caption="Example dashboard charting price and record information">
+  ![](/images/snowflake/img-28.jpg)
+</Frame>
+
+<Frame caption="Example plotting an IRS CHF curve">
+  ![](/images/snowflake/img-29.jpg)
+</Frame>
+
+---
+
+## Connect Using SDKs
+
+Snowflake can be queried easily using Python by using Snowflake's snowflake-connector-python. This guide provides sample code for connecting, querying data, and working with the info schema.
+
+<Note>
+  **Note:** Snowflake can be programmatically accessed via various other languages. For more information refer to [Snowflake drivers](https://docs.snowflake.com/en/developer-guide/drivers).
+</Note>
+
+### Pre-requisites
+
+Install the Snowflake connector for Python:
+
+<CodeGroup>
+
+```shellscript Python
+pip install "snowflake-connector-python[pandas]"
+```
+
+```shellscript Java (JBang)
+# Install JBang
+curl -Ls https://sh.jbang.dev | bash -s - app setup
+```
+
+</CodeGroup>
+
+### Basic Connection
+
+<CodeGroup>
+
+```python Python
+import snowflake.connector
+import pandas as pd
+
+connection_settings = {
+    'account': '<your_account_id_and_region>',  # typically start of URL (e.g. xyz.eu-west-1)
+    'user': '<your_username>',
+    'password': '<your_password>',
+    'database': 'commercial_packages',
+    'schema': 'info'
+}
+
+with snowflake.connector.connect(**connection_settings) as ctx:
+    cur = ctx.cursor()
+    cur.execute("""SELECT * FROM info.records LIMIT 10""")
+    df = cur.fetch_pandas_all()
+
+df.head()
+```
+
+```java Java (JBang)
+///usr/bin/env jbang "$0" "$@" ; exit $?
+//DEPS net.snowflake:snowflake-jdbc:3.16.1
+
+// Run with `jbang SnowflakeQuery.java`
+
+import java.sql.*;
+import java.util.Properties;
+
+public class SnowflakeQuery {
+    public static void main(String[] args) throws Exception {
+        Properties props = new Properties();
+        props.put("account", "<your_account_id_and_region>");// typically start of URL (e.g. xyz.eu-west-1)
+        props.put("user", "<your_username>");
+        props.put("password", "<your_password>");
+        props.put("db", "commercial_packages");
+        props.put("schema", "info");
+
+        String url = "jdbc:snowflake://xyz.eu-west-1.snowflakecomputing.com";
+
+        try (Connection conn = DriverManager.getConnection(url, props);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM info.records LIMIT 10")) {
+
+            ResultSetMetaData meta = rs.getMetaData();
+            int cols = meta.getColumnCount();
+
+            for (int i = 1; i <= cols; i++) System.out.print(meta.getColumnName(i) + "\t");
+            System.out.println();
+
+            while (rs.next()) {
+                for (int i = 1; i <= cols; i++) System.out.print(rs.getString(i) + "\t");
+                System.out.println();
+            }
+        }
+    }
+}
+```
+
+</CodeGroup>
+
+<Note>
+  For further information on the Python connector, see the [Snowflake Python Connector documentation](https://docs.snowflake.com/developer-guide/python-connector/python-connector).
+</Note>

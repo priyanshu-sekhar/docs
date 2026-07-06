@@ -1,0 +1,298 @@
+---
+title: "Energy and Commodities"
+descripition: "Energy and commodities market data covering coking coal, emissions, fixings, forwards, FX forward outrights, and related instruments — with bid/ask prices, mid prices, trade prices and volumes, daily change, tenor and period details, currency, location/product and region metadata, and intraday price snapshots (open, midday, close) across global energy and commodity markets."
+description: "Energy and commodities market data covering coking coal, emissions, fixings, forwards, FX forward outrights, and related instruments — with bid/ask prices, mid prices, trade prices and volumes, daily change, tenor and period details, currency, location/product and region metadata, and intraday price snapshots (open, midday, close) across global energy and commodity markets."
+---
+
+### CECCL — Coaking Coal
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 6 | TRDPRC\_1 | Trade Price |
+| 11 | NETCHNG\_1 | Change on Day |
+| 16 | TRADE\_DATE | Trade Date |
+| 17 | ACTIV\_DATE | Active Date |
+| 18 | TRDTIM\_1 | Trade Time |
+| 21 | HST\_CLOSE | Close |
+| 22 | BID | Bid |
+| 23 | BID\_1 | Bid 1 |
+| 24 | BID\_2 | Bid 2 |
+| 25 | ASK | Ask |
+| 26 | ASK\_1 | Ask 1 |
+| 27 | ASK\_2 | Ask 2 |
+| 30 | BIDSIZE | Bid Size |
+| 31 | ASKSIZE | Ask Size |
+| 56 | PCTCHNG | % Change |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Period 1 |
+| 516 | PERIOD2 | Period 2 |
+| 517 | CCY1 | Currency |
+| 562 | USR\_DEF\_D1 | Unique Record Name |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 963 | HST\_CLOSE2 | Previous Close |
+| 996 | GEN\_VAL1 | Time Spreads / Additional Value |
+| 997 | GEN\_VAL2 | 9:30 Price |
+| 998 | GEN\_VAL3 | Midday Price |
+| 999 | GEN\_VAL4 | 16:30 Price |
+| 1029 | GEN\_VAL5 | 18:30 Price |
+| 1030 | GEN\_VAL6 | 20:00 Price |
+| 1276 | GN\_TXT32\_2 | Location / Product |
+| 1277 | GN\_TXT32\_3 | Quote Type |
+| 1278 | GN\_TXT32\_4 | Region |
+| 1665 | GN\_TX20\_1 | Tenor |
+| 1666 | GN\_TX20\_2 | Long Unit |
+| 1667 | GN\_TX20\_3 | Short Unit |
+| 1801 | LSTBID\_IND | Last Order BID Price |
+| 1802 | LSTASK\_IND | Last Order ASK Price |
+| 1803 | PR\_VAL1\_1 | Last BID Date |
+| 1804 | PR\_VAL1\_2 | Laste Order BID Time |
+| 1805 | PR\_VAL1\_3 | Last Order ASK Date |
+| 1806 | PR\_VAL1\_4 | Last Order ASK Time |
+
+### CEEMS — Emmisions
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Dte of Update |
+| 22 | BID | Close Bid |
+| 25 | ASK | Close Ask |
+| 134 | MID\_PRICE | Calc mid |
+| 1276 | GN\_TXT32\_2 | Description |
+| 1665 | GN\_TX20\_1 | Tenor |
+
+### CEFIX — Commodities & Energy Fixings
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 6 | TRDPRC\_1 | Last Trade Price |
+| 17 | ACTIV\_DATE | Date of Update |
+| 515 | PERIOD1 | Tenor 1 |
+| 517 | CCY1 | Currency 1 |
+| 995 | GEN\_TEXT16 | Effective Date |
+| 1275 | GN\_TXT32\_1 | Description |
+
+### CEFWD — Commodities & Energy Forward
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Period 1 |
+| 516 | PERIOD2 | Period 2 |
+| 517 | CCY1 | Currency 1 |
+| 518 | CCY2 | Currency 2 |
+
+### CEFWO — Commodities & Energy FX Forward Outright
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 515 | PERIOD1 | Period 1 |
+| 516 | PERIOD2 | Period 2 |
+| 517 | CCY1 | Currency 1 |
+| 518 | CCY2 | Currency 2 |
+| 996 | GEN\_VAL1 | Forward Points Bid |
+| 997 | GEN\_VAL2 | Forward Points Ask |
+| 998 | GEN\_VAL3 | Percent Bid |
+| 999 | GEN\_VAL4 | Percent Ask |
+| 1666 | GN\_TX20\_2 | Description of security |
+
+### CEFWS — Commodities & Energy FX Forward Swap
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 515 | PERIOD1 | Period |
+| 516 | PERIOD2 | Period 2 |
+| 517 | CCY1 | Currency |
+| 996 | GEN\_VAL1 | Forward Points Bid |
+| 997 | GEN\_VAL2 | Forward Points Ask |
+| 998 | GEN\_VAL3 | Percent Bid |
+| 999 | GEN\_VAL4 | Percent Ask |
+| 1666 | GN\_TX20\_2 | Description of security |
+
+### CEFXO — Commodities & Energy FX Forward Option Vol
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 515 | PERIOD1 | Period |
+| 516 | PERIOD2 | Period 2 |
+| 517 | CCY1 | Currency 1 |
+| 518 | CCY2 | Currency 2 |
+| 1666 | GN\_TX20\_2 | Description of security |
+
+### CEGAS — Commodities & Energy Natural Gas
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 6 | TRDPRC\_1 | Trade Price |
+| 11 | NETCHNG\_1 | Change on Day |
+| 16 | TRADE\_DATE | Trade Date |
+| 17 | ACTIV\_DATE | Active Date |
+| 18 | TRDTIM\_1 | Trade Time |
+| 21 | HST\_CLOSE | Close |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 30 | BIDSIZE | Bid Size |
+| 31 | ASKSIZE | Ask Size |
+| 56 | PCTCHNG | % Change |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Period 1 |
+| 516 | PERIOD2 | Period 2 |
+| 517 | CCY1 | Currency |
+| 562 | USR\_DEF\_D1 | Unique Record Name |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 963 | HST\_CLOSE2 | Previous Close |
+| 996 | GEN\_VAL1 | Time Spreads / Additional Value |
+| 997 | GEN\_VAL2 | 9:30 Price |
+| 998 | GEN\_VAL3 | Midday Price |
+| 999 | GEN\_VAL4 | 16:30 Price |
+| 1029 | GEN\_VAL5 | 18:30 Price |
+| 1030 | GEN\_VAL6 | 20:00 Price |
+| 1276 | GN\_TXT32\_2 | Location / Product |
+| 1277 | GN\_TXT32\_3 | Quote Type |
+| 1278 | GN\_TXT32\_4 | Region |
+| 1665 | GN\_TX20\_1 | Tenor |
+| 1666 | GN\_TX20\_2 | Long Unit |
+| 1667 | GN\_TX20\_3 | Short Unit |
+| 1801 | LSTBID\_IND | Last Order BID Price |
+| 1802 | LSTASK\_IND | Last Order ASK Price |
+| 1803 | PR\_VAL1\_1 | Last Order BID Date |
+| 1804 | PR\_VAL1\_2 | Last Order BID Time |
+| 1805 | PR\_VAL1\_3 | Last Order ASK Date |
+| 1806 | PR\_VAL1\_4 | Last Order ASK Time |
+
+### CEGLR — Precious Metals Forward
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 516 | PERIOD2 | Period 2 |
+| 517 | CCY1 | Currency |
+
+### CEICU — TP Interconnector
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Available Capacity GBP/ZEE (kWh) |
+| 25 | ASK | Available Capacity ZEE/GBP (kWh) |
+| 996 | GEN\_VAL1 | Combined Capacity GBP/ZEE (p/ (kWh/h)/h) |
+| 997 | GEN\_VAL2 | Combined Capacity ZEE/GBP (p/ (kWh/h)/h) |
+| 998 | GEN\_VAL3 | Combined Capacity GBP/ZEE (p/th) |
+| 999 | GEN\_VAL4 | Combined Capacity ZEE/GBP (p/th) |
+| 1360 | ROW99\_2 | Unique Tenor |
+
+### CELNG — Liquid Natural Gas
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 6 | TRDPRC\_1 | Trade Price |
+| 11 | NETCHNG\_1 | Change on Day |
+| 16 | TRADE\_DATE | Trade Date |
+| 17 | ACTIV\_DATE | Date of Update |
+| 18 | TRDTIM\_1 | Trade Time |
+| 21 | HST\_CLOSE | description |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 30 | BIDSIZE | Bid Size |
+| 31 | ASKSIZE | Ask Size |
+| 56 | PCTCHNG | % Change |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Period 1 |
+| 516 | PERIOD2 | Period 2 |
+| 517 | CCY1 | Currency |
+| 562 | USR\_DEF\_D1 | Unique Record Name |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 963 | HST\_CLOSE2 | Previous Close |
+| 996 | GEN\_VAL1 | Time Spreads / Additional Value |
+| 997 | GEN\_VAL2 | 9:30 Price |
+| 998 | GEN\_VAL3 | Midday Price |
+| 999 | GEN\_VAL4 | 16:30 Price |
+| 1029 | GEN\_VAL5 | 18:30 Price |
+| 1030 | GEN\_VAL6 | 20:00 Price |
+| 1276 | GN\_TXT32\_2 | Location / Product |
+| 1277 | GN\_TXT32\_3 | Quote Type |
+| 1278 | GN\_TXT32\_4 | Region |
+| 1665 | GN\_TX20\_1 | Tenor |
+| 1666 | GN\_TX20\_2 | Long Unit |
+| 1667 | GN\_TX20\_3 | Short Unit |
+| 1801 | LSTBID\_IND | Last Order BID Price |
+| 1802 | LSTASK\_IND | Last Order ASK Price |
+| 1803 | PR\_VAL1\_1 | Last Order BID Date |
+| 1804 | PR\_VAL1\_2 | Last Order BID Time |
+| 1805 | PR\_VAL1\_3 | Last Order ASK Date |
+| 1806 | PR\_VAL1\_4 | Last Order ASK Time |
+
+### CEPMO — Commodities & Energy Precious Metals Volatility Option
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Active Date |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Period 1 |
+| 516 | PERIOD2 | Period 2 |
+| 517 | CCY1 | Currency 1 |
+| 518 | CCY2 | Currency 2 |
+
+### CEPWR — Commodities & Energy Power
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 6 | TRDPRC\_1 | Trade Price (only applicable on trade records) |
+| 16 | TRADE\_DATE | Trade Date (only applicable on trade records) |
+| 17 | ACTIV\_DATE | Active Date |
+| 18 | TRDTIM\_1 | Trade Time (only applicable on trade records) |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Tenor |
+| 517 | CCY1 | Currency |
+| 1276 | GN\_TXT32\_2 | Description |
+| 1665 | GN\_TX20\_1 | description |
+| 1801 | LSTBID\_IND | Last Order BID Price (only applicable on order records) |
+| 1802 | LSTASK\_IND | Last Order ASK Price (only applicable on order records) |
+| 1803 | PR\_VAL1\_1 | Last Order BID Date (only applicable on order records) |
+| 1804 | PR\_VAL1\_2 | Last Order BID Time (only applicable on order records) |
+| 1805 | PR\_VAL1\_3 | Last Order ASK Date (only applicable on order records) |
+| 1806 | PR\_VAL1\_4 | Last Order ASK Time (only applicable on order records) |
+
+### CESPT — Commodities & Energy Foreign Exchange Spot
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Period 1 |
+| 517 | CCY1 | Currency 1 |
+| 518 | CCY2 | Currency 2 |

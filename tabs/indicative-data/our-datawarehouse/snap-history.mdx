@@ -1,0 +1,166 @@
+---
+title: "Pulling Snapshot History"
+description: "We provide snapshots of data via User Defined Functions (UDF), which dynamically snap data based on the provided snap time. This enables us to provide snaps in any timezone and for any time. The snap provides the latest tick to the requested snap time based on a 24 hour look back period."
+---
+
+## Calling Snap Functions
+
+To call these functions you can provide the following arguments:
+
+```java
+table(
+  ICAP_INTEREST_RATE_DERIVATIVES_LDN_DAY_SNAP_1100(
+    to_date('<date_str>'),
+    '<regex_record_lookup>',
+    '<regex_currency_lookup>'
+  )
+)
+```
+
+- **Function Name** - \[_Commercial Package name_\]\[_Timezone_\]\_DAY\_SNAP\_\[_Snap Time_\]
+- **_date\_str_** - date to snap to in `'YYYY-MM-DD'`
+- **_regex\_record\_lookup_** _-_ Regex for record lookup e.g. `'.*'` for all records or `'IVSWR.*'` for a subset
+- **_regex\_currency\_lookup_** _-_ Regex for currency lookup e.g. `'EUR'` or `'EUR|GBP'`
+
+### Additional Snapshot Fields
+
+| Column | Type | Description |
+| --- | --- | --- |
+| snap\_timezone | str | Timezone of the snap |
+| snap\_end\_ltz | timestamp\_ntz | Local time for snap end e.g. 4pm |
+| snap\_end\_utc | timestamp\_ntz | Snap time in UTC used to evaluate against event\_timestamp (in UTC) |
+| id | integer | Unique record ID |
+| record | str | Name of the multi-brand record; links to name in the records view |
+| event\_timestamp | timestamp\_ntz | Timestamp of when the message was received by our collection system in UTC |
+
+## Pulling Snapshot data
+
+To identify the records and fields you want to pull, please first see [Using the Info Schema](/tabs/indicative-data/our-data/using-the-info-schema)
+
+Once you have the record names and fields to pull you can retrieve snap history like so:
+
+<Tip>
+  Ensure your database and schema context is set before running the queries below this can be done with `use database COMMERCIAL_PACKAGES;` and `use schema <schema_name>;`
+</Tip>
+
+<CodeGroup>
+
+```java With a Field group and Currency pair
+SELECT
+  snap_timezone,
+  snap_end_ltz,
+  snap_end_utc,
+  event_timestamp,
+  record,
+  -- IRIRS Field Group Definition
+  ACTIV_DATE "Date of Update",
+  ASK "Ask",
+  BID "Bid",
+  CCY1 "Currency",
+  GN_TX20_2 "Settlement Index",
+  GN_TXT16_2 "Daycount",
+  GN_TXT32_4 "Instrument Description",
+  MID_PRICE "Mid",
+  PERIOD1 "Tenor",
+  TIMACT "Time of Update",
+  VALUE_DT1 "Start Date",
+  VALUE_DT2 "End Date"
+FROM
+  TABLE(
+    ICAP_INTEREST_RATE_DERIVATIVES_LDN_DAY_SNAP_1100(
+      TO_DATE('2025-09-11'),
+      'IRIRS.*',
+      'CHF'
+    )
+  );
+```
+
+```java All currencies within a Field group
+SELECT
+  snap_timezone,
+  snap_end_ltz,
+  snap_end_utc,
+  event_timestamp,
+  record,
+  -- IRIRS Field Group Definition
+  ACTIV_DATE "Date of Update",
+  ASK "Ask",
+  BID "Bid",
+  CCY1 "Currency",
+  GN_TX20_2 "Settlement Index",
+  GN_TXT16_2 "Daycount",
+  GN_TXT32_4 "Instrument Description",
+  MID_PRICE "Mid",
+  PERIOD1 "Tenor",
+  TIMACT "Time of Update",
+  VALUE_DT1 "Start Date",
+  VALUE_DT2 "End Date"
+FROM
+  TABLE(
+    ICAP_INTEREST_RATE_DERIVATIVES_DAY_SNAP_1600LDN_DAY_SNAP_160000LDN(
+      TO_DATE('2025-09-11'),
+      'IRIRS.*',
+      '.*'
+    )
+  );
+```
+
+</CodeGroup>
+
+### Pulling Snap History with Python
+
+If pulling large quantities of history (particularly snaps) it is usually more efficient to load up the warehouse and pull the data asynchronously like below (sample code in python):
+
+<Tip>
+  Please see [Connect Using Python](/tabs/indicative-data/our-datawarehouse/accessing-our-data#connect-using-sdks) to get you started with setting up your connection
+</Tip>
+
+```python
+# Example script to run queries asynchronously
+from snowflake.snowpark import Session
+import pandas as pd
+from datetime import datetime, timedelta
+import time
+
+# Connection configuration
+connection = {
+  # Ensure database and schema context is set here
+  # If not using full path
+  ...
+  
+}
+
+# Generate a range of dates
+start_date = datetime(2025, 1, 1)
+end_date = datetime(2025, 2, 1)
+date_range = [(start_date + timedelta(days=i)).strftime("%Y-%m-%d") for i in range((end_date - start_date).days + 1)]
+
+# Create a Snowpark session
+submitted_query_list = []
+session = Session.builder.configs(connection).create()
+
+for date in date_range:
+    print(f"Submitting query for date: {date}")
+    sql_cmd = f"""
+    SELECT * FROM TABLE(
+        icap_interest_rate_options_day_snap_1500tok(
+            TO_DATE('{date}'), '.*', '.*'
+        )
+    );
+    """
+    queryid = session.sql(sql_cmd).collect_nowait().query_id
+    async_job = session.create_async_job(queryid)
+    query_list.append(async_job)
+
+while len(query_list) > 0:
+    for qry_job in submitted_query_list:
+        if qry_job.is_done():
+            print(f"Query {qry_job.query_id} is done.")
+            qry_job.to_df().to_pandas().to_csv(f"data_{qry_job.query_id}.csv", index=False)
+            submitted_query_list.remove(qry_job)  
+    time.sleep(10)
+    print(f"Waiting for {len(query_list)} queries to finish...")
+
+# Close the session
+session.close()
+```

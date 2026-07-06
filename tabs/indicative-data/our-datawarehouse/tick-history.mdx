@@ -1,0 +1,88 @@
+---
+title: "Pulling Tick History"
+description: "When a client subscribes to tick history this data is made available via tick history views. Each of these views are related to the commercial packages that the client has purchased and are limited to the date range contracted for."
+---
+
+<Card title="Efficient Querying Practices" type="tip">
+  Snowflake uses the concept of micro partitioning, to facilitate the most efficient querying of our data warehouse which holds \>20 years of history across asset classes, and broking brands we cluster via record name and date.
+
+  Please ensure you filter via **_record_** and **_event\_timestamp_** where possible! And select only columns required (avoid `select *`).
+</Card>
+
+## Standard Fields
+
+| Column | Type | Description |
+| --- | --- | --- |
+| batch\_id | integer | Monotonically increasing integer of inserted batch (note: history and modifications will have a batch\_id of 0) |
+| id | integer | Unique record ID |
+| record | str | Name of the multi-brand record; links to name in the records view |
+| event\_timestamp | timestamp\_ntz | Timestamp of when the message was received by our collection system in UTC |
+
+## Pulling Tick data
+
+To identify the records and fields you want to pull, please first see [Using the Info Schema](/tabs/indicative-data/our-data/using-the-info-schema)
+
+Once you have the record names and fields to pull you can retrieve snap history like so:
+
+<Tip>
+  `event_timestamp` in the snowflake views is stored as UTC. In Snowflake it is easy to convert between time zones by using convert [timezone](https://docs.snowflake.com/en/sql-reference/functions/convert_timezone)
+
+  ```python
+  CONVERT_TIMEZONE('UTC', 'America/New_York', event_timestamp) AS nyk_time
+  ```
+</Tip>
+
+```java
+SELECT
+    EVENT_TIMESTAMP,
+    RECORD,
+    ACTIV_DATE AS "Date of Update",
+    TIMACT AS "Time of Update",
+    CCY1 AS "Currency",
+    PERIOD1 AS "Expiry",
+    PERIOD2 AS "Tenor",
+    DAY_COUNT AS "Daycount",
+    BPV AS "Daily Normal Volatility (business days)",
+    IMP_VOLT AS "Lognormal Volatility IBOR discounted",
+    PRC_VOLTY AS "Normal Volatility IBOR discounted",
+    PREMIUM AS "Spot Premium OIS discounted",
+    FOR_PREM AS "Forward Premium",
+    STRIKE_PRC AS "ATM Strike",
+    VEGA AS "VEGA",
+    VALUE_DT1 AS "Expiry Date",
+    GEN_VAL1 AS "Lognormal Volatility OIS discounted",
+    GEN_VAL2 AS "Normal Volatility OIS discounted Calendar Days",
+    GEN_VAL3 AS "Normal Volatility OIS discounted Business Days",
+    GEN_VAL4 AS "Physical/Cash Spread",
+    GEN_VAL5 AS "Discount Factor for expiry of the swaption",
+    GEN_VAL6 AS "Forward Premium Bid",
+    GEN_VAL7 AS "Forward Premium Ask",
+    GEN_VAL9 AS "Spot Premium IBOR discounted",
+    GEN_VAL10 AS "Annuity",
+    GEN_VAL15 AS "Spot Premium Bid",
+    GEN_VAL16 AS "Spot Premium Ask",
+    GN_TX20_1 AS "Settlement",
+    GN_TX20_2 AS "Settlement Index",
+    GN_TX20_3 AS "Standard Discounting",
+    GN_TXT16_2 AS "Description",
+    GN_TXT32_1 AS "Option Collateralisation",
+    GN_TXT32_2 AS "Tail Collateralisation",
+    GN_TXT32_4 AS "Instrument Description",
+    GV3_TEXT AS "Lognormal Volatility OIS discounted (Bid)",
+    GV4_TEXT AS "Lognormal Volatility OIS discounted (Ask)",
+    STLVAL2_6 AS "Lognormal Volatility Shifted",
+    STLVAL2_7 AS "Amount of Shift",
+    STLVAL2_8 AS "Lognormal Volatility Shifted (Bid)",
+    STLVAL2_9 AS "Lognormal Volatility Shifted (Ask)"
+
+FROM
+    icap_interest_rate_options
+where
+    record like 'IVSWOGBLATM%:LDN.BIL.QTE.RTM!IC'
+    and EVENT_TIMESTAMP between DATEADD('day', -30, CURRENT_DATE)
+    and CURRENT_DATE;
+```
+
+<Tip>
+  Ensure your database and schema context is set before running the queries below this can be done with `use database COMMERCIAL_PACKAGES;` and `use schema <schema_name>;`
+</Tip>

@@ -1,0 +1,840 @@
+---
+title: "Interest Rates"
+description: "Interest rate market data covering interest rate swaps (IRS), overnight index swaps (OIS), cross-currency and currency basis swaps, forward rate agreements (FRAs), forward-starting swaps and basis swaps, non-deliverable IRS and OIS variants, swap butterflies and gap spreads, FRA/OIS spreads, asset and invoice spreads, treasury and swap-to-treasury spreads, discount factor curves, and zero-coupon swap spreads — with bid/ask, mid prices, tenors, currency pairs, start/end dates, daycount conventions, and settlement index details across major global rates markets."
+---
+
+## IRASP — Asset Spread
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Internal Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Underlying Bond Bid |
+| 25 | ASK | Underlying Bond Ask |
+| 68 | MATUR\_DATE | Maturity Date |
+| 69 | COUPN\_RATE | Coupon Rate |
+| 78 | OFFCL\_CODE | Official Code |
+| 134 | MID\_PRICE | Treasury Mid Price |
+| 275 | SEC\_ACT\_1 | Spread to Swap Ask |
+| 393 | PRIMACT\_1 | Spread to Swap Bid |
+| 515 | PERIOD1 | Tenor |
+| 517 | CCY1 | Currency |
+| 996 | GEN\_VAL1 | Spread to Treasury Bid |
+| 997 | GEN\_VAL2 | Spread to Treasury Ask |
+| 998 | GEN\_VAL3 | IRS Bid |
+| 999 | GEN\_VAL4 | IRS Ask |
+| 1052 | GN\_TXT16\_2 | Daycount |
+| 1665 | GN\_TX20\_1 | Underlying Description |
+| 1666 | GN\_TX20\_2 | IRS Settlement |
+| 3353 | MID\_YLD\_1 | Mid Treasury Yield |
+
+## IRCBS — Currency Basis Swaps
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor |
+| 517 | CCY1 | Currency # 1 |
+| 518 | CCY2 | Currency # 2 |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1052 | GN\_TXT16\_2 | Day count 1 |
+| 1275 | GN\_TXT32\_1 | Daycount 2 |
+| 1276 | GN\_TXT32\_2 | Settlement Swap 2 |
+| 1277 | GN\_TXT32\_3 | Swap type |
+| 1278 | GN\_TXT32\_4 | Product Type |
+| 1666 | GN\_TX20\_2 | Settlement Index 1 |
+
+## IRCCS — Cross Currency Interest Rate Swap
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor |
+| 517 | CCY1 | Currency # 1 |
+| 518 | CCY2 | Currency # 2 |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1052 | GN\_TXT16\_2 | Currency # 1 Daycount |
+| 1666 | GN\_TX20\_2 | Currency # 2 Fixing |
+
+## IRDIS — Brazil DI On/Offshore Spread
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Internal Validation |
+| 3 | DSPLY\_NAME | Season |
+| 5 | TIMACT | Time of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 515 | PERIOD1 | Period 1 |
+| 517 | CCY1 | Currency |
+| 996 | GEN\_VAL1 | BRL DI Offshore Bid |
+| 997 | GEN\_VAL2 | BRL DI Offshore Offer |
+| 2947 | SHORT\_DESC | Description of Basis |
+
+## IREFP — Treasury Spreads
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Period |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1275 | GN\_TXT32\_1 | Description |
+| 1276 | GN\_TXT32\_2 | Product Type |
+
+## IRFCB — Forward Start Currency Basis Swap
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor 1 |
+| 516 | PERIOD2 | Tenor 2 |
+| 517 | CCY1 | Currency 1 |
+| 518 | CCY2 | Currency 2 |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1000 | GV1\_TEXT | IMM month 1 |
+| 1001 | GV2\_TEXT | IMM month 2 |
+| 1275 | GN\_TXT32\_1 | Description |
+
+## IRFGS — Gap Spreads (Forward Start)
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor # 1 |
+| 516 | PERIOD2 | Tenor # 2 |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1000 | GV1\_TEXT | Forward Tenor |
+| 1052 | GN\_TXT16\_2 | Day Count |
+| 1666 | GN\_TX20\_2 | Settlement Index |
+
+## IRFLB — Forward Start Basis Swaps
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Delay |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+
+## IRFOS — FRA/OIS Spreads
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor # 1 |
+| 516 | PERIOD2 | Tenor # 2 |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1278 | GN\_TXT32\_4 | Intrument description |
+
+## IRFRA — Forward Rate Agreement
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor # 1 |
+| 516 | PERIOD2 | Tenor # 2 |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1278 | GN\_TXT32\_4 | Instrument description |
+
+## IRFRJ —
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trpex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor # 1 |
+| 516 | PERIOD2 | Tenor # 2 |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+
+## IRFSI — Forward Start Interest Rate Swap
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor # 1 |
+| 516 | PERIOD2 | Tenor # 2 |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1052 | GN\_TXT16\_2 | Day Count |
+| 1278 | GN\_TXT32\_4 | Product Type |
+| 1666 | GN\_TX20\_2 | Settlement Index |
+
+## IRFSN — Non Deliverable Forward Start Interest Rate Swap
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Internal Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor # 1 |
+| 516 | PERIOD2 | Tenor # 2 |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1052 | GN\_TXT16\_2 | description |
+| 1666 | GN\_TX20\_2 | description |
+
+## IRFSO — Non Deliverable Forward Start OIS
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor # 1 |
+| 516 | PERIOD2 | Tenor # 2 |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1052 | GN\_TXT16\_2 | description |
+| 1666 | GN\_TX20\_2 | description |
+
+## IRFSS — Forward Starting Swap Spread
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Internal Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Tenor # 1 |
+| 516 | PERIOD2 | Tenor # 2 |
+| 517 | CCY1 | Currency # 1 |
+| 518 | CCY2 | Currency # 2 |
+| 1276 | GN\_TXT32\_2 | Description 1 |
+| 1277 | GN\_TXT32\_3 | Description 2 |
+
+## IRFTS — Forward Start Treasury Spread
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor # 1 |
+| 516 | PERIOD2 | Tenor # 2 |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1052 | GN\_TXT16\_2 | Day Count |
+| 1666 | GN\_TX20\_2 | Settlement Index |
+
+## IRGLB — Basis Swap Gap Spreads
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Internal Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Tenor # 1 |
+| 516 | PERIOD2 | Tenor # 2 |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1275 | GN\_TXT32\_1 | Description |
+
+## IRGSP — Gadget Spread
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Internal Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 134 | MID\_PRICE | Mid Price |
+| 517 | CCY1 | Currency |
+| 1052 | GN\_TXT16\_2 | Description |
+| 1666 | GN\_TX20\_2 | Settlement Index |
+
+## IRIBF — Interest Rate Swap Butterfly
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor # 1 |
+| 516 | PERIOD2 | Tenor # 2 |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1000 | GV1\_TEXT | Tenor # 3 |
+| 1052 | GN\_TXT16\_2 | Day Count |
+| 1278 | GN\_TXT32\_4 | Product Type |
+| 1666 | GN\_TX20\_2 | Settlement Index |
+
+## IRIGS — Interest Rate Swap Gap Spread
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor # 1 |
+| 516 | PERIOD2 | Tenor # 2 |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1052 | GN\_TXT16\_2 | Day Count |
+| 1278 | GN\_TXT32\_4 | Product Type |
+| 1666 | GN\_TX20\_2 | Settlement Index |
+
+## IRINP — IRS NPV
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 515 | PERIOD1 | Tenor # 1 |
+| 517 | CCY1 | Currency |
+| 1052 | GN\_TXT16\_2 | Daycount |
+| 1666 | GN\_TX20\_2 | Settlement |
+| 3305 | BPV | DV01 |
+
+## IRINV — Invoice Spread
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Internal Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Tenor |
+| 517 | CCY1 | Currency |
+| 996 | GEN\_VAL1 | Swap Bond Spread vs Gilt Future |
+| 1052 | GN\_TXT16\_2 | IRS Daycount |
+| 1666 | GN\_TX20\_2 | IRS Settlement Index |
+
+## IRIRS — Interest Rate Swap
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor # 1 |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1052 | GN\_TXT16\_2 | Daycount |
+| 1278 | GN\_TXT32\_4 | Product Type |
+| 1666 | GN\_TX20\_2 | description |
+
+## IRISS — Interest Rate Swap Cross Currency Spread
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor # 1 |
+| 517 | CCY1 | Currency |
+| 518 | CCY2 | Currency # 2 |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1052 | GN\_TXT16\_2 | Daycount Swap 1 |
+| 1275 | GN\_TXT32\_1 | Daycount Swap 2 |
+| 1276 | GN\_TXT32\_2 | Settlement Swap 2 |
+| 1277 | GN\_TXT32\_3 | Swap Type |
+| 1278 | GN\_TXT32\_4 | Product Type |
+| 1666 | GN\_TX20\_2 | Settlement Swap 1 |
+
+## IRLBS — Basis Swaps
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1052 | GN\_TXT16\_2 | DayCount Swap 1 |
+| 1275 | GN\_TXT32\_1 | Daycount Swap 2 |
+| 1276 | GN\_TXT32\_2 | Settlement Index Swap 2 |
+| 1277 | GN\_TXT32\_3 | Swap Type Description |
+| 1278 | GN\_TXT32\_4 | Product Description |
+| 1666 | GN\_TX20\_2 | Settlement Index Swap 1 |
+
+## IRNCS — Non Deliverable Cross Currency IRS
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor |
+| 517 | CCY1 | Currency # 1 |
+| 518 | CCY2 | Currency # 2 |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1052 | GN\_TXT16\_2 | Currency # 1 Daycount |
+| 1666 | GN\_TX20\_2 | Currency # 2 Fixing |
+
+## IRNDS — Non Deliverable IRS
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor # 1 |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1052 | GN\_TXT16\_2 | Day count Settement |
+| 1277 | GN\_TXT32\_3 | Swap Type |
+| 1278 | GN\_TXT32\_4 | Product Type |
+| 1666 | GN\_TX20\_2 | Index |
+
+## IRNOF — OIS IMI Months
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor #1 |
+| 516 | PERIOD2 | Tenor #2 |
+| 517 | CCY1 | 875 |
+| 875 | VALUE\_DT1 | Start End |
+| 876 | VALUE\_DT2 | End Date |
+| 1052 | GN\_TXT16\_2 | Day count Settlement |
+| 1277 | GN\_TXT32\_3 | Swap Type |
+| 1278 | GN\_TXT32\_4 | Product Type |
+| 1666 | GN\_TX20\_2 | Index |
+
+## IRNOI — Inflation Adjusted Non Deliverable Overnight Index Swap
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Tenor |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1052 | GN\_TXT16\_2 | Daycount |
+| 1277 | GN\_TXT32\_3 | Swap Type |
+| 1666 | GN\_TX20\_2 | Settlement Index |
+
+## IRNOS — Non Deliverable Overnight Index Swap
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Tenor |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1052 | GN\_TXT16\_2 | Daycount |
+| 1277 | GN\_TXT32\_3 | Swap Type |
+| 1278 | GN\_TXT32\_4 | Product Type |
+| 1666 | GN\_TX20\_2 | Settlement Index |
+
+## IRNPS — Cross Currency Interest Rate Swap (Non-Principal Exchanged)
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor |
+| 517 | CCY1 | Currency # 1 |
+| 518 | CCY2 | Currency # 2 |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1052 | GN\_TXT16\_2 | Currency # 1 Daycount |
+| 1666 | GN\_TX20\_2 | Currency # 2 Fixing |
+
+## IROBF — Overnight Index Swap Butterfly
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time |
+| 17 | ACTIV\_DATE | Date |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor # 1 |
+| 516 | PERIOD2 | Tenor # 2 |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1000 | GV1\_TEXT | Tenor # 3 |
+| 1052 | GN\_TXT16\_2 | Day Count |
+| 1278 | GN\_TXT32\_4 | Product Type |
+| 1666 | GN\_TX20\_2 | Settlement Index |
+
+## IROGS — Overnight Index Swap Gap Spread
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | trepex validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor # 1 |
+| 516 | PERIOD2 | Tenor # 2 |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1052 | GN\_TXT16\_2 | Day Count |
+| 1666 | GN\_TX20\_2 | Settlement Index |
+
+## IROIF — Forward Start Overnight Index Swap
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor # 1 |
+| 516 | PERIOD2 | Tenor # 2 |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+
+## IROIS — Overnight Index Swap
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor # 1 |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1052 | GN\_TXT16\_2 | Day Count |
+| 1278 | GN\_TXT32\_4 | Product Type |
+| 1666 | GN\_TX20\_2 | Settlement Index |
+
+## IROSS — Cross Currency OIS Spread
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid Price |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1275 | GN\_TXT32\_1 | Description of OIS # 1 |
+| 1276 | GN\_TXT32\_2 | Description of OIS # 2 |
+| 1278 | GN\_TXT32\_4 | Instrument description |
+
+## IRSPA — Asset Spreads
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepx Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Underlying Security Bid |
+| 25 | ASK | Underlying Security Ask |
+| 68 | MATUR\_DATE | Maturity Date of Underlying Bond |
+| 78 | OFFCL\_CODE | Official Code of Underlying Bond |
+| 134 | MID\_PRICE | Interest Rate Swap Mid |
+| 156 | YTM\_BID | Underlying Security Bid Yield |
+| 157 | YTM\_ASK | Underlying Security Ask Yield |
+| 275 | SEC\_ACT\_1 | Swap Spread Ask |
+| 393 | PRIMACT\_1 | Swap Spread Bid |
+| 515 | PERIOD1 | Period 1 |
+| 517 | CCY1 | Currency 1 |
+| 996 | GEN\_VAL1 | Par / Par Bid |
+| 997 | GEN\_VAL2 | Par / Par Ask |
+| 998 | GEN\_VAL3 | IRS Bid |
+| 999 | GEN\_VAL4 | IRS Ask |
+| 1030 | GEN\_VAL6 | Par / Par Mid |
+| 1032 | GEN\_VAL8 | Par / Par Swap (Swap to Maturity) Ask |
+| 1033 | GEN\_VAL9 | Par / Par Swap (Swap to Maturity) Mid |
+| 1052 | GN\_TXT16\_2 | IRS Daycount |
+| 1665 | GN\_TX20\_1 | Description of Underlying Security |
+| 1666 | GN\_TX20\_2 | IRS Settlement |
+| 1958 | STLVAL2\_1 | Yield / Yield Bid |
+| 1959 | STLVAL2\_2 | Yield / Yield Ask |
+| 1960 | STLVAL2\_3 | Yield / Yield Mid |
+| 2289 | GEN\_VAL12 | Swap Spread Mid |
+| 3353 | MID\_YLD\_1 | Mid Treasury Yield |
+
+## IRSPS — Single Period Swap
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor # 1 |
+| 516 | PERIOD2 | Tenor # 2 |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1278 | GN\_TXT32\_4 | Instrument Description |
+
+## IRTGS — Treasury Spread Gap Spread
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor # 1 |
+| 516 | PERIOD2 | Tenor # 2 |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1052 | GN\_TXT16\_2 | Day Count |
+| 1666 | GN\_TX20\_2 | Settlement Index |
+
+## IRTIO — Government Debt vs Swap Spreads
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 68 | MATUR\_DATE | Treasury Maturity Date |
+| 78 | OFFCL\_CODE | Treasury ISIN |
+| 134 | MID\_PRICE | Treasury Mid Price |
+| 515 | PERIOD1 | Period 1 |
+| 517 | CCY1 | Currency 1 |
+| 1275 | GN\_TXT32\_1 | Description Matched Maturity IRS |
+| 1276 | GN\_TXT32\_2 | Description Matched Maturity OIS |
+| 1665 | GN\_TX20\_1 | Treasury Description |
+| 1941 | STLVAL1\_1 | Matched Maturity IRS |
+| 1942 | STLVAL1\_2 | Matched Maturity Spread Treasury to IRS |
+| 1943 | STLVAL1\_3 | Matched Maturity OIS |
+| 1944 | STLVAL1\_4 | Matched Maturity Spread Treasury to OIS |
+| 1945 | STLVAL1\_5 | Matched Maturity IRS / OIS Spread |
+
+## IRTSP — Spread IRS to Treasury
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1052 | GN\_TXT16\_2 | Basis |
+| 1278 | GN\_TXT32\_4 | Product Type |
+| 1666 | GN\_TX20\_2 | Description |
+
+## IRUNB — SMKR99
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Internal Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 35 | YIELD | Yield |
+| 68 | MATUR\_DATE | Maturity Date |
+| 69 | COUPN\_RATE | Coupon |
+| 78 | OFFCL\_CODE | Official Code |
+| 515 | PERIOD1 | Period 1 |
+| 1054 | GN\_TXT16\_4 | Underlying Bond Bid in 32nds format |
+| 1269 | GN\_TXT16\_5 | Underlying Bond ask in 32nds format |
+
+## IRXFO — Cross Currency FRA/OIS Spreads IMM Dates
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor #1 |
+| 516 | PERIOD2 | Tenor # 2 |
+| 517 | CCY1 | Currency 1 |
+| 518 | CCY2 | Currency 2 |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 999 | GEN\_VAL4 | Previous Day’s Close (Mid) |
+| 1029 | GEN\_VAL5 | Previous Day’s Close (Mid) |
+| 1052 | GN\_TXT16\_2 | Day Count |
+| 1666 | GN\_TX20\_2 | Settlement Index |
+
+## IRXFS — Cross Currency FRA Spread
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Tenor # 1 |
+| 516 | PERIOD2 | Tenor # 2 |
+| 517 | CCY1 | Currency # 1 |
+| 518 | CCY2 | Currency # 2 |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+
+## IRZCS — Discount Factor Curve
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | description |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 517 | CCY1 | Currency # 1 |
+| 996 | GEN\_VAL1 | Future Value Factor |
+| 1000 | GV1\_TEXT | Swap Curve (used for bootstrapping) |
+| 1001 | GV2\_TEXT | Rank of the Future Value Factor in the FVF curve |
+| 1028 | GV1\_DATE | Date of the FVF |
+| 1029 | GEN\_VAL5 | Discount Curve |
+
+## IRZSP — Zero Coupon Swap Spread
+
+| FID | Name | Description |
+| --- | --- | --- |
+| -9099 | EDF\_STATUS | Trepex Validation |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Tenor |
+| 517 | CCY1 | Currency 1 |
+| 518 | CCY2 | Currency 2 |
+| 1052 | GN\_TXT16\_2 | Daycount 1 |
+| 1666 | GN\_TX20\_2 | Settlement |

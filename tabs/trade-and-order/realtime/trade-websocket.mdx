@@ -1,0 +1,413 @@
+---
+title: "Connecting to Our JSON WebSocket"
+description: "Connect to our Trade and Order WebSocket to receive a continuous, real-time stream of trade and order events as they flow through our global platforms."
+sidebarTitle: "JSON WebSocket"
+---
+
+## QuickStart
+
+### Pre-requisites
+
+<CodeGroup>
+
+```shellscript Python
+pip install websockets
+```
+
+```shellscript Java (JBang)
+# Install JBang
+curl -Ls https://sh.jbang.dev | bash -s - app setup
+```
+
+</CodeGroup>
+
+### Connecting
+
+You will be provided a `username`, `password` and `URL` from your sales representative. You can then programmatically connect using the examples below:
+
+<CodeGroup>
+
+```python Python
+import json
+import time
+
+import requests
+import websocket  # websocket-client
+
+# --- Edit these two -----------------------------------------------------------
+USERNAME     = "<your_username>"
+PASSWORD = "<your_password>"
+HOSTNAME = "tradestream.deliveryhub.parametasolutions.com"
+AUTH_URL = "https://auth.deliveryhub.parametasolutions.com/auth/token"
+# -------------------------------------------------------------------------------
+
+
+last_offset = -1  # resume point so reconnects never miss or repeat a trade
+
+
+def fetch_token() -> str:
+    r = requests.post(AUTH_URL, json={"user": USERNAME, "pass": PASSWORD}, timeout=10)
+    if not r.ok:
+        print("Auth failed:", r.status_code, r.text)
+    r.raise_for_status()
+    return r.json()["access_token"]
+
+
+def on_message(ws, message):
+    """Print message to terminal"""
+    global last_offset
+    trade = json.loads(message)
+    offset = trade.get("METADATA_OFFSET")
+    if isinstance(offset, int):
+        last_offset = offset
+    print(json.dumps(trade, indent=4))
+
+
+def main():
+    """Connect to websocket and process messages"""
+    while True:
+        try:
+            WS_URL = f"wss://{HOSTNAME}"
+            token = fetch_token()
+            url = f"{WS_URL}?token={token}"
+            if last_offset >= 0:
+                url += f"&lastReceivedOffset={last_offset}"
+            ws = websocket.WebSocketApp(
+                url,
+                header=[f"Authorization: Bearer {token}"],
+                on_message=on_message,
+            )
+            # Pings keep the connection under the gateway's 10-min idle timeout;
+            # the loop reconnects (and resumes) past its 2-hour connection cap.
+            ws.run_forever(ping_interval=240, ping_timeout=10)
+        except KeyboardInterrupt:
+            return
+        except Exception as e:
+            print("Connection error:", e)
+        time.sleep(2)
+
+
+if __name__ == "__main__":
+    main()
+```
+
+```java Java (JBang)
+///usr/bin/env jbang "$0" "$@" ; exit $?
+//DEPS org.java-websocket:Java-WebSocket:1.5.7
+//DEPS com.google.code.gson:gson:2.11.0
+
+// Run with `jbang TradeStream.java`
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.handshake.ServerHandshake;
+
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.Map;
+
+public class TradeStream {
+
+    static final String USERNAME = "<your_username>";
+    static final String PASSWORD = "<your_password>";
+    static final String HOSTNAME = "tradestream.deliveryhub.parametasolutions.com";
+    static final String AUTH_URL = "https://auth.deliveryhub.parametasolutions.com/auth/token";
+
+    static final Gson GSON = new Gson();
+    static final HttpClient HTTP = HttpClient.newHttpClient();
+    static volatile long lastOffset = -1;
+
+    static String fetchToken() throws Exception {
+        String body = GSON.toJson(Map.of("user", USERNAME, "pass", PASSWORD));
+        HttpRequest req = HttpRequest.newBuilder()
+                .uri(URI.create(AUTH_URL))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(body))
+                .build();
+        HttpResponse<String> resp = HTTP.send(req, HttpResponse.BodyHandlers.ofString());
+        if (resp.statusCode() != 200) throw new RuntimeException("Auth failed: " + resp.statusCode() + " " + resp.body());
+        return GSON.fromJson(resp.body(), JsonObject.class).get("access_token").getAsString();
+    }
+
+    public static void main(String[] args) throws Exception {
+        while (true) {
+            try {
+                String token = fetchToken();
+                String query = "token=" + token;
+                if (lastOffset >= 0) query += "&lastReceivedOffset=" + lastOffset;
+                URI uri = new URI("wss", HOSTNAME, "/", query, null);
+
+                WebSocketClient ws = new WebSocketClient(uri, Map.of("Authorization", "Bearer " + token)) {
+                    @Override public void onOpen(ServerHandshake h) { System.out.println("Connected"); }
+
+                    @Override public void onMessage(String message) {
+                        JsonObject trade = GSON.fromJson(message, JsonObject.class);
+                        if (trade.has("METADATA_OFFSET")) lastOffset = trade.get("METADATA_OFFSET").getAsLong();
+                        System.out.println(GSON.toJson(trade));
+                    }
+
+                    @Override public void onClose(int code, String reason, boolean remote) {
+                        System.out.println("Disconnected: " + code + " " + reason);
+                    }
+
+                    @Override public void onError(Exception ex) { System.err.println("Error: " + ex); }
+                };
+
+                ws.setConnectionLostTimeout(240);
+                ws.connectBlocking();
+                while (ws.isOpen()) Thread.sleep(1000);
+
+            } catch (InterruptedException e) {
+                return;
+            } catch (Exception e) {
+                System.err.println("Connection error: " + e);
+            }
+            Thread.sleep(2000);
+        }
+    }
+}
+```
+
+</CodeGroup>
+
+## Overview
+
+The Trade Streaming WebSocket provides a continuous, server-push feed of normalised trade events. Once authenticated, the server immediately begins delivering events for your entitled stream. There are no client-to-server messages and no subscribe/unsubscribe calls.
+
+Each trade follows a lifecycle of `NEW` → `AMEND` → `CANCEL`, keyed on `DEAL_ID`. Delivery is at-least-once; clients should deduplicate by `DEAL_ID` \+ `METADATA_OFFSET`.
+
+---
+
+## Connection
+
+### Authentication
+
+Authentication occurs at the WebSocket handshake (`$connect`). Provide an Okta-issued JWT access token (scope: `streaming:read`) via **either**:
+
+| Method | Format |
+| --- | --- |
+| Query parameter | `?token=<jwt>` |
+| Header | `Authorization: Bearer <jwt>` |
+
+At least one must be present. The token is not re-presented on the open socket.
+
+#### Obtaining a Token
+
+```http
+POST https://auth.deliveryhub.parametasolutions.com/auth/token
+Content-Type: application/json
+
+{
+  "user": "<username>",
+  "pass": "<password>"
+}
+```
+
+**Response:**
+
+```json
+{
+  "access_token": "<jwt>",
+  "token_type": "Bearer",
+  "expires_in": 3600
+}
+```
+
+> **Note:** When the token expires, the existing connection is not automatically closed. However, a fresh token must be obtained before any reconnect.
+
+---
+
+## Starting Position
+
+Control where in the stream the server begins delivery using query parameters on the `$connect` request. They are evaluated in priority order:
+
+| Parameter | Type | Behaviour |
+| --- | --- | --- |
+| `lastReceivedOffset` | integer (≥ 0) | Resume from `offset + 1`. Overrides all other parameters. |
+| `fromTimestamp` | ISO-8601 UTC datetime | Seek to the first offset with a Kafka timestamp ≥ this value. Use for time-based replay without knowing offsets. |
+| `from=earliest` | string | Seek to the earliest retained offset; receive the full ~7-day backlog then live events. |
+| `from=latest` | string | **(Default)** Seek to the live tail; only events produced after connect are delivered. |
+
+If all parameters are omitted, `from=latest` is applied.
+
+### Example Connection URLs
+
+```text
+wss://tradestream.deliveryhub.parametasolutions.com?token=<jwt>&from=latest
+wss://tradestream.deliveryhub.parametasolutions.com?token=<jwt>&lastReceivedOffset=2353
+wss://tradestream.deliveryhub.parametasolutions.com?token=<jwt>&fromTimestamp=2026-06-09T00:00:00Z
+```
+
+---
+
+## Connection Lifecycle
+
+| Event | Detail |
+| --- | --- |
+| Connect | Authenticate → server begins pushing events immediately |
+| Idle timeout (~10 min) | Connections with no traffic are closed by the gateway. Send WebSocket Ping frames every ~4 minutes to keep alive. |
+| Token expiry | Connection remains open, but a fresh token is required on reconnect |
+
+---
+
+## Messages
+
+All messages are JSON-encoded, one per WebSocket text frame. Messages are discriminated by the presence of a `type` field (for control messages) or its absence (for trade events).
+
+### Trade Event
+
+The primary message type. Contains a fully normalised trade payload with `UPPER_SNAKE_CASE` field names.
+
+**Required fields:** `DEAL_ID`, `DEAL_STATUS`, `METADATA_CLIENT_ID`, `METADATA_OFFSET`, `METADATA_PARTITION`, `METADATA_TIMESTAMP`
+
+#### Example — New Trade
+
+```json
+{
+  "DEAL_ID": "11112790",
+  "DEAL_STATUS": "NEW",
+  "EXECUTION_CHAIN_ID": "3672892",
+  "ASSET_CLASS": "Commodity",
+  "BASE_PRODUCT": "Energy",
+  "SUB_PRODUCT": "Oil",
+  "PRODUCT": "Fuel Oil",
+  "CLASSIFICATION": "Fuel Oil | Marine Fuel 0.5% FOB Singapore (Platts)",
+  "TYPE": "OILFF",
+  "TRANSACTION_TYPE": "Future",
+  "DEAL_PRICE": 661.25,
+  "NOTIONAL_AMOUNT": 165312,
+  "QUANTITY": 250,
+  "TOTAL_QUANTITY": 250,
+  "PRICE_UNIT": "Metric Tons",
+  "QUANTITY_FREQ": "PerMonth",
+  "CURRENCY": "USD",
+  "EVENT_TIMESTAMP": "2026-06-09T11:18:19.519",
+  "DEAL_EXECUTION_DATE_TIME": "2026-06-09T10:43:47.640",
+  "CONTRACT_START_DATE": "2026-07-01",
+  "CONTRACT_END_DATE": "2026-07-31",
+  "PERIODICITY": "Monthly",
+  "TERM_DESCRIPTION": "B21st Cycle",
+  "SETTLEMENT_METHOD": "Cash",
+  "BROKING_METHOD": "Voice",
+  "TRADING_VENUE": "IFEU",
+  "EXCHANGE_NAME": "ICE Contract Code",
+  "EXCHANGE_CODE": "GNU",
+  "CROSS_EXCHANGE": false,
+  "STRATEGY": "Outright",
+  "SIZE": "Micro",
+  "SUB_PACKAGE": "Fuel Oil",
+  "METADATA_CLIENT_ID": "97",
+  "METADATA_OFFSET": 2353,
+  "METADATA_PARTITION": 0,
+  "METADATA_TIMESTAMP": 1781004008367
+}
+```
+
+#### Example — Amendment
+
+An amendment to an existing deal. The full payload is re-delivered with updated values:
+
+```json
+{
+  "DEAL_ID": "11112790",
+  "DEAL_STATUS": "AMEND",
+  "DEAL_PRICE": 662.00,
+  "NOTIONAL_AMOUNT": 165500,
+  "QUANTITY": 250,
+  "EVENT_TIMESTAMP": "2026-06-09T11:25:11.842",
+  "DEAL_EXECUTION_DATE_TIME": "2026-06-09T10:43:47.640",
+  "EXCHANGE_CODE": "GNU",
+  "SUB_PACKAGE": "Fuel Oil",
+  "METADATA_CLIENT_ID": "97",
+  "METADATA_OFFSET": 2402,
+  "METADATA_PARTITION": 0,
+  "METADATA_TIMESTAMP": 1781004512000
+}
+```
+
+#### Example — Cancellation
+
+Cancellations are only published when the trade's execution date is today (past-dated cancels are filtered upstream):
+
+```json
+{
+  "DEAL_ID": "11112790",
+  "DEAL_STATUS": "CANCEL",
+  "DEAL_EXECUTION_DATE_TIME": "2026-06-09T10:43:47.640",
+  "SUB_PACKAGE": "Fuel Oil",
+  "METADATA_CLIENT_ID": "97",
+  "METADATA_OFFSET": 2500,
+  "METADATA_PARTITION": 0,
+  "METADATA_TIMESTAMP": 1781004790000
+}
+```
+
+### Stream Error
+
+Out-of-band error notification from the server. Receipt does not guarantee the connection will close; conversely, fatal errors may close the socket without delivering an error frame.
+
+```json
+{
+  "type": "error",
+  "message": "Client not authorized or configuration error"
+}
+```
+
+### Stream Status
+
+Informational server status notification. Not part of the trade data path — clients can log and ignore.
+
+```json
+{
+  "type": "status",
+  "message": "Successfully connected to trade stream"
+}
+```
+
+---
+
+### WebSocket Additional Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `METADATA_CLIENT_ID` | string | Client ID this event was routed for (matches JWT claim) |
+| `METADATA_OFFSET` | integer | Kafka offset — use as `lastReceivedOffset` on reconnect |
+| `METADATA_PARTITION` | integer | Kafka partition the record was read from |
+| `METADATA_TIMESTAMP` | integer | Kafka record timestamp (epoch ms) |
+
+---
+
+## Reconnection Strategy
+
+1. Track `METADATA_OFFSET` from each received message.
+2. On disconnect, reconnect with `?lastReceivedOffset=<last offset>&token=<jwt>`.
+3. Deduplicate any overlapping events by `DEAL_ID` \+ `METADATA_OFFSET`.
+4. Implement exponential backoff on connection failures.
+5. Send WebSocket Ping frames every ~4 minutes to avoid idle timeout.
+
+---
+
+## Delivery Semantics
+
+- **At-least-once delivery** — on reconnect with a stale offset, a small window of duplicates is possible.
+- **Forward-compatible schema** — new fields may be added without notice. Clients must ignore unknown fields.
+- **No per-field projection** — every entitled client receives the full normalised payload.
+- **Entitlement filtering** — applied upstream; clients only receive trades they are entitled to.
+- **Backlog retention** — approximately 7 days via Kafka retention.
+
+---
+
+## Error Handling
+
+| Scenario | Behaviour |
+| --- | --- |
+| Invalid token | HTTP 401 at handshake |
+| Invalid `from` value | HTTP 400 at handshake |
+| Idle timeout | WebSocket close frame after ~10 min of no traffic |
+| Server error | Best-effort `stream.error` message, then possible close |
+| Upstream failure | Socket may close without prior error frame — reconnect with backoff |
+
+---

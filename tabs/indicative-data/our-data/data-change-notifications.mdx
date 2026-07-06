@@ -1,0 +1,35 @@
+---
+title: "Data Change Notifications"
+description: "Due to the nature of OTC markets our data is an ever evolving landscape. To prepare you for this we send out notifications via email in advance of any changes to our feeds."
+---
+
+## 1. Data Addition Notifications
+
+When data is added to the feed a Data Addition Notification (DAN) is sent out. See example format below:
+
+| Record Type | Brand | Record | Record Description | Stub | Additional Information |
+| --- | --- | --- | --- | --- | --- |
+| Multibrand | ICAP | IVSWOUSDATM01W01Y:NYK.BIL.QTE.RTM!IC | Swaption Straddle ATM USD 1 Week option vs 1 Year SOFR | IVSWO | The record in Column C will be added in the upcoming weeks. Please email [support@parametasolutions.com](mailto:support@parametasolutions.com) to inquire about any additional data |
+| ... | ... | ... | ... | ... | ... |
+
+## 2. Data Change Notifications
+
+When data is changed on the feed a Data Change Notification (DCN) is sent out. See example format below:
+
+| Record Type | Brand | Record | Record Description | Stub | Additional Information | Effective Date |
+| --- | --- | --- | --- | --- | --- | --- |
+| Multibrand | ICAP | IREFPAUD18M3FUOIS:SYD.LCH.QTE.RTM!IC | Exchange of Futures for Physical AUD 3y Bond Futures/OIS 18 Month | IREFP | Fid 134 will now show the realtime MID instead of Close MID | 16-Jun-26 |
+| ... | ... | ... | ... | ... | ... | ... |
+
+## 3. Data Removal Notifications
+
+When data is removed from the feed a Data Removal Notification (DRN) is sent out. See example format below:
+
+| Record Type | Brand | Record | Record Description | Stub | Additional Information | Effective Date |
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |
+| Multibrand | ICAP | IREFPAUD18M3FUOIS:SYD.LCH.QTE.RTM!IC | Exchange of Futures for Physical AUD 3y Bond Futures/OIS 18 Month | IREFP | No longer pricing | 16-Jun-26 |
+| ... | ... | ... | ... | ... | ... | ... |
+
+<Info>
+  To get added to this Data Change Notification email list please contact support@parametasolutions.com
+</Info>

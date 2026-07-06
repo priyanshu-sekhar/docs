@@ -1,0 +1,53 @@
+---
+title: "Data Modification History"
+---
+
+<Card title="Audit & Replication Tracking" type="tip">
+  The `DATA_MODIFICATION_HISTORY` view provides a transparent audit trail of all data changes applied to your shared package.
+
+  This view is particularly useful if you maintain downstream replicas, data lakes, or internal warehouses and need to identify when new records have been added or existing records have been modified.
+
+  To efficiently track incremental changes, query recent entries using **MODIFICATION\_TIMESTAMP** and use **MODIFICATION\_ID** as a unique reference when discussing changes with our support team.
+</Card>
+
+## Overview
+
+The `DATA_MODIFICATION_HISTORY` view provides visibility into modifications made within your data share.
+
+Whenever data is added or amended, an entry is recorded in this view, allowing you to:
+
+- Monitor when changes are applied
+- Understand the nature of each modification
+- Identify which records were affected
+- Support downstream synchronization and replication processes
+- Investigate historical changes within your subscribed datasets
+
+## Standard Fields
+
+| Column | Type | Description |
+| --- | --- | --- |
+| MODIFICATION\_ID | NUMBER | Unique identifier for the modification event. |
+| MODIFICATION\_TIMESTAMP | TIMESTAMP\_NTZ | UTC timestamp when the change was applied. |
+| MODIFICATION\_TYPE | VARCHAR | Category of modification (`BACKFILL`, `UPDATE`, or `not-recorded`). |
+| RECORD\_LIST | ARRAY | List of affected record identifiers (`["IVSLOUSD%"]`, or `[ "IVCFSEUEATM02Y03E:LDN.BIL.QTE.RTM!IC","IVCFSEUEATM03Y06E:LDN.BIL.QTE.RTM!IC"]`) |
+| START\_ACTIV\_DATE | DATE | Earliest activation date impacted by the modification. |
+| END\_ACTIV\_DATE | DATE | Latest activation date impacted by the modification. |
+| CHANGE\_DESCRIPTION | VARCHAR | Human-readable summary describing the change. |
+
+## Modification Types
+
+| Type | Description |
+| --- | --- |
+| BACKFILL | New records were added to the dataset. |
+| UPDATE | Existing records were modified. This is primarily used for reference data corrections. |
+| not-recorded | Legacy update entries where modification type was not historically captured. |
+
+## Viewing Recent Changes
+
+The following query returns the most recent modifications applied to your package.
+
+```sql
+SELECT *
+FROM DATA_MODIFICATION_HISTORY
+ORDER BY MODIFICATION_TIMESTAMP DESC;
+```

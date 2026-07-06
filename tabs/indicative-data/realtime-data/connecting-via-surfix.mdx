@@ -1,0 +1,737 @@
+---
+title: "Connecting via SURFIX™"
+description: "Features and functionalities of the Parameta Market Data FIX Gateway (SURFIX), covering connectivity, FIX specification, market data, and security list workflows."
+sidebarTitle: "SURFIX™"
+---
+
+<Info>
+  **Version 2.1** — This document describes the features and functionalities of the Parameta Market Data FIX Gateway (SURFIX). It does **not** cover how to implement the FIX Protocol itself; it covers the requirements for integrating with Parameta using FIX. Use it alongside the **SURFIX™ Specification** document, which defines the supported FIX messages and fields.
+</Info>
+
+## Revision history
+
+<Expandable title="View revision history">
+  | Revision | Author | Date | Comments |
+  | --- | --- | --- | --- |
+  | 1.0 | Yurdakul Celebi | 26/06/2019 | Published as the first version of TP ICAP Market Data FIX Feed (SURFIX) Rules of Engagement document. |
+  | 1.1 | Yurdakul Celebi | 06/11/2019 | Added trademark symbol to SURFIX. Updated copyright information. Updated contact details. |
+  | 1.2 | Yurdakul Celebi | 23/04/2020 | Added new locations in Section 4.6. Added new tenor tags to Section 4.9. |
+  | 1.3 | Yurdakul Celebi | 06/08/2020 | TP ICAP Security ID Price Type attributes EVP and AOT added. TP ICAP Security ID Price Frequency attribute SLC and DEL added. FIX Dictionaries updated. |
+  | 1.4 | Yurdakul Celebi | 31/12/2020 | Added new Clearing Type supported values. Added new Company supported values. |
+  | 2.0 | Yurdakul Celebi | 23/07/2021 | Parameta brand applied. Added technical support contact email. |
+  | 2.1 | Yurdakul Celebi | 18/03/2022 | Removed references to the Market Data Page Update (35=U-MDP) message. Added new Parameta Security ID attribute values. |
+</Expandable>
+
+## Introduction
+
+The Parameta SURFIX™ **Rules of Engagement** document describes the features and functionalities of the Parameta Market Data FIX Gateway (SURFIX).
+
+This document does not cover how to implement the FIX Protocol itself. It covers the requirements for integrating with Parameta using FIX. Use it alongside the Parameta **SURFIX™ Specification** document, which defines the FIX messages and fields supported by SURFIX™.
+
+## Connectivity and setup
+
+<Steps>
+  <Step title="Set up a FIX connection">
+    As a centralized service, Parameta listens for FIX connection requests from the client. Each client is assigned a unique **SenderCompID (49)** and **TargetCompID (56)** pair for each session.
+  </Step>
+  <Step title="Configure your user session">
+    Clients are allocated a unique company ID, by mutual agreement with Parameta, on a per FIX user session basis. Include the Company ID in **FIX Tag 49 (SenderCompID)** of the Logon (35=A) message.
+  </Step>
+  <Step title="Complete onboarding and testing">
+    All clients are advised to perform testing in the UAT environment before receiving live market data. Refer to the **SURFIX™ Onboarding Document** for recommended test scenarios.
+  </Step>
+  <Step title="Connect to production">
+    Parameta provides a production environment segregated from any testing environment. Contact Parameta for connection details.
+  </Step>
+</Steps>
+
+### Network connectivity
+
+SURFIX is offered over the internet via an F5 solution. SSL/TLS encryption secures connections between client and Parameta servers.
+
+Cipher selection is determined by negotiation and can be restricted to a specific set of supported protocols and ciphers. The level of supported protocols and ciphers changes with each major F5 software release.
+
+<Note>
+  TPICAP currently runs F5 version 12.1.
+</Note>
+
+<CardGroup cols={2}>
+  <Card title="Supported ciphers" icon="shield-check" href="https://support.f5.com/csp/article/K13163#12.0.0">
+    F5 supported and default profile ciphers (K13163)
+  </Card>
+
+  <Card title="Cipher reference" icon="book" href="https://support.f5.com/csp/article/K13156#12.0.0">
+    F5 cipher reference (K13156)
+  </Card>
+
+  <Card title="GlobalSign CA" icon="certificate" href="https://www.globalsign.com/en/">
+    Public CA used to generate and sign TPICAP certificates
+  </Card>
+</CardGroup>
+
+### Environments
+
+<Tabs>
+  <Tab title="UAT">
+    Parameta provides a UAT environment for integration and certification testing. Contact Parameta for details.
+  </Tab>
+  <Tab title="Production">
+    Parameta provides a production environment segregated from any testing environment. Contact Parameta for details.
+  </Tab>
+</Tabs>
+
+### Session start and end times
+
+<Note>
+  The Parameta market data feed is available from **Monday 7am Sydney Time to Friday 5pm New York Time**.
+</Note>
+
+Clients are recommended to subscribe to the market data feed at the beginning of each day.
+
+### Message sequence numbers
+
+Clients are requested to reset FIX Message Sequence numbers whenever a FIX session disconnects and reconnects.
+
+## Escalation process
+
+Any issues should be reported to the Technical Support Team using the contact details in [Get in touch](#get-in-touch).
+
+## FIX specification
+
+The SURFIX Specification document defines all supported messages and tags based on **FIX 5.0 SP2** standards.
+
+<Warning>
+  Any undefined tags received by the FIX Client should be ignored. Messages should not be rejected as a result of containing an unexpected tag.
+</Warning>
+
+### Supported messages
+
+<Tabs>
+  <Tab title="Session level">
+    | Message | MsgType |
+    | --- | --- |
+    | Logon | `35=A` |
+    | Heartbeat | `35=0` |
+    | TestRequest | `35=1` |
+    | ResendRequest | `35=2` |
+    | Reject | `35=3` |
+    | SequenceReset | `35=4` |
+    | Logout | `35=5` |
+  </Tab>
+  <Tab title="Client → SURFIX">
+    | Message | MsgType |
+    | --- | --- |
+    | MarketDataRequest | `35=V` |
+    | SecurityListRequest | `35=x` |
+  </Tab>
+  <Tab title="SURFIX → Client">
+    | Message | MsgType |
+    | --- | --- |
+    | MarketDataSnapshotFullRefresh | `35=W` |
+    | MarketDataIncrementalRefresh | `35=X` |
+    | MarketDataRequestReject | `35=Y` |
+    | SecurityList | `35=y` |
+    | SecurityListUpdateReport | `35=BK` |
+    | BusinessMessageReject | `35=j` |
+  </Tab>
+</Tabs>
+
+### User-defined messages, components, tags, and values
+
+The SURFIX Specification contains user-defined (custom) messages, components, tags, and values designed to deliver specific data Parameta currently distributes.
+
+<AccordionGroup>
+  <Accordion title="Custom tags" icon="tag">
+    Tags numbered between **20000 and 39999** are user-defined tags. They are identified by a `*` symbol next to their names in the specification document.
+  </Accordion>
+
+  <Accordion title="Custom values" icon="asterisk">
+    Some non-standard values for standard tags are adopted. They are identified by a `*` symbol next to their descriptions in the specification document (for example, `269=v` (Volatility)).
+
+    Some standard components and tags may be adopted within standard components and messages. For example, `RelativeValueGrp` is not part of Market Data messages in the FIX standard, but it is used in those messages in SURFIX.
+  </Accordion>
+</AccordionGroup>
+
+### Market data entry types
+
+Market Data entries are classified by their type using the **MDEntryType (269)** tag. SURFIX supports many of the standard entry types as well as some custom values.
+
+| Custom value | Description |
+| --- | --- |
+| `269=p` | **Product Specific Data** — Attributes related to the security and not classified as any of the standard entry types. |
+| `269=v` | **Volatility** — Volatility data, further categorized by the `VolatilityType (21000)` custom tag. |
+
+### Market data entry identifier
+
+A unique **MDEntryID (Tag 278)** integer value is assigned to each Market Data entry (in `MDFullGrp`) and is used to identify specific entries when sending updates.
+
+<Note>
+  This identifier is unique for each client connection and resets to `1` every time a client establishes the FIX connection. When a market data entry is deleted, its MDEntryID is not reused within the same session.
+</Note>
+
+`MDEntryID` is used to identify the entry being updated in MarketDataIncrementalRefresh (35=X) messages.
+
+### Updates to market data entries
+
+Data distributed in `MDFullGrp` tags have an `MDEntryType` defined and a unique `MDEntryID` assigned. `MDEntryID` identifies the entry being updated in MarketDataIncrementalRefresh (35=X) messages.
+
+Any updates to tags which are not part of `MDFullGrp` (and therefore have no `MDEntryID`) are included in any of the `MDIncGrp` components.
+
+<Note>
+  Net change from the previous day's closing price is sent in the **NetChgPrevDay (451)** tag, which is in the body of the MarketDataSnapshotFullRefresh (35=W) message (not in `MDFullGrp`) but in the `MDIncGrp` component. Updates to this tag are merged with any other updates sent for the security.
+</Note>
+
+The type of Market Data Update Action is defined using the **MDUpdateAction (279)** tag:
+
+| Value | Name | Use case |
+| --- | --- | --- |
+| `279=1` | Change | Updating an existing **non-pricing** data entry (when `MDEntryType` is `3` (Index Value), `B` (Trade Volume), `p` (Product Specific Data), or `v` (Volatility)) with a new value. |
+| `279=5` | Overlay | Updating an existing **pricing** data with a new value. Overlay action does not delete unchanged data in the market data entry. |
+
+### Parameta Security ID
+
+Parameta defines a unique way to identify instruments for which Market Data is distributed. It consists of Root Record Name, Location, Clearing Type, Price Type, Pricing Frequency, and Source (Company):
+
+```text Format
+ROOTRECORDNAME:LOCATION.CLEARING.PRICETYPE.FREQUENCY!COMPANY
+```
+
+<CodeGroup>
+
+```text ICAP Global EUR/USD Spot
+FXSPTEURUSDSPT:GBL.EUX.QTE.RTM!IC
+```
+
+```text LCH-cleared FX forward (Tullett Prebon)
+FXFWDUSDJPYSPT06M:GBL.LCH.QTE.RTM!TP
+```
+
+```text CME-cleared FX forward, snap from ICAP New York
+FXFWDUSDJPYSPT06M:NYK.CME.QTE.SNP!IC
+```
+
+</CodeGroup>
+
+#### Security ID attributes
+
+<AccordionGroup>
+  <Accordion title="Root Record Name" icon="signature">
+    Identifies the underlying instrument. Example: `FXSPTEURUSDSPT` = EUR/USD FX Spot.
+  </Accordion>
+
+  <Accordion title="Location" icon="location-dot">
+    Location of the data contribution.
+
+    | Code | Location | Code | Location |
+    | --- | --- | --- | --- |
+    | GBL | Global | MNA | Manama |
+    | BGK | Bangkok | MUM | Mumbai |
+    | COP | Copenhagen | NYK | New York |
+    | DUB | Dubai | SEO | Seoul |
+    | HKG | Hong Kong | SHG | Shanghai |
+    | HOU | Houston | SNG | Singapore |
+    | IST | Istanbul | SYD | Sydney |
+    | JHB | Johannesburg | TOK | Tokyo |
+    | JKT | Jakarta | TOR | Toronto |
+    | KLU | Kuala Lumpur | WEL | Wellington |
+    | LDN | London | ZUR | Zurich |
+    | MAN | Manila |  |  |
+  </Accordion>
+
+  <Accordion title="Clearing Type" icon="building-columns">
+    | Code | Description |
+    | --- | --- |
+    | BIL | Bilateral – the default for the current indicative quotes |
+    | ASX | ASX Clear |
+    | BOJ | Bank of Japan |
+    | CCI | CCIL - Clearing Corporation of India |
+    | CDC | China Government Securities Depository Trust & Clearing Co |
+    | CDP | Central Depository (Singapore) |
+    | CME | CME - Chicago Mercantile Exchange |
+    | CMU | Central Moneymarkets Unit (HKMA debt securities settlement system) |
+    | COM | COMO - CIBC Mellon Trust |
+    | DTC | DTC - The Depository Trust Company |
+    | ECR | EUROCLEAR - Euroclear Market |
+    | EUX | EUREX - Eurex Exchange |
+    | FIC | FICC - Fixed Income Clearing Corporation |
+    | JSC | JSCC - Japan Securities Clearing Corporation |
+    | KSD | Korea Securities Depository |
+    | KSE | Karachi Stock Exchange |
+    | LCH | LCH - London Clearing House |
+    | LSE | London Stock Exchange |
+    | MSC | Bursa Malaysia Securities Clearing |
+    | MUL | Multiple - Clearing through multiple clearing houses |
+    | OMX | Offset Market Exchange |
+    | PDS | Philippine Dealing & Exchange Corporation |
+    | SSE | Shanghai Stock Exchange |
+    | SZE | Shenzhen Stock Exchange |
+    | TCH | Thailand Clearing House |
+    | TDC | Taiwan Depository & Clearing Corporation |
+  </Accordion>
+
+  <Accordion title="Price Type" icon="dollar-sign">
+    | Code | Description |
+    | --- | --- |
+    | QTE | Indicative quote |
+    | ORD | Live order (off SEF) |
+    | ORS | Live order (on SEF) |
+    | TRD | Traded price |
+    | RFQ | Request for quote |
+    | IOI | Indication of interest |
+    | AUC | Auction |
+    | AII | Actionable indication of interest |
+    | EVP | Evaluated pricing |
+    | AOT | Auction order trade |
+  </Accordion>
+
+  <Accordion title="Pricing Frequency" icon="clock">
+    | Code | Description |
+    | --- | --- |
+    | RTM | Real time |
+    | EOD | End of day pricing (EOD time in a field in a record) |
+    | SNP | Specific snapshots throughout the day |
+    | SLC | Slice |
+    | DLY | Delayed (delayed period in a field in a record) |
+  </Accordion>
+
+  <Accordion title="Company (source of data)" icon="building">
+    | Code | Source |
+    | --- | --- |
+    | TP | Tullett Prebon |
+    | IC | ICAP |
+    | PV | PVM |
+    | PS | Parameta Solutions |
+    | CZ | Cosmorex Switzerland (TP) |
+    | MW | Marshalls Bahrain (TP) |
+    | AF | AFFIN (TP) |
+    | TS | TP Sitico Shanghai |
+    | PR | Prebon |
+    | CF | Crestfinserv Mumbai (TP) |
+    | ET | E-Speed |
+    | TG | GMIV |
+  </Accordion>
+</AccordionGroup>
+
+The Parameta Security ID is included in the **SecurityID (48)** tag, with **SecurityIDSource (22)** set to `M` (Marketplace-assigned identifier) in the Instrument component.
+
+<Note>
+  The Instrument component is included only in the first `MDIncGrp` component in MarketDataIncrementalRefresh (35=X) messages.
+</Note>
+
+### Date and time of market data entry
+
+**MDEntryDate (272)** and **MDEntryTime (273)** tags contain the date and time of market data entries and updates.
+
+- `MDEntryTime` and `MDEntryDate` are sent in the first `MDFullGrp` repeat in MarketDataSnapshotFullRefresh (35=W) messages. They are considered valid for all data points within the same message.
+- The tags are included in the first `MDIncGrp` component in MarketDataIncrementalRefresh (35=X) messages if their values differ from the previously sent values.
+- Date and time information is considered valid for all data points sent in `MDIncGrp` components within the same message.
+
+### Record templates
+
+Different securities in different asset classes contain different data sets. The Record Template concept classifies different data patterns in the Market Data Feed. Each template is represented by an integer value reported within the **MDRecordTemplate (21999)** tag in 35=W and 35=X messages.
+
+<Tip>
+  Clients can request the **SURFIX Record Template document** for a detailed description of each Record Template.
+</Tip>
+
+### Tenor data
+
+SURFIX uses the following custom tags for tenor data:
+
+| Tag | Field |
+| --- | --- |
+| `20001` | TenorOne |
+| `20002` | TenorTwo |
+| `20003` | TenorThree |
+| `20004` | TenorFour |
+
+Up-to-date supported values are listed in the **Period List document**, downloadable from the client zone.
+
+### Pricing data
+
+Pricing data is distributed in the **MDEntryPx (270)** tag, further qualified by **PriceType (423)** where possible.
+
+Some records (for example, US Government Bonds) have prices quoted in thirty-seconds and may contain a plus symbol at the end (for example, `98.22+`).
+
+<Note>
+  SURFIX handles thirty-seconds pricing by replacing the `+` sign with the number `4` and setting `PriceType(423)=17` (Product ticks in thirty-seconds).
+</Note>
+
+## FIX dictionaries
+
+FIX Dictionaries are machine-readable representations of FIX Specifications in XML format. They contain all tags, values, repeating groups, and messages supported by SURFIX.
+
+SURFIX supports multiple dictionaries to enable clients to receive different data sets using different Comp IDs. Instances with multiple dictionaries must be set up by Parameta Technical teams.
+
+<Tip>
+  **FIX Antenna®**-compatible dictionaries are made available to clients in the client zone.
+</Tip>
+
+## Data feeds
+
+Clients must establish a connection and send requests to receive both pricing and security list data. If a request arrives before data is available, Parameta accepts the request but does not send data until it becomes available.
+
+<Warning>
+  During any downtime, available market data is **not cached**. Only current market data is reported upon reconnection.
+</Warning>
+
+If the FIX session terminates while a subscription is active, the subscription is considered terminated. Once the FIX session is re-established, a new request must be sent — and the incoming and outgoing Message Sequence Numbers must be reset.
+
+## Market data
+
+### Subscription request and response flow
+
+```text Successful subscription
+FIX Client                                                  SURFIX
+   |                                                           |
+   |  MarketDataRequest (35=V)                                 |
+   |  MDReqID (262) = <Client's ID>                            |
+   |  SecurityID (48) = [ALL]                                  |
+   |  SubscriptionRequestType (263) = 1 (Subscribe)            |
+   |  MDUpdateType (265) = 1 (Incremental)                     |
+   | --------------------------------------------------------> |
+   |                                                           |
+   |  MarketDataSnapshotFullRefresh (35=W)                     |
+   |  SecurityID (48) = FXSPTGBPUSDSPT:GBL.BIL.QTE.RTM!IC      |
+   | <-------------------------------------------------------- |
+   |  MarketDataSnapshotFullRefresh (35=W)                     |
+   |  SecurityID (48) = FXSPTEURUSDSPT:GBL.BIL.QTE.RTM!IC      |
+   | <-------------------------------------------------------- |
+   |  MarketDataSnapshotFullRefresh (35=W)                     |
+   |  SecurityID (48) = FXSPTUSDTRYSPT:GBL.BIL.QTE.RTM!IC      |
+   | <-------------------------------------------------------- |
+   |                                                           |
+   |  MarketDataIncrementalRefresh (35=X)                      |
+   |  MDReqID (262) = <Client's ID>                            |
+   | <-------------------------------------------------------- |
+```
+
+On successful subscription, SURFIX sends one MarketDataSnapshotFullRefresh (35=W) message for each security the client is permissioned for. MarketDataIncrementalRefresh (35=X) messages continue thereafter.
+
+### Request reject flow
+
+```text Rejected request
+FIX Client                                          SURFIX
+   |                                                   |
+   |  MarketDataRequest (35=V)                         |
+   |  MDReqID (262) = <Client's ID>                    |
+   |  SecurityID (48) = Not Provided                   |
+   | ------------------------------------------------> |
+   |                                                   |
+   |  MarketDataRequestReject (35=Y)                   |
+   |  MDReqID (262) = <Client's ID>                    |
+   | <------------------------------------------------ |
+```
+
+Unsuccessful Market Data Requests are rejected by SURFIX with a MarketDataRequestReject (35=Y) message.
+
+### Market data request
+
+| Request | Tags | SecurityID (48) | Response messages |
+| --- | --- | --- | --- |
+| State of the book \+ incremental updates | `263=1` (Snapshot \+ Updates), `265=1` (Incremental Refresh) | `[ALL]` | MarketDataSnapshotFullRefresh (35=W) followed by MarketDataIncrementalRefresh (35=X) messages. |
+
+<Note>
+  A maximum of **1 active Snapshot \+ Updates** subscription is allowed per FIX user.
+</Note>
+
+### Market data response
+
+The best (highest) bid and best (lowest) ask prices (top of book data) are reported in the market data feed.
+
+| Tag | Field name | Sample value | Description |
+| --- | --- | --- | --- |
+| 35 | MsgType | `W` |  |
+| 264 | MarketDepth | `1` | Top of book |
+| 262 | MDReqID | `19032019-1` | Requester-assigned unique ID |
+| 55 | Symbol | `GBP/USD` |  |
+| 48 | SecurityID | `FXSPTGBPUSDSPT:GBL.BIL.QTE.RTM!TP` | Security identifier |
+| 22 | SecurityIDSource | `M` | Marketplace-assigned identifier |
+| 268 | NoMDEntries | `2` | Number of entries |
+| →269 | MDEntryType `[1]` | `0` | Bid |
+| →278 | MDEntryID | `11` |  |
+| →270 | MDEntryPx | `1.2596` | Price |
+| →271 | MDEntrySize | `100000` | Quantity |
+| →269 | MDEntryType `[2]` | `1` | Offer |
+| →278 | MDEntryID | `12` |  |
+| →270 | MDEntryPx | `1.26` | Price |
+| →271 | MDEntrySize | `3000000` | Quantity |
+
+<Note>
+  This table does not contain all tags sent in the message.
+</Note>
+
+### Market data incremental updates
+
+Market data updates are reported via MarketDataIncrementalRefresh (35=X), providing only the data that was changed, deleted, or added.
+
+The example below includes the following changes to a sample order book:
+
+- Edit the price and size of the Offer entry (`id=107`), making it the best Offer.
+- Delete the Bid entry (`id=104`).
+- Add another Offer order (`id=108`).
+
+| Tag | Field name | Sample value | Description |
+| --- | --- | --- | --- |
+| 35 | MsgType | `X` |  |
+| 262 | MDReqID | `19032019-2` | Requester-assigned unique ID |
+| 268 | NoMDEntries | `3` | Number of entries |
+| →279 | MDUpdateAction `[1]` | `5` | Overlay |
+| →55 | Symbol | `GBP/EUR` |  |
+| →48 | SecurityID | `FXSPTGBPUSDSPT:GBL.BIL.QTE.RTM!TP` | Security identifier |
+| →22 | SecurityIDSource | `M` | Marketplace-assigned identifier |
+| →278 | MDEntryID | `11` | References the entry being updated |
+| →270 | MDEntryPx | `1.2597` | Price changed |
+| →271 | MDEntrySize | `150000` | Quantity changed |
+| →279 | MDUpdateAction `[2]` | `2` | Delete |
+| →278 | MDEntryID | `12` | Entry identifier for the deleted order |
+| →279 | MDUpdateAction `[3]` | `0` | New |
+| →269 | MDEntryType | `1` | Offer |
+| →278 | MDEntryID | `13` | Entry identifier for the new order |
+| →270 | MDEntryPx | `1.2602` |  |
+| →271 | MDEntrySize | `90000` |  |
+
+### Unsubscribing
+
+Active Market Data requests can be cancelled using a MarketDataRequest (35=V) message that references the original `MDReqID (262)` and sets **SubscriptionRequestType (263) = 2**.
+
+SURFIX stops sending Market Data immediately after receiving the disable subscription request.
+
+| Tag | Field name | Sample value | Description |
+| --- | --- | --- | --- |
+| 35 | MsgType | `V` |  |
+| 262 | MDReqID | `19032019-2` | Requester-assigned unique ID |
+| 263 | SubscriptionRequestType | `2` | Disable previous subscription |
+| 264 | MarketDepth | `0` | Full book depth |
+| 267 | NoMDEntryTypes | `1` |  |
+| →269 | MDEntryType `[1]` | `[ALL]` | All entry types |
+| 146 | NoRelatedSym | `1` |  |
+| →55 | Symbol | `[N/A]` |  |
+
+## Security list
+
+The Security List functionality enables clients to access the updated list of securities for which they are permissioned to receive market data.
+
+SURFIX sends the list of securities in an order using SecurityList (35=y) messages and maintains the list (and its order) by reporting updates using SecurityListUpdateReport (35=BK) messages.
+
+### Subscription request and response flow
+
+```text Successful subscription
+FIX Client                                          SURFIX
+   |                                                   |
+   |  SecurityListRequest (35=x)                       |
+   |  SecurityReqID (320) = <Client's ID>              |
+   |  SecurityListRequestType (559) = 4                |
+   |  SubscriptionRequestType (263) = 1 (Subscribe)    |
+   | ------------------------------------------------> |
+   |                                                   |
+   |  SecurityList (35=y)                              |
+   |  Note: Large Security List messages may be        |
+   |  fragmented.                                      |
+   | <------------------------------------------------ |
+   |                                                   |
+   |  SecurityListUpdateReport (35=BK)                 |
+   |  MDReqID (262) = <Client's ID>                    |
+   |  Updates for Security List                        |
+   | <------------------------------------------------ |
+```
+
+On successful subscription, SURFIX sends a SecurityList (35=y) message containing the list of securities the client has permission for. SecurityListUpdateReport (35=BK) messages are sent when any of the securities change in a market.
+
+### Request reject flow
+
+```text Rejected request
+FIX Client                                          SURFIX
+   |                                                   |
+   |  SecurityListRequest (35=x)                       |
+   |  SecurityReqID (320) = <Client's ID>              |
+   |  SecurityListRequestType (559) = 4                |
+   |  SubscriptionRequestType (263) = 1 (Subscribe)    |
+   | ------------------------------------------------> |
+   |                                                   |
+   |  SecurityList (35=y)                              |
+   |  MDReqID (262) = <Client's ID>                    |
+   |  SecurityRequestResult (560) = 3                  |
+   |  (Not authorized to retrieve instrument data)     |
+   | <------------------------------------------------ |
+```
+
+Unsuccessful Security List Requests are rejected by SURFIX with a SecurityList (35=y) message.
+
+<Note>
+  The value in `SecurityRequestResult (560)` above is provided as an example.
+</Note>
+
+### Security list request
+
+To retrieve Security List data, clients send SecurityListRequest (35=x) messages with the following fields:
+
+| Tag | Field | Value |
+| --- | --- | --- |
+| 320 | SecurityReqID | Unique ID of the client's request |
+| 559 | SecurityListRequestType | `4` (All Securities) |
+| 263 | SubscriptionRequestType | `1` (Snapshot \+ Updates) |
+
+### Security list response
+
+| Tag | Field name | Sample value | Description |
+| --- | --- | --- | --- |
+| 35 | MsgType | `y` |  |
+| 1465 | SecurityListID | `SECURITYLIST1` | Identifier for the security list |
+| 320 | SecurityReqID | `19032019-3` | Request identifier |
+| 560 | SecurityRequestResult | `0` | Valid request |
+| 60 | TransactTime | `20190617-12:48:44` |  |
+| 146 | NoRelatedSym | `5` |  |
+| →55 | Symbol | `[N/A]` |  |
+| →48 | SecurityID | `SECURITYID1` | Follows Parameta Security ID format |
+| →22 | SecurityIDSource | `M` | Marketplace-assigned identifier |
+| →55 | Symbol | `[N/A]` |  |
+| →48 | SecurityID | `SECURITYID2` |  |
+| →22 | SecurityIDSource | `M` | Marketplace-assigned identifier |
+| →55 | Symbol | `[N/A]` |  |
+| →48 | SecurityID | `SECURITYID3` |  |
+| →22 | SecurityIDSource | `M` | Marketplace-assigned identifier |
+| →55 | Symbol | `[N/A]` |  |
+| →48 | SecurityID | `SECURITYID4` |  |
+| →22 | SecurityIDSource | `M` | Marketplace-assigned identifier |
+| →55 | Symbol | `[N/A]` |  |
+| →48 | SecurityID | `SECURITYID5` |  |
+| →22 | SecurityIDSource | `M` | Marketplace-assigned identifier |
+
+The message above builds the list as follows:
+
+| Sample security list |
+| --- |
+| SECURITYID1 |
+| SECURITYID2 |
+| SECURITYID3 |
+| SECURITYID4 |
+| SECURITYID5 |
+
+### Security list updates
+
+SURFIX maintains Security Lists by sending SecurityListUpdateReport (35=BK) messages.
+
+<Tabs>
+  <Tab title="Example A — Delete and Add">
+    The following sample message:
+
+    - Deletes 2 securities from the list.
+    - Adds a security to the end of the list.
+
+    | Tag | Field name | Sample value | Description |
+    | --- | --- | --- | --- |
+    | 35 | MsgType | `BK` |  |
+    | 1465 | SecurityListID | `SECURITYLIST1` | Identifier for the security list |
+    | 320 | SecurityReqID | `19032019-3` | Request identifier |
+    | 60 | TransactTime | `20190617-12:48:44` |  |
+    | 146 | NoRelatedSym | `3` |  |
+    | →1324 | ListUpdateAction | `D` | Delete |
+    | →55 | Symbol | `[N/A]` |  |
+    | →48 | SecurityID | `SECURITYID1` |  |
+    | →22 | SecurityIDSource | `M` | Marketplace-assigned identifier |
+    | →1324 | ListUpdateAction | `D` | Delete |
+    | →55 | Symbol | `[N/A]` |  |
+    | →48 | SecurityID | `SECURITYID4` |  |
+    | →22 | SecurityIDSource | `M` | Marketplace-assigned identifier |
+    | →1324 | ListUpdateAction | `A` | Add |
+    | →55 | Symbol | `[N/A]` |  |
+    | →48 | SecurityID | `SECURITYID6` |  |
+    | →22 | SecurityIDSource | `M` | Marketplace-assigned identifier |
+
+    After this update, the security list state is:
+
+    | Sample security list |
+    | --- |
+    | SECURITYID2 |
+    | SECURITYID3 |
+    | SECURITYID5 |
+    | SECURITYID6 |
+  </Tab>
+  <Tab title="Example B — Snapshot">
+    The following sample message:
+
+    - Adds a security into the middle of the list.
+    - Removes a security from the list.
+
+    | Tag | Field name | Sample value | Description |
+    | --- | --- | --- | --- |
+    | 35 | MsgType | `BK` |  |
+    | 1465 | SecurityListID | `SECURITYLIST1` | Identifier for the security list |
+    | 320 | SecurityReqID | `19032019-3` | Request identifier |
+    | 60 | TransactTime | `20190617-12:48:44` |  |
+    | 146 | NoRelatedSym | `3` |  |
+    | →1324 | ListUpdateAction | `S` | Snapshot |
+    | →55 | Symbol | `[N/A]` |  |
+    | →48 | SecurityID | `SECURITYID2` |  |
+    | →22 | SecurityIDSource | `M` | Marketplace-assigned identifier |
+    | →1324 | ListUpdateAction | `S` | Snapshot |
+    | →55 | Symbol | `[N/A]` |  |
+    | →48 | SecurityID | `SECURITYID3` |  |
+    | →22 | SecurityIDSource | `M` | Marketplace-assigned identifier |
+    | →1324 | ListUpdateAction | `S` | Snapshot |
+    | →55 | Symbol | `[N/A]` |  |
+    | →48 | SecurityID | `SECURITYID7` |  |
+    | →22 | SecurityIDSource | `M` | Marketplace-assigned identifier |
+    | →1324 | ListUpdateAction | `S` | Snapshot |
+    | →55 | Symbol | `[N/A]` |  |
+    | →48 | SecurityID | `SECURITYID5` |  |
+    | →22 | SecurityIDSource | `M` | Marketplace-assigned identifier |
+
+    <Note>
+      Adding a new security into the middle of the list is done by sending a snapshot of the list, which overwrites any previous security list data.
+    </Note>
+
+    The above example adds `SECURITYID7` between `SECURITYID3` and `SECURITYID5` and removes `SECURITYID6` (by omitting it from the snapshot). After this update:
+
+    | Sample security list |
+    | --- |
+    | SECURITYID2 |
+    | SECURITYID3 |
+    | SECURITYID7 |
+    | SECURITYID5 |
+  </Tab>
+</Tabs>
+
+### Unsubscribing
+
+Active Security List requests can be cancelled using a SecurityListRequest (35=x) message that references the original `SecurityReqID (320)` and sets **SubscriptionRequestType (263) = 2**.
+
+SURFIX stops sending security list updates immediately after receiving the disable subscription request.
+
+### Fragmented messages
+
+Security Lists containing a large number of securities may be sent in multiple Security List (fragmented) messages.
+
+When a Security List Message is fragmented, the following additional tags are included:
+
+| Tag | Field | Description |
+| --- | --- | --- |
+| 393 | TotNoRelatedSym | The total number of securities the chain contains (in all fragments). |
+| 893 | LastFragment | `N` for fragments other than the last; `Y` for the last fragment of the chain. |
+
+<Note>
+  If the message is not fragmented, these tags are not included.
+</Note>
+
+## Get in touch
+
+<CardGroup cols={2}>
+  <Card title="Visit our website" icon="globe" href="https://www.parametasolutions.com">
+    [www.parametasolutions.com](http://www.parametasolutions.com)
+  </Card>
+
+  <Card title="Contact support" icon="envelope" href="mailto:operations@parametasolutions.com">
+    [operations@parametasolutions.com](mailto:operations@parametasolutions.com)
+  </Card>
+</CardGroup>
+
+## Disclaimer
+
+<Expandable title="View full disclaimer">
+  © 2024 ICAP Information Services Limited ("IISL"). This communication is provided by ICAP Information Services Limited or a member of its group ("Parameta") and all information contained in or attached hereto (the "Information") is for information purposes only and is confidential. Access to the Information by anyone other than the intended recipient is unauthorised without Parameta's prior written approval. The Information may not be used or disclosed for any purpose without Parameta's prior written approval, including without limitation, storing, copying, distributing, licensing, selling or displaying the Information, using the Information in an application or to create derived data of any kind, co-mingling the Information with any other data or using the data for any unlawful purpose or for any purpose that would cause it to become a benchmark under any law, regulation or guidance.
+
+  The Information is not, and should not be construed as, a live price, an offer, bid, recommendation or solicitation in relation to any financial instrument or investment or to participate in any particular trading strategy or constituting financial or investment advice or a financial promotion. The Information is not to be relied upon for any purpose whatsoever and is provided "as is" without warranty of any kind, either expressly or by implication, including without limitation as to completeness, timeliness, accuracy, continuity, merchantability or fitness for any particular purpose. All representations and warranties are expressly disclaimed, to the fullest extent possible under applicable law. In no circumstances will Parameta be liable for any indirect or direct loss, or consequential loss or damages including without limitation, loss of business or profits arising from the use of, any inability to use, or any inaccuracy in the Information. Parameta may suspend, withdraw, modify or change the terms of the provision of the Information at any time in its sole discretion, without notice.
+
+  All rights, including without limitation intellectual property rights, in and to the Information are, and shall remain, the property of IISL or its licensors. Use of, access to or delivery of Parameta's products and/or services requires a prior written licence from Parameta or its relevant affiliates. The terms of this disclaimer are governed by the laws of England and Wales.
+</Expandable>

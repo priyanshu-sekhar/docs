@@ -1,0 +1,53 @@
+---
+title: "Our Data Warehouse"
+description: "Product updates and announcements"
+---
+
+<Update label="Upcoming" description="Upcoming changes on our roadmap">
+  ### Addition of `is_unique` column
+
+  - The column `is_unique` is being added to customer tick views to allow accurate historical representation of the deduplicated data recieved via JSON WebSocket.
+
+  ### Addition of `DATA_MODIFICATION_HISTORY` view
+
+  - Track all changes made to datawarehouse through the DATA\_MODIFICATION\_HISTORY view
+
+  ### Example Notebooks and QuickStart Guides
+
+  - Migrate the sharing mechanism to use Declarative to provide example notebooks and quick start guides
+
+  ### Snowflake Agents and Semantic Views
+
+  - Migrate the sharing mechanism to use Declarative to facilitate sharing of semantic views and snowflake custom agents.
+</Update>
+
+<Update label="June 2026" description="Historical static data added for GBP and EUR Swaptions">
+  ### Update static fields on `IVSW%` records incl. `GBP`, `EUR` currency
+
+  - Interest rate swaption data has had the following fields (`GN_TXT32_4`,	`GN_TX20_1`,`GN_TX20_2`,`GN_TXT16_2`) updated back to ~2000
+
+  ### History Added for TP Fixed Income OLD BMKS
+
+  - Additional data added for FIOLD% `USD` records back to ~2006
+
+  <Tip>
+    See our `INFO.DATA_MODIFICATION_HISTORY` table for more information on affected records and time ranges.
+  </Tip>
+</Update>
+
+<Update label="April 2026" description="Addition of batch_id to Snowflake tick views">
+  ### Addition of `batch_id` column
+
+  - A new monotonically increase integer column add to tick views to indicate insertion id of the batch.
+  - Note: Backfilled data will have an `batch_id` of 0, and data prior to column being add will have `batch_id` of 0.
+
+  ### History added for ICAP Totan JPY rates
+
+  - Additional history added for ICAP JPY Totan rates records
+</Update>
+
+<Update label="March 2026" description="Enablement of Snowflake AutoFulfilment">
+  ### Autofulfillment and Virtual Private Snowflake Fulfillment Enabled in Snowflake
+
+  - Data can now be shared to any region or cloud provider by enabling Snowflake autofulfilment in our Snowflake datawarehouse
+</Update>

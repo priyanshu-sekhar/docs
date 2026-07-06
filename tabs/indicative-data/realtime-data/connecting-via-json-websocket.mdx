@@ -1,0 +1,200 @@
+---
+title: "Connecting via JSON WebSocket"
+description: "Stream real-time indicative OTC pricing data directly from our broking desks via JSON WebSocket"
+sidebarTitle: "JSON WebSocket"
+---
+
+## Quick Start
+
+### Connecting
+
+To connect to the JSON WebSocket you will first be provided a WebSocket `URI`, `username` and `password`. You can then connect with the examples below:
+
+<CodeGroup>
+
+```python Python
+import asyncio
+import json
+import websockets
+
+WEBSOCKET_URI = '<your_websocket_uri>'
+USERNAME = '<your_username>'
+PASSWORD = '<your_password>'
+
+async def consume_msg(message):
+    """Print message to terminal"""
+    msg = json.loads(message)
+    print(json.dumps(msg, indent=4))
+
+async def consumer_handler(websocket):
+    """Process messages as they are received"""
+    async for message in websocket:
+        await consume_msg(message)
+
+async def main():
+    """Connect to websocket and process messages"""
+    auth_message = json.dumps({"msg": "auth", "user": USERNAME, "pass": PASSWORD})
+    async with websockets.connect(WEBSOCKET_URI) as websocket:
+        await websocket.send(auth_message)
+        await consumer_handler(websocket)
+
+if __name__ == '__main__':
+    asyncio.run(main())
+```
+
+```java Java
+package mdxtwebsocket;
+
+import java.net.URI;
+import java.time.LocalDateTime;
+import javax.websocket.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+@ClientEndpoint
+public class MdxtWebsocket {
+
+    private static final String WEBSOCKET_URI = "<your_websocket_uri>";
+    private static final String USERNAME = "<your_username>";
+    private static final String PASSWORD = "<your_password>";
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+    @OnOpen
+    public void onOpen(Session session) throws Exception {
+        String authMessage = gson.toJson(new AuthMessage("auth", USERNAME, PASSWORD));
+        session.getBasicRemote().sendText(authMessage);
+    }
+
+    @OnMessage
+    public void onMessage(String message) {
+        Object msg = gson.fromJson(message, Object.class);
+        System.out.println(gson.toJson(msg));
+    }
+
+    @OnError
+    public void onError(Throwable error) {
+        error.printStackTrace();
+    }
+
+    public static void main(String[] args) throws Exception {
+        WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+        Session session = container.connectToServer(MdxtWebsocket.class, new URI(WEBSOCKET_URI));
+        // Keep the main thread alive
+        Thread.currentThread().join();
+    }
+
+    record AuthMessage(String msg, String user, String pass) {}
+}
+```
+
+</CodeGroup>
+
+## Message Specifications
+
+### Service Overview
+
+- This feed operates by exchanging messages in JSON format over WebSocket.
+- After establishing a WebSocket connection you send an authentication request message and wait for the response indicating whether authentication was successful.
+- You will start receiving data immediately after a successful authentication response.
+
+### Message Type
+
+Each message exchanged over the WebSocket connection includes the mandatory field msg indicating the message type. For example:
+
+```json
+{ "msg": "auth", "user": "...", "pass": "..." }
+```
+
+The following message types are available:
+
+- auth : used for authentication request and response
+- pro : used for data provider status response
+
+### Authentication Message Flow
+
+Before accessing data from the service, you need to authenticate.
+
+You need to send an auth message with your username and passkey. For example:
+
+```json
+{ "msg": "auth", "user": "myusername", "pass": "*****" }
+```
+
+In response you will receive an auth message indicating whether authentication succeeded. For example:
+
+```json
+{ "msg": "auth", "sta": 1 }
+```
+
+The sta field with a value of 1 indicates success. If authentication failed, the sta field would be 0 and an info field would be included with additional detail. For example:
+
+```json
+{ "msg": "auth", "sta": 0, "info": "Authentication failed (check credentials)" }
+```
+
+### Post Authentication
+
+Having successfully authenticated, you will automatically start to receive sub messages carrying data from all data providers your user is permissioned for, the first of which (only) will include "img": 1, indicating that this sub message is the complete set of current values.
+
+For example:
+
+```json
+{ "msg": "sub", "pro": "ACMECrypto", "rec": "DAH/ETH", "img": 1, "sta": 1, "fvs": { "BID": 0.168, "ASK": 0.170 } }
+```
+
+Subsequent sub messages contain changed values only.
+
+## Message Reference
+
+### Authentication – auth
+
+Client → Server
+
+Sent by the client to the server to authenticate.
+
+| Field | Description |
+| --- | --- |
+| msg | auth |
+| user | Username to authenticate with |
+| pass | Passkey to authenticate with |
+
+Server → Client
+
+Authentication response from server.
+
+| Field | Description |
+| --- | --- |
+| msg | auth |
+| sta | 0 or 1 (Integer) – Indicates whether authentication completed successfully |
+| info | (Optional) Additional information (String) about authentication response. Useful for logging cause of failure etc. |
+
+### Subscribe – sub
+
+Server → Client
+
+Immediate response to client subscription request and all subsequent updates.
+
+| Field | Description |
+| --- | --- |
+| msg | sub |
+| pro | Name of data provider |
+| grp | (Optional) Name of group in which record is stored. Not supported by all providers. |
+| rec | Name of the record |
+| img | (Optional) Present and set to Integer 1 to indicate the message is an 'image' of current values stored in cache. Not present in subsequent updates. |
+| sta | Status of record/request (Integer). Typically you are looking for 1 to indicate success and data is 'live'. See Table 1 for complete set of values. |
+| fvs | Object/map containing name/value pairs holding the values |
+
+## Value Reference
+
+### Table 1 – sta field values
+
+The Integer sta field is included in a sub or snp message from the server to indicate the request status.
+
+| Value | Description |
+| --- | --- |
+| 1 | Live – the data is live and up to date |
+| 2 | Stale – the data available is not necessarily current, likely due to an upstream outage |
+| 3 | Provider Not Available – The data provider requested is not yet available. Try again after receiving a pro message indicating availability. |
+| 4 | Record Not Available – The record requested is not available currently |
+| 5 | Not Permissioned – You do not have the appropriate permission for the record requested |
+| 6 | Limit Exceeded – You have exceeded a limit applied by the data provider such as the maximum number of concurrent clients |

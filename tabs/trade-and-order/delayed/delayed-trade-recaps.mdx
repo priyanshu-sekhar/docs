@@ -1,0 +1,67 @@
+---
+title: "Recap Files"
+description: "Daily files available on a T+1 basis. Consolidated monthly file also available."
+mode: "default"
+groups: ["DELIVERY_HUB_UI_INDICATIVE_USER"]
+---
+
+## QuickStart
+
+### Connecting to SFTP
+
+<CodeGroup>
+
+```python Python
+import paramiko
+
+ssh = paramiko.SSHClient()
+ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+ssh.connect("HOSTNAME", port=22, username="USERNAME", password="PASSWORD")
+sftp = ssh.open_sftp()
+
+# Example: list files
+print(sftp.listdir("."))
+
+sftp.close()
+ssh.close()
+```
+
+```java Java
+import com.jcraft.jsch.*;
+
+JSch jsch = new JSch();
+Session session = jsch.getSession("USERNAME", "HOSTNAME", 22);
+session.setPassword("PASSWORD");
+session.setConfig("StrictHostKeyChecking", "no");
+session.connect();
+
+ChannelSftp sftp = (ChannelSftp) session.openChannel("sftp");
+sftp.connect();
+
+// Example: list files
+sftp.ls(".").forEach(System.out::println);
+
+sftp.disconnect();
+session.disconnect();
+```
+
+</CodeGroup>
+
+## SFTP Folder Structure
+
+```text
+<client_name>/
+	└── ec_energy_gas_orders_dog_amer_view_2026-06-22.csv
+	└── ec_energy_gas_orders_dog_apac_view_2026-06-22.csv
+```
+
+### File Definitions
+
+- `ec_energy_gas_orders_dog_apac_view_2026-06-22.csv` - latest file for each report
+
+### Delayed Files Additional Fields
+
+| Field Name | Description | Datatype | Example |
+| --- | --- | --- | --- |
+| SNAP\_DATE | The date the file was snapped | Date (DD/MM/YYYY) | 4/25/2024 |
+| INSERT\_TIMESTAMP | The date/time the trade was inserted into the system | Date/Time (YYYY-MM-DDThh:mm:ss.sssZ) | 2024-04-25T08:08:28.211Z |

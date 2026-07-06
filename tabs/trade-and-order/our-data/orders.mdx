@@ -1,0 +1,172 @@
+---
+title: "Orders"
+description: "OTC Market Orders capture every order processed through our platforms. Each trade carries a Order ID, allowing you to link related legs and components across a single order."
+groups: ["DELIVERY_HUB_UI_TRADE_ORDER_USER"]
+---
+
+## Standard Message Fields
+
+Present on every order message regardless of asset class.
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `EVENT_TIMESTAMP` | datetime | Processing timestamp of the event (UTC) | `2026-06-09T11:36:08.628` |
+| `GUID` | string | Globally unique event identifier | `dbefd8fa-3760-4c59-8881-e418eb71e5e9` |
+
+---
+
+## Standard Order Fields
+
+Present on every order message regardless of asset class.
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `ORDER_ID` | string | Unique order identifier | `7119967` |
+| `ORDER_STATUS` | string | Status of the order: `OrderLive`, `OrderDeleted`, `OrderFilled` | `OrderLive` |
+| `OBSERVATION_TYPE` | string | Outcome of the order: `OrderNotTraded`, `OrderTraded` | `OrderNotTraded` |
+| `ORDER_DATE` | date | Date of the order | `2024-07-15` |
+| `AUDIT_TIMESTAMP` | datetime | Timestamp of the order event | `2024-07-15T23:52:48.000` |
+| `BUY_SELL` | string | Direction: `B` (bid) or `S` (ask) | `B` |
+| `ORDER_PRICE` | number | Order price | `4.47` |
+| `AMOUNT` | number | Order size | `0` |
+| `ASSET_CLASS_ISDA` | string | ISDA Taxonomy 2.0 — Asset Class | `InterestRate`, `Commodity` |
+| `BASE_PRODUCT_ISDA` | string | ISDA Taxonomy 2.0 — Base Product | `IR Swap`, `Energy` |
+| `SUB_PRODUCT_ISDA` | string | ISDA Taxonomy 2.0 — Sub-Product | `Fixed Float`, `OIL` |
+| `TRANSACTION_TYPE_ISDA` | string | ISDA Taxonomy 2.0 — Transaction Type | `Future` |
+
+---
+
+## Rates — Linear Orders
+
+### Single Leg
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `STRATEGY` | string | Strategy long description | `Swap` |
+| `LEG1_ISDA` | string | Concatenated ISDA taxonomy | `Interest Rate:IR Swap:Fixed Float` |
+| `LEG1_CURRENCY1` | string | Currency of leg 1 | `AUD` |
+| `LEG1_CURRENCY2` | string | Second currency (basis swaps) | `AUD` |
+| `LEG1_INDEX1` | string | Fixed leg or reference index | `FIXED` |
+| `LEG1_INDEX_TENOR1` | string | Index tenor of reference index |  |
+| `LEG1_INDEX2` | string | Reference index of swap/basis | `AONIA` |
+| `LEG1_INDEX_TENOR2` | string | Index tenor of reference index | `1D` |
+| `LEG1_FWD_START_TENOR` | string | Forward start element |  |
+| `LEG1_TENOR` | string | Tenor of the strategy | `06M` |
+
+### Multiple Legs
+
+Multi-leg orders repeat the leg fields with incrementing leg numbers (`LEG1_*`, `LEG2_*`, `LEG3_*`, etc.). Additional field per leg:
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `LEG{N}_TYPE` | string | Leg role: `Short`, `Body`, `Long` | `Short` |
+
+Supports up to 6 legs for complex strategies (e.g. butterfly, box).
+
+### Base Structures
+
+Inflation and basis box structures use the same multi-leg pattern with additional structure:
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `LEG{N}_TYPE` | string | Leg role description | `Primary Short`, `Secondary Long` |
+| `LEG{N}_FWD_START_TENOR` | string | Forward start tenor (may be a month) | `APR` |
+
+---
+
+## Rates — Non-Linear Orders
+
+### Swaption — Single Leg
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `STRATEGY1_TYPE` | string | Strategy type | `OSTypePayer`, `OSTypeReceiver` |
+| `STRATEGY1_INSTRUMENT_TYPE` | string | Instrument type | `TypeOption` |
+| `STRATEGY1_CURRENCY` | string | Currency of the strategy | `EUR` |
+| `STRATEGY1_STRIKE` | string | Strike (offset from ATM in bps) | `A+500` |
+| `STRATEGY1_EXPIRY` | string | Option expiry tenor | `5y` |
+| `STRATEGY1_TENOR` | string | Underlying swap tenor | `10y` |
+
+### Swaption — Straddle / Spread
+
+Uses parent/child strategy structure:
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `STRATEGY1_PARENT` | string | Parent strategy reference |  |
+| `STRATEGY1_TYPE` | string | Strategy type | `OSTypeStraddle`, `OSTypeCollar` |
+| `STRATEGY1_INSTRUMENT_TYPE` | string | Instrument type | `TypeOption` |
+| `STRATEGY{N}_PARENT` | string | Parent reference | `STRATEGY1` |
+| `STRATEGY{N}_TYPE` | string | Option type (P=Payer, R=Receiver) | `P`, `R` |
+| `STRATEGY{N}_CURRENCY` | string | Currency | `EUR` |
+| `STRATEGY{N}_STRIKE` | string | Strike (offset from ATM in bps) | `A`, `A+100`, `A-100` |
+| `STRATEGY{N}_EXPIRY` | string | Option expiry tenor | `10y` |
+| `STRATEGY{N}_TENOR` | string | Underlying swap tenor | `2y` |
+| `STRATEGY{N}_PREMIUM_TYPE` | string | Premium type | `Forward` |
+| `STRATEGY{N}_SETTLEMENT` | string | Settlement type | `CCP`, `Swap` |
+
+### Swaption — MidCurve
+
+Additional field:
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `STRATEGY{N}_FORWARD_START` | string | Forward start timeframe | `5y` |
+
+### CapFloor — Simple
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `STRATEGY1_TYPE` | string | Strategy type | `OSTypeCap`, `OSTypeFloor` |
+| `STRATEGY1_INSTRUMENT_TYPE` | string | Instrument type | `TypeOption` |
+| `STRATEGY1_CURRENCY` | string | Currency | `EUR` |
+| `STRATEGY1_FREQUENCY` | string | Tenor of reference index | `3m` |
+| `STRATEGY1_STRIKE` | string | Strike (offset from ATM in bps) | `A+100` |
+| `STRATEGY1_TENOR` | string | Swap tenor | `1y` |
+
+### CapFloor — Spread
+
+Uses parent/child structure with P (payer) and R (receiver) legs:
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `STRATEGY{N}_EXPIRY` | string | Option expiry | `10y` |
+| `STRATEGY{N}_TENOR` | string | Swap tenor | `2y` |
+
+### CapFloor — with Swap
+
+Cap/floor combined with an underlying swap leg, using the same parent/child strategy structure.
+
+### CMS Spread Option
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `STRATEGY1_TYPE` | string | Strategy type | `OSTypeSingleLook` |
+| `STRATEGY1_INDEX1` | string | CMS index 1 tenor | `cms30` |
+| `STRATEGY1_INDEX2` | string | CMS index 2 tenor | `cms2` |
+| `STRATEGY1_TENOR` | string | Swap tenor | `15y` |
+| `STRATEGY1_STRIKE` | string | Strike | `A` |
+| `STRATEGY1_PAYOUT` | string | Payout of the option |  |
+| `STRATEGY1_BASIS` | string | Basis |  |
+| `STRATEGY1_FREQUENCY` | string | Swap reset frequency |  |
+| `STRATEGY1_FIXING_PAGE` | string | Fixing page referenced |  |
+
+### CMS FRA
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `STRATEGY1_TYPE` | string | Strategy type | `OSTypeCmsFra` |
+| `STRATEGY{N}_INDEX1` | string | CMS index | `cms20` |
+| `STRATEGY{N}_TENOR` | string | Swap tenor or CMS index tenor | `6y`, `20y` |
+| `STRATEGY{N}_EXPIRY` | string | Expiry | `6y` |
+| `STRATEGY{N}_SETTLEMENT` | string | Settlement type | `Cash` |
+
+### CMS Single Look
+
+| Field | Type | Description | Example |
+| --- | --- | --- | --- |
+| `STRATEGY1_TYPE` | string | Strategy type | `OSTypeSingleLook` |
+| `STRATEGY1_INDEX1` | string | CMS index 1 | `cms30` |
+| `STRATEGY1_INDEX2` | string | CMS index 2 | `cms2` |
+| `STRATEGY1_STRIKE` | string | Strike | `A` |
+| `STRATEGY2_TENOR` | string | Swap tenor | `15y` |

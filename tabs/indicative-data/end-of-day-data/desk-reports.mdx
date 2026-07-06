@@ -1,0 +1,168 @@
+---
+title: "End of Day Files"
+description: "We provide machine-readable desk reports sourced directly from our global broking desks — structured for seamless integration into your workflows."
+---
+
+## QuickStart
+
+### Connecting
+
+<CodeGroup>
+
+```python Python
+import paramiko
+
+ssh = paramiko.SSHClient()
+ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+ssh.connect("HOSTNAME", port=22, username="USERNAME", password="PASSWORD")
+sftp = ssh.open_sftp()
+
+# Example: list files
+print(sftp.listdir("."))
+
+sftp.close()
+ssh.close()
+```
+
+```java Java
+import com.jcraft.jsch.*;
+
+JSch jsch = new JSch();
+Session session = jsch.getSession("USERNAME", "HOSTNAME", 22);
+session.setPassword("PASSWORD");
+session.setConfig("StrictHostKeyChecking", "no");
+session.connect();
+
+ChannelSftp sftp = (ChannelSftp) session.openChannel("sftp");
+sftp.connect();
+
+// Example: list files
+sftp.ls(".").forEach(System.out::println);
+
+sftp.disconnect();
+session.disconnect();
+```
+
+</CodeGroup>
+
+## SFTP Folder Structure
+
+```text
+<client_name>_pds/
+	└── _information/
+	    └── descriptions.xlsx
+		└── indexlist.csv
+	└── TPFuelOil/
+		└── TPFuelOil_YYYYMMDD.csv
+	└── TPFuelOil.csv
+```
+
+### File Definitions
+
+- `_information/descriptions.xlsx` - file format definition file
+- `_information/indexlist.csv` - list of indices being received as part of EoD Prices subscription
+- `TPFuelOil/TPFuelOil_20251101.csv` - archived and dated file (note intraday files will also have `_HHMMSS`)
+- `TPFuelOil.csv` - latest file
+
+## File Format
+
+#### Status Codes
+
+| Code | Description |
+| --- | --- |
+| `N` | New Quotation |
+| `C` | Correction |
+| `B` | Backfill |
+| `D` | To Delete |
+
+#### Field Descriptions
+
+| Field | Description |
+| --- | --- |
+| `EvalDate` | Date of the Assessment |
+| `Code` | Product Code of the Index |
+| `RelPeriod` | Describes the period relative to the Evaldate and the MaturityType, whereas 00 is the current period and 01 is the first full period; e.g.: Evaldate="15/01/2013", MaturityType="M" -\> RelPeriod="00" equals "Jan 2013" and RelPeriod="01" equals "Feb 2013". |
+| `PPStart` | Start of the period |
+| `PPEnd` | End of the period |
+| `Value` | Value of the index |
+
+#### TimeStamp Definitions
+
+| ID | Description | Explanation |
+| --- | --- | --- |
+| `0` | close | close (timing determined by 3rd parties) |
+| `1` | Settlement | settlement (timing determined by exchanges) |
+| `2` | ICE Singapore Marker\* | official 1 min markers as of 4:30 pm Singapore local time (determined by ICE) |
+| `3` | CME Singapore Marker\* | official 1 min markers as of 4:30 pm Singapore local time (determined by CME) |
+| `4` | ICE Afternoon Marker\* | official 1 min markers as of 4:30 pm London local time (determined by ICE) |
+| `5` | CME Afternoon Marker\* | official 1 min markers as of 4:30 pm London local time (determined by CME) |
+| `6` | ICE 19:30 Marker\* | official 1 min markers as of 7:30 pm London local time (determined by ICE) |
+| `7` | DME post close | post close settlement as of 2:30 pm New York local time (determined by DME) |
+| `20` | Singapore Platts window | close of Singapore Platts window (4:30 pm Singapore local time; determined by Platts) |
+| `21` | Shogun Crude Sheet | Evening price-sheet from PVM Singapore brokers around 4:30 pm Singapore local time (EOD Singapore) |
+| `22` | Shogun Product Sheet | PRICE SHEET AS AT 4:30PM-sheet from PVM Singapore brokers around 4:30 pm Singapore local time (EOD Singapore) |
+| `23` | James Snow Sheet | Mogas quotes from PVM London brokers around 4:30 pm Singapore local time (EOD Singapore) |
+| `40` | London Platts window | close of London Platts window (4:30 pm London local time; determined by Platts) |
+| `41` | COB Sheet | COB-sheet from PVM London brokers around 4:30 pm London local time (EOD London) |
+| `42` | M2M Sheet | M2M-sheet from PVM London brokers around 4:30 pm London local time (EOD London) |
+| `43` | Brent MTM Sheet | Brent MTM-sheet from PVM London brokers around 4:30 pm London local time (EOD London) |
+| `44` | FuelOil Sheet | FuelOil-sheet from PVM London brokers around 4:30 pm London local time (EOD London) |
+| `45` | EW closing prices Sheet | Closing prices from PVM London brokers around 4:30 pm London local time (EOD London) |
+| `46` | Dubai marks Sheet | Dubai marks from PVM London brokers around 4:30 pm London local time (EOD London) |
+| `60` | NY close | assessment as of 2:30 pm New York local time |
+| `61` | US market close Sheet | PVM market wire-sheet from PVM US brokers around 2:30 pm New York local time (EOD US) |
+| `62` | US Platts window | close of US Platts window (3:15 pm New York local time; determined by Platts) |
+| `63` | US Domestic Crude | PVM US Crude Price Curve-sheet from PVM US brokers around 3:30pm Houston time (EoD Houston) |
+| `82` | BioFuels EoD Sheet | BioFuels-sheet from TP London brokers around 4:30 pm London local time (EOD London) |
+| `83` | Light Ends EoD Sheet | Light Ends-sheet from TP London brokers around 4:30 pm London local time (EOD London) |
+| `84` | Middle Distillates EoD Sheet | Middle Distillates-sheet from TP London brokers around 4:30 pm London local time (EOD London) |
+| `85` | Propane EoD Sheet | LPG-sheet from TP London brokers around 4:30 pm London local time (EOD London) |
+| `86` | FuelOil EoD Sheet | FuelOil-sheet from TP London brokers around 4:30 pm London local time (EOD London) |
+| `87` | Gulf Coast EoD Sheet | Gulf Coastsheet from TP/MOAB US brokers around 3:00 pm New York local time (EOD US) |
+| `89` | LNG EoD Sheet | LNG-sheet from TP London brokers around 4:30 pm London local time (EOD London) |
+| `91` | FuelOil SPR EoD sheet | FuelOil-sheet from TP Singapore brokers around 4:30 pm Singapore local time (EOD Singapore) |
+| `92` | Coal EoD Sheet | Coal-sheet from TP London brokers around 4:30 pm London local time (EOD London) |
+| `93` | Japan Power EoD sheet | Japan Power-sheet from TP Japan brokers around 4:30pm Japan local time (EoD Japan) |
+| `111` | LNG EoD Sheet | LNG-sheet from ICAP London brokers around 4:30pm London local time (EoD London) |
+| `112` | Coal EoD Sheet | Coal-sheet from ICAP London brokers around 4:30pm London local time (EoD London) |
+| `113` | Australian Green EoD | Australian Green-sheet from ICAP Australia brokers around 4:30pm Sydney local time (EoD Australia) |
+| `115` | Australian Gas EoD | Australian Gas-sheet from ICAP Australia brokers around 4:30pm Sydney local time (EoD Australia) |
+| `116` | Spanish Power EoD Sheet | Spanish Power-sheet from ICAP London brokers around 4:30pm London local time (EoD London) |
+| `117` | North East Power | North East Power-sheet from ICAP New York brokers around end of the day New York |
+| `118` | Australian Power EoD | Australian Power-sheet from ICAP Australia brokers around 4:30pm Sydney local time (EoD Australia) |
+| `211` | Shogun Crude Sheet 8:30am | Morning Price-sheet from PVM Singapore brokers around 8:30 am Singapore local time (Singapore morning update) |
+| `221` | Shogun Product Sheet 10:30am | PRICE SHEET AS AT 10:30AM-sheet from PVM Singapore brokers around 10:30 pm Singapore local time |
+| `222` | Shogun Product Sheet 2:30pm | PRICE SHEET AS AT 2:30PM-sheet from PVM Singapore brokers around 2:30 pm Singapore local time |
+| `223` | Shogun Product Sheet 6:30pm | PRICE SHEET AS AT 6:30PM-sheet from PVM Singapore brokers around 6:30 pm Singapore local time |
+
+#### Value Types
+
+| ID | Description |
+| --- | --- |
+| `0` | Marker |
+| `1` | Settle |
+| `2` | Weighted Average |
+| `3` | Open |
+| `4` | High |
+| `7` | Low |
+| `10` | Mean\* |
+| `11` | Mean - Bid |
+| `12` | Mean - Ask |
+| `37` | season |
+| `69` | cycle |
+
+#### Maturity Types
+
+| ID | Description |
+| --- | --- |
+| `w` | weekly |
+| `m` | monthly (calendar month) |
+| `q` | quarterly |
+| `h` | half year |
+| `y` | yearly |
+| `f` | Future oriented expiry |
+| `i` | Time spread |
+| `c` | cycle |
+| `a` | summer |
+| `b` | winter |
+| `s` | Spot |

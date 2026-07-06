@@ -1,0 +1,742 @@
+---
+title: "Money Markets"
+description: "Money market data covering cash deposits, implied deposits, bank reference rates, Fed Funds term rates, repurchase agreements (repo), certificates of deposit, commercial paper, bankers' acceptances and bank bills (including earlies, lates, and futures), treasury bills and notes, and Islamic/Shariah-compliant instruments (Mudharabah deposits, Islamic CDs, and Islamic bankers' acceptances) — with bid/ask, mid rates, tenors, currencies, start/end dates, and daycount conventions across major global short-term funding markets."
+---
+
+### MMAOT — Money Market AUBOT Chain
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 3 | DSPLY\_NAME | Instrument Description |
+| 6 | TRDPRC\_1 | Trade Price. Expressed in Yield, Decimal or Spread |
+| 16 | TRADE\_DATE | Trade Date (EDT). In DD MON YYYY Format. Time Zone is EDT |
+| 18 | TRDTIM\_1 | Trade Time (EDT). In hh:mm format. Time Zone is EDT |
+| 22 | BID | Latest Bid Price (either Trade or Best Bid Quote) |
+| 25 | ASK | Latest Ask Price (either Trade or Best Ask Quote) |
+| 60 | CLOSE\_BID | Latest Bid Observation. Last known Bid Price |
+| 61 | CLOSE\_ASK | Latest Ask Observation. Last known Ask Price |
+| 78 | OFFCL\_CODE | Instrument 1. Typically ISIN for Bonds |
+| 178 | TRDVOL\_1 | Trade Volume. Expressed in millions of USD |
+| 208 | HSTCLBDDAT | Latest Bid Observation Date. Date of last known Bid.Time Zone is GMT |
+| 258 | SEG\_TEXT | Category Name. Instrument Type |
+| 275 | SEC\_ACT\_1 | Latest Ask Price (either Trade or Best Ask Quote) |
+| 344 | TRADE\_TONE | Trade Type. Possible values: H= Hit (Bid was hit). T=Taken (Ask was taken) |
+| 362 | BID\_YIELD | Latest Bid Yield (either Trade or Best Bid Quote) |
+| 363 | ASK\_YIELD | Latest Ask Yield (either Trade or Best Ask Quote) |
+| 791 | DEALT\_VL1 | Latest Bid Volume (either Trade or Order). Expressed in USD millions. |
+| 875 | VALUE\_DT1 | Server Date of Update (GMT). In DD MON YYYY format. |
+| 985 | SEC\_VOL1 | Latest Ask Volume (either Trade or Order). Expressed in USD millions. |
+| 1010 | VALUE\_TS1 | Server Time of Update (GMT). In hh:mm:ss format. |
+| 1029 | GEN\_VAL5 | Category Code. Numeric assignment for Instrument Type |
+| 1030 | GEN\_VAL6 | Price Type Code. Numeric assignment for Price Type. |
+| 1051 | GV2\_DATE | Trade Date (GMT). In DD MON YYYY format. Converted into GMT taking into account any daylight savings adjustments. |
+| 1056 | OFFC\_CODE2 | Instrument 2. Typically the ISIN for bonds. Used for switches. |
+| 1061 | GV1\_TIME | Publication Time of Update (GMT). In hh:mm:ss format. Source time converted into GMT taking into account any daylight |
+| 1062 | GV2\_TIME | savings adjustments. Trade Time (GMT). In hh:mm:ss format. It is the Trade Time converted into GMT taking into account any daylight savings adjustments. |
+| 1275 | GN\_TXT32\_1 | GTN Code. Iconnect 8-digit unique identifier. |
+| 2167 | HSTCLAKDAT | Latest Ask Observation Date. Date of last known Ask.Time Zone is GMT. |
+| 3296 | ASK\_SPREAD | Latest Ask Spread(either Trade or Best Ask Quote) |
+| 3303 | BID\_SPREAD | Latest Bid Spread(either Trade or Best Bid Quote) |
+
+### MMBAC — Conventional Bankers Acceptance/ Bank Bills
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 515 | PERIOD1 | Peirod 1 |
+| 516 | PERIOD2 | Period 2 (Null) |
+| 517 | CCY1 | Currency |
+| 2347 | GV16\_TEXT | 5 character stub of Market Group and Instrument Code |
+
+### MMBAI — Islamic Banker Acceptance
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 515 | PERIOD1 | Period 1 |
+| 516 | PERIOD2 | Period 2 (Null) |
+| 517 | CCY1 | Currency |
+| 2347 | GV16\_TEXT | 5 character stub of Market Group and Instrument Code |
+
+### MMBBE — Money Market Bank Bills Earlies
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 6 | TRDPRC\_1 | Last Trade Price |
+| 12 | HIGH\_1 | High |
+| 13 | LOW\_1 | Low |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 30 | BIDSIZE | Bid Size |
+| 31 | ASKSIZE | Ask Size |
+| 134 | MID\_PRICE | Last Indicated Price |
+| 515 | PERIOD1 | Period 1 |
+| 516 | PERIOD2 | Period 2 |
+| 517 | CCY1 | Ccy |
+| 996 | GEN\_VAL1 | 1st Traded Price |
+| 997 | GEN\_VAL2 | 2nd Traded Price |
+| 998 | GEN\_VAL3 | 3rd Traded Price |
+| 999 | GEN\_VAL4 | 1st Traded Volumedescription |
+| 1029 | GEN\_VAL5 | 2nd Traded Volume |
+| 1030 | GEN\_VAL6 | 3rd Traded Volume |
+| 2347 | GV16\_TEXT | 5 character stub of Market Group and Instrument Code |
+| 2947 | SHORT\_DESC | Description of Instrument |
+
+### MMBBF — Money Market Bank Bill Futures
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time |
+| 6 | TRDPRC\_1 | Last Trade Price |
+| 11 | NETCHNG\_1 | Change on Day |
+| 17 | ACTIV\_DATE | Date |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 50 | CLOSE1 | End of Day Indicative Price |
+| 68 | MATUR\_DATE | Maturity Date |
+| 134 | MID\_PRICE | Indicative Mid Price |
+| 515 | PERIOD1 | Period 1 |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 996 | GEN\_VAL1 | Bills OIS Basis |
+| 1275 | GN\_TXT32\_1 | Description of instrument |
+
+### MMBBL — Money Market Bank Bills Late’s
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 6 | TRDPRC\_1 | Last Trade Price |
+| 12 | HIGH\_1 | High |
+| 13 | LOW\_1 | Low |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 30 | BIDSIZE | Bid Size |
+| 31 | ASKSIZE | Ask Size |
+| 134 | MID\_PRICE | Last Indicated Price |
+| 515 | PERIOD1 | Period 1 |
+| 516 | PERIOD2 | Period 2 |
+| 517 | CCY1 | Ccy |
+| 996 | GEN\_VAL1 | 1st Traded Price |
+| 997 | GEN\_VAL2 | 2nd Traded Price |
+| 998 | GEN\_VAL3 | 3rd Traded Price |
+| 999 | GEN\_VAL4 | 1st Traded Volumedescription |
+| 1029 | GEN\_VAL5 | 2nd Traded Volume |
+| 1030 | GEN\_VAL6 | 3rd Traded Volume |
+| 2347 | GV16\_TEXT | 5 character stub of Market Group and Instrument Code |
+| 2947 | SHORT\_DESC | Description of Instrument |
+
+### MMBCD — Benchmark Certificate of Deposit
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 156 | YTM\_BID | Bid Yield |
+| 157 | YTM\_ASK | Ask Yield |
+| 515 | PERIOD1 | Tenor |
+| 517 | CCY1 | Currency |
+| 1665 | GN\_TX20\_1 | Description of Underlying Security |
+
+### MMBCP — Benchmark Commerical Paper
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 156 | YTM\_BID | Bid Yield |
+| 157 | YTM\_ASK | Ask Yield |
+| 515 | PERIOD1 | Tenor |
+| 517 | CCY1 | Currency |
+| 1665 | GN\_TX20\_1 | Description of Underlying Security |
+
+### MMBIL — Money Market Bank Bills
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 6 | TRDPRC\_1 | Last Trade Price |
+| 12 | HIGH\_1 | High |
+| 13 | LOW\_1 | Low |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 30 | BIDSIZE | Bid Size |
+| 31 | ASKSIZE | Ask Size |
+| 134 | MID\_PRICE | Last Indicated Price |
+| 515 | PERIOD1 | Period 1 |
+| 517 | CCY1 | Ccy |
+| 996 | GEN\_VAL1 | 1st Traded Price |
+| 997 | GEN\_VAL2 | 2nd Traded Price |
+| 998 | GEN\_VAL3 | 3rd Traded Price |
+| 999 | GEN\_VAL4 | 1st Traded Volumedescription |
+| 1029 | GEN\_VAL5 | 2nd Traded Volume |
+| 1030 | GEN\_VAL6 | 3rd Traded Volume |
+| 1278 | GN\_TXT32\_4 | Description of Instrument |
+
+### MMBRA — Bank Reference Rates
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 515 | PERIOD1 | Period 1 |
+| 516 | PERIOD2 | Period 2 |
+| 517 | CCY1 | Currency |
+| 997 | GEN\_VAL2 | Open |
+| 998 | GEN\_VAL3 | High |
+| 999 | GEN\_VAL4 | Low |
+
+### MMCMP — China Commercial Paper
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 6 | TRDPRC\_1 | Traded Yield |
+| 16 | TRADE\_DATE | Date of Trade |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid Price |
+| 25 | ASK | Ask Price |
+| 30 | BIDSIZE | Bid Volume Aggregated |
+| 31 | ASKSIZE | Ask Volume Aggregated |
+| 35 | YIELD | Mid Yield |
+| 68 | MATUR\_DATE | Maturity Date |
+| 69 | COUPN\_RATE | Coupon |
+| 78 | OFFCL\_CODE | ISIN ID |
+| 134 | MID\_PRICE | Mid Price |
+| 156 | YTM\_BID | Bid Yield |
+| 157 | YTM\_ASK | Ask Yield |
+| 288 | SETTLEDATE | Trade Settlement Date |
+| 517 | CCY1 | Currency |
+| 868 | PAY\_FREQ | Coupon Payment Frequency |
+| 996 | GEN\_VAL1 | Bid Firmness (Numeric Flag 0=Non Negotiable, 1=Negotiable, 2 |
+| 997 | GEN\_VAL2 | Request Instruction) Bid Order Instruction Type (Numeric Flag 0=N/A, 1=OCO, |
+| 998 | GEN\_VAL3 | 2=Package) Bid Yield Exercise Type (Numeric Flag 0=Yield to Next Refund, |
+| 999 | GEN\_VAL4 | 1=Yield to Maturity) Bid Quote Type (Numeric Flag 0=Intention, 1=Net Price, 2=Full |
+| 1000 | GV1\_TEXT | Price, 3=Yield, 4=Spreads, 5=Unspecified) Bond Listing Venue Shorthand |
+| 1029 | GEN\_VAL5 | Ask Firmness (Numeric Flag 0=Non Negotiable, 1=Negotiable, |
+| 1030 | GEN\_VAL6 | 2 Request Instruction) Ask Order Instruction Type (Numeric Flag 0=N/A, 1=OCO, |
+| 1031 | GEN\_VAL7 | 2=Package) Ask Yield Exercise Type (Numeric Flag 0=Yield to Next Refund, |
+| 1032 | GEN\_VAL8 | 1=Yield to Maturity) Ask Quote Type (Numeric Flag 0=Intention, 1=Net Price, 2=Full |
+| 1033 | GEN\_VAL9 | Price, 3=Yield, 4=Spreads, 5=Unspecified) Trade Deal Status (Numeric Flag 0=Valid, \>3=Deleted or Cancelled, 6=Cancelled, 8=Cancelled and Notified) |
+| 1056 | OFFC\_CODE2 | CIBC ID |
+| 1061 | GV1\_TIME | Trade Time |
+| 1275 | GN\_TXT32\_1 | CIBC ID and Listing Venue |
+| 1276 | GN\_TXT32\_2 | Bid ID |
+| 1277 | GN\_TXT32\_3 | Ask ID |
+| 1278 | GN\_TXT32\_4 | Trade Deal ID |
+| 1665 | GN\_TX20\_1 | Bid Firmness (Text) |
+| 1666 | GN\_TX20\_2 | Bid Order Instruction Type (Text) |
+| 1667 | GN\_TX20\_3 | Bid Yield Exercise Type (Text) |
+| 1668 | GN\_TX20\_4 | Bid Quote Type (Text) |
+| 1669 | GN\_TX20\_5 | Ask Firmness (Text) |
+| 1670 | GN\_TX20\_6 | Ask Order Instruction Type (Text) |
+| 1671 | GN\_TX20\_7 | Ask Yield Exercise Type (Text) |
+| 1672 | GN\_TX20\_8 | Ask Quote Type (Text) |
+| 1673 | GN\_TX20\_9 | Executed Trade Value Type (Text) |
+| 1674 | GN\_TX20\_10 | Deal Direction (Full Text) |
+| 1675 | GN\_TX20\_11 | Deal Direction (Text X=TKN, Y=GVN, Z=TRD) |
+| 1676 | GN\_TX20\_12 | Trade Deal Status (Full Text) |
+| 2267 | SECUR\_NAME | Bond Security Name |
+| 2268 | ISSR\_NAME | Issuer Name |
+| 3022 | CPN\_TYPE | Coupon Type |
+| 3023 | DCNT\_BASIS | Interest Basis |
+| 3309 | CLEAN\_PRC | Traded Price Clean |
+| 3316 | DIRTY\_PRC | Traded Price Full |
+| 4277 | NEWSCODE01 | Bid Order Volume Stack |
+| 4278 | NEWSCODE02 | Ask Order Volume Stack |
+| 4308 | EXCH\_SNAME | Bond Listing Venue |
+
+### MMCPF — Commercial Paper
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 35 | YIELD | Mid Yield |
+| 68 | MATUR\_DATE | Maturity Date |
+| 78 | OFFCL\_CODE | ISIN |
+| 134 | MID\_PRICE | Mid Price |
+| 156 | YTM\_BID | Yield Bid |
+| 157 | YTM\_ASK | Yield Ask |
+| 515 | PERIOD1 | Period 1 |
+| 516 | PERIOD2 | Period 2 |
+| 517 | CCY1 | Currency |
+| 1665 | GN\_TX20\_1 | Description of Underlying Security |
+
+### MMDEP — Money Market Cash Deposit
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Period 1 |
+| 516 | PERIOD2 | Period 2 |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1278 | GN\_TXT32\_4 | Instrument description |
+| 2347 | GV16\_TEXT | 5 character stub of Market Group and Instrument Code |
+
+### MMFFT — Fed Fund Term
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Active Date |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Period 1 |
+| 516 | PERIOD2 | Period 2 |
+| 517 | CCY1 | Ccy |
+| 2347 | GV16\_TEXT | 5 character stub of Market Group and Instrument Code |
+
+### MMIDP — Implied Cash Deposits
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Tenor # 1 |
+| 516 | PERIOD2 | Tenor # 2 |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 2347 | GV16\_TEXT | 5 character stub of Market Group and Instrument Code |
+
+### MMIYL — Implied Cash Deposits
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Period 1 |
+| 516 | PERIOD2 | Period 2 |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 2347 | GV16\_TEXT | 5 character stub of Market Group and Instrument Code |
+
+### MMMDP — Mudharabah (Islamic/Shariah) Deposit
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 515 | PERIOD1 | Period 1 |
+| 516 | PERIOD2 | Period 2 |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+
+### MMNCI — Negotiable Certificate of Deposit (Islamic)
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 515 | PERIOD1 | Period 1 |
+| 516 | PERIOD2 | Period 2 |
+| 517 | CCY1 | Currency |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+
+### MMNCM — Negotiable Commercial Deposit
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Active Date |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 515 | PERIOD1 | Period 1 |
+| 516 | PERIOD2 | Period 2 |
+| 517 | CCY1 | Ccy |
+
+### MMREF — National Average Mortgage contract rate
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Date of Update |
+| 25 | ASK | ASK |
+| 515 | PERIOD1 | Period 1 |
+| 517 | CCY1 | CCY1 |
+
+### MMRPM — Repurchase Agreement
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Active Date |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Period 1 |
+| 516 | PERIOD2 | Period 2 |
+| 517 | CCY1 | Ccy |
+| 2347 | GV16\_TEXT | 5 character stub of Market Group and Instrument Code |
+
+### MMRPO — Repurchase Agreement
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time of Update |
+| 17 | ACTIV\_DATE | Active Date |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Period 1 |
+| 516 | PERIOD2 | Period 2 |
+| 517 | CCY1 | Ccy |
+
+### MMTBE — Money Market Treasury Bank Bills Earlies
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 6 | TRDPRC\_1 | Last Trade Price |
+| 12 | HIGH\_1 | High |
+| 13 | LOW\_1 | Low |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 30 | BIDSIZE | Bid Size |
+| 31 | ASKSIZE | Ask Size |
+| 134 | MID\_PRICE | Last Indicated Price |
+| 515 | PERIOD1 | Period 1 |
+| 516 | PERIOD2 | Period 2 |
+| 517 | CCY1 | Ccy |
+| 996 | GEN\_VAL1 | 1st Traded Price |
+| 997 | GEN\_VAL2 | 2nd Traded Price |
+| 998 | GEN\_VAL3 | 3rd Traded Price |
+| 999 | GEN\_VAL4 | 1st Traded Volumedescription |
+| 1029 | GEN\_VAL5 | 2nd Traded Volume |
+| 1030 | GEN\_VAL6 | 3rd Traded Volume |
+| 2347 | GV16\_TEXT | 5 character stub of Market Group and Instrument Code |
+| 2947 | SHORT\_DESC | Description of Instrument |
+
+### MMTBI — Money Market Treasury Bank Bills
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 6 | TRDPRC\_1 | Last Trade Price |
+| 12 | HIGH\_1 | High |
+| 13 | LOW\_1 | Low |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 30 | BIDSIZE | Bid Size |
+| 31 | ASKSIZE | Ask Size |
+| 134 | MID\_PRICE | Last Indicated Price |
+| 515 | PERIOD1 | Period 1 |
+| 516 | PERIOD2 | Period 2 |
+| 517 | CCY1 | Ccy |
+| 996 | GEN\_VAL1 | 1st Traded Price |
+| 997 | GEN\_VAL2 | 2nd Traded Price |
+| 998 | GEN\_VAL3 | 3rd Traded Price |
+| 999 | GEN\_VAL4 | 1st Traded Volumedescription |
+| 1029 | GEN\_VAL5 | 2nd Traded Volume |
+| 1030 | GEN\_VAL6 | 3rd Traded Volume |
+| 2347 | GV16\_TEXT | 5 character stub of Market Group and Instrument Code |
+| 2947 | SHORT\_DESC | Description of Instrument |
+
+### MMTBL — Money Market Bank Bills Late’s
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 6 | TRDPRC\_1 | Last Trade Price |
+| 12 | HIGH\_1 | High |
+| 13 | LOW\_1 | Low |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 30 | BIDSIZE | Bid Size |
+| 31 | ASKSIZE | Ask Size |
+| 134 | MID\_PRICE | Last Indicated Price |
+| 515 | PERIOD1 | Period 1 |
+| 516 | PERIOD2 | Period 2 |
+| 517 | CCY1 | Ccy |
+| 996 | GEN\_VAL1 | 1st Traded Price |
+| 997 | GEN\_VAL2 | 2nd Traded Price |
+| 998 | GEN\_VAL3 | 3rd Traded Price |
+| 999 | GEN\_VAL4 | 1st Traded Volumedescription |
+| 1029 | GEN\_VAL5 | 2nd Traded Volume |
+| 1030 | GEN\_VAL6 | 3rd Traded Volume |
+| 2347 | GV16\_TEXT | 5 character stub of Market Group and Instrument Code |
+| 2947 | SHORT\_DESC | Description of Instrument |
+
+### MMTBN — Money Market Treasury Bank Notes
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 6 | TRDPRC\_1 | Last Trade Price |
+| 12 | HIGH\_1 | High |
+| 13 | LOW\_1 | Low |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 30 | BIDSIZE | Bid Size |
+| 31 | ASKSIZE | Ask Size |
+| 134 | MID\_PRICE | Last Indicated Price |
+| 515 | PERIOD1 | Period 1 |
+| 517 | CCY1 | Ccy |
+| 996 | GEN\_VAL1 | 1st Traded Price |
+| 997 | GEN\_VAL2 | 2nd Traded Price |
+| 998 | GEN\_VAL3 | 3rd Traded Price |
+| 999 | GEN\_VAL4 | 1st Traded Volumed |
+| 1029 | GEN\_VAL5 | 2nd Traded Volume |
+| 1030 | GEN\_VAL6 | 3rd Traded Volume |
+| 2947 | SHORT\_DESC | Description of Instrument |
+
+### MMTIB — Money Market Treasury Islamic Bank Bills
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 6 | TRDPRC\_1 | Last Trade Price |
+| 12 | HIGH\_1 | High |
+| 13 | LOW\_1 | Low |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 30 | BIDSIZE | Bid Size |
+| 31 | ASKSIZE | Ask Size |
+| 134 | MID\_PRICE | Last Indicated Price |
+| 515 | PERIOD1 | Period 1 |
+| 517 | CCY1 | Ccy |
+| 996 | GEN\_VAL1 | 1st Traded Price |
+| 997 | GEN\_VAL2 | 2nd Traded Price |
+| 998 | GEN\_VAL3 | 3rd Traded Price |
+| 999 | GEN\_VAL4 | 1st Traded Volumed |
+| 1029 | GEN\_VAL5 | 2nd Traded Volume |
+| 1030 | GEN\_VAL6 | 3rd Traded Volume |
+| 2947 | SHORT\_DESC | Description of Instrument |
+
+### MMTIN — Money Market Treasury Islamic Bank Notes
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 6 | TRDPRC\_1 | Last Trade Price |
+| 12 | HIGH\_1 | High |
+| 13 | LOW\_1 | Low |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 30 | BIDSIZE | Bid Size |
+| 31 | ASKSIZE | Ask Size |
+| 134 | MID\_PRICE | Last Indicated Price |
+| 515 | PERIOD1 | Period 1 |
+| 517 | CCY1 | Ccy |
+| 996 | GEN\_VAL1 | 1st Traded Price |
+| 997 | GEN\_VAL2 | 2nd Traded Price |
+| 998 | GEN\_VAL3 | 3rd Traded Price |
+| 999 | GEN\_VAL4 | 1st Traded Volumed |
+| 1029 | GEN\_VAL5 | 2nd Traded Volume |
+| 1030 | GEN\_VAL6 | 3rd Traded Volume |
+| 2947 | SHORT\_DESC | Description of Instrument |
+
+### BRRGC — Repo General Collateral
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time |
+| 17 | ACTIV\_DATE | Date |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 515 | PERIOD1 | Period |
+| 1028 | GV1\_DATE | description |
+| 1051 | GV2\_DATE | description |
+| 1275 | GN\_TXT32\_1 | Description |
+| 1276 | GN\_TXT32\_2 | Tenor |
+| 2347 | GV16\_TEXT | 5 Character Stub of Market Group |
+| 8400 | CAVEAT\_FLG | testing fid |
+
+### RPMUT — Repo Mutanpo (Uncollateralised) Call
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time |
+| 17 | ACTIV\_DATE | Date |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 35 | YIELD | Live Rate |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Period1 |
+| 517 | CCY1 | CCY |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 996 | GEN\_VAL1 | Midday Snap (RATE) |
+| 997 | GEN\_VAL2 | Midday Snap LOW |
+| 998 | GEN\_VAL3 | Midday Snap (HIGH) |
+| 1275 | GN\_TXT32\_1 | Description of instrument |
+
+### RPRBM — Repurchase Agreement Benchmark
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time |
+| 17 | ACTIV\_DATE | Date |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 35 | YIELD | Live Rate |
+| 134 | MID\_PRICE | Mid |
+| 515 | PERIOD1 | Period |
+| 517 | CCY1 | CCY |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 996 | GEN\_VAL1 | Midday Snap (RATE) |
+| 997 | GEN\_VAL2 | Midday Snap LOW |
+| 998 | GEN\_VAL3 | Midday Snap (HIGH) |
+| 1275 | GN\_TXT32\_1 | Description |
+
+### RPRBS — Repurchase Agreement On The Run
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time |
+| 17 | ACTIV\_DATE | Date |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 35 | YIELD | Live Data |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Period |
+| 517 | CCY1 | CCY |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 996 | GEN\_VAL1 | Midday Snap (RATE) |
+| 997 | GEN\_VAL2 | Midday Snap LOW |
+| 998 | GEN\_VAL3 | Midday Snap (HIGH) |
+| 1275 | GN\_TXT32\_1 | Description |
+
+### RPRCD — Repo Certificate of Deposit
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time |
+| 17 | ACTIV\_DATE | Date |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 35 | YIELD | Live Rate |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Period1 |
+| 517 | CCY1 | CCY |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 996 | GEN\_VAL1 | Midday Snap (RATE) |
+| 997 | GEN\_VAL2 | Midday Snap LOW |
+| 998 | GEN\_VAL3 | Midday Snap (HIGH) |
+| 1275 | GN\_TXT32\_1 | Description of instrument RPRCPRepo Commercial Paper |
+
+### RPRCP — Repo Commercial Paper
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time |
+| 17 | ACTIV\_DATE | Date |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 35 | YIELD | Live Rate |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Period1 |
+| 517 | CCY1 | CCY |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 996 | GEN\_VAL1 | Midday Snap (RATE) |
+| 997 | GEN\_VAL2 | Midday Snap LOW |
+| 998 | GEN\_VAL3 | Midday Snap (HIGH) |
+| 1275 | GN\_TXT32\_1 | Description of instrument |
+| 1276 | GN\_TXT32\_2 | Credit Rating |
+
+### RPRGC — Repo General Collateral
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time |
+| 17 | ACTIV\_DATE | Date |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 134 | MID\_PRICE | Null |
+| 515 | PERIOD1 | Tenor |
+| 517 | CCY1 | CCY |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 996 | GEN\_VAL1 | Midday Snap (RATE) |
+| 997 | GEN\_VAL2 | Midday Snap LOW |
+| 998 | GEN\_VAL3 | Midday Snap (HIGH) |
+| 1028 | GV1\_DATE | Start Date |
+| 1033 | GEN\_VAL9 | Spread BID |
+| 1034 | GEN\_VAL10 | Spread ASK |
+| 1051 | GV2\_DATE | End Dtae |
+| 1275 | GN\_TXT32\_1 | description |
+| 1276 | GN\_TXT32\_2 | Tenor |
+| 2347 | GV16\_TEXT | Stub |
+
+### RPRPS — Repo Special
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time |
+| 17 | ACTIV\_DATE | Date |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 35 | YIELD | Yield |
+| 515 | PERIOD1 | Period |
+| 517 | CCY1 | CCY |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 1275 | GN\_TXT32\_1 | description |
+| 1276 | GN\_TXT32\_2 | description |
+
+### RPRTB — Repo Treasury Bill
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time |
+| 17 | ACTIV\_DATE | Date |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 35 | YIELD | Live Rate |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Period1 |
+| 517 | CCY1 | CCY |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 996 | GEN\_VAL1 | Midday Snap (RATE) |
+| 997 | GEN\_VAL2 | Midday Snap LOW |
+| 998 | GEN\_VAL3 | Midday Snap (HIGH) |
+| 1275 | GN\_TXT32\_1 | Description of instrument |
+
+### RPYUT — Repo Yutanpo (Collateralised) Call
+
+| FID | Name | Description |
+| --- | --- | --- |
+| 5 | TIMACT | Time |
+| 17 | ACTIV\_DATE | Date |
+| 22 | BID | Bid |
+| 25 | ASK | Ask |
+| 35 | YIELD | Live Rate |
+| 134 | MID\_PRICE | Mid Price |
+| 515 | PERIOD1 | Period1 |
+| 517 | CCY1 | CCY |
+| 875 | VALUE\_DT1 | Start Date |
+| 876 | VALUE\_DT2 | End Date |
+| 996 | GEN\_VAL1 | Midday Snap (RATE) |
+| 997 | GEN\_VAL2 | Midday Snap LOW |
+| 998 | GEN\_VAL3 | Midday Snap (HIGH) |
+| 1275 | GN\_TXT32\_1 | Description of instrument |
